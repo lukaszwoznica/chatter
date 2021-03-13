@@ -16,9 +16,11 @@
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.9",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.4",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3.3"
@@ -30,7 +32,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "autoload": {
