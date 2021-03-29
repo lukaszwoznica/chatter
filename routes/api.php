@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class)->only('index', 'show');
+    Route::get('/messages/{user}', [MessageController::class, 'conversation']);
+    Route::post('/messages', [MessageController::class, 'send']);
 });

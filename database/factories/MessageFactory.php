@@ -29,8 +29,8 @@ class MessageFactory extends Factory
         } while ($sender === $recipient);
 
         return [
-            'sender_id' => $this->faker->randomElement($users),
-            'recipient_id' => User::factory(),
+            'sender_id' => $sender,
+            'recipient_id' => $recipient,
             'text' => $this->faker->text
         ];
     }
