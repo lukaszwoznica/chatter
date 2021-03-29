@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Events\NewMessageSentEvent;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +19,9 @@ class MessageService
         })->orWhere(function ($query) use ($user) {
             $query->where('sender_id', $user->id)
                 ->where('recipient_id', auth()->id());
-        })->with('sender', 'recipient')->get();
+        })->with('sender', 'recipient')
+            ->latest()
+            ->get();
     }
 
     public function markAsReadFromUser(User $user): void
@@ -31,8 +34,12 @@ class MessageService
 
     public function create(array $data): Message
     {
-        return Message::create(array_merge($data, [
+        $message = Message::create(array_merge($data, [
             'sender_id' => auth()->id()
         ]));
+
+        NewMessageSentEvent::dispatch($message);
+
+        return $message;
     }
 }
