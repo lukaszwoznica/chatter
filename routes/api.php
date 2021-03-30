@@ -21,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class)->only('index', 'show');
-    Route::get('/messages/{user}', [MessageController::class, 'conversation']);
-    Route::post('/messages', [MessageController::class, 'send']);
+    Route::get('/messages/{user}', [MessageController::class, 'conversation'])->name('messages.conversation');
+    Route::post('/messages', [MessageController::class, 'send'])->name('messages.send');
 });
