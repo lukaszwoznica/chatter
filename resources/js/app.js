@@ -7,7 +7,10 @@ import store from "./store";
 import App from "./App";
 
 const app = createApp({
-    components: {App}
+    components: {App},
+    beforeCreate() {
+        this.$store.dispatch('auth/synchronizeAuthenticationState')
+    }
 })
 
 app.use(router)

@@ -5,29 +5,57 @@
                 <li class="nav__item">
                     <router-link :to="{name: 'home'}">Home</router-link>
                 </li>
-                <li class="nav__item">
-                    <router-link :to="{name: 'chats'}">Chats</router-link>
-                </li>
-                <li class="nav__item">
-                    <router-link :to="{name: 'login'}">Login</router-link>
-                </li>
-                <li class="nav__item">
-                    <router-link :to="{name: 'register'}">Register</router-link>
-                </li>
+                <template v-if="!isAuthenticated">
+                    <li class="nav__item">
+                        <router-link :to="{name: 'login'}">Login</router-link>
+                    </li>
+                    <li class="nav__item">
+                        <router-link :to="{name: 'register'}">Register</router-link>
+                    </li>
+                </template>
+                <template v-else>
+                    <li class="nav__item">
+                        <router-link :to="{name: 'chats'}">Chats</router-link>
+                    </li>
+                    <li class="nav__item">
+                        <a href="#" @click.prevent="logout">Logout</a>
+                    </li>
+                </template>
             </ul>
         </nav>
     </header>
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
-    name: "AppHeader"
+    name: "AppHeader",
+
+    computed: {
+        ...mapGetters({
+            isAuthenticated: 'auth/isAuthenticated',
+            authUser: 'auth/user'
+        })
+    },
+
+    methods: {
+        ...mapActions({
+            logoutAction: 'auth/logout'
+        }),
+
+        async logout() {
+            await this.logoutAction()
+            await this.$router.push({name: 'home'})
+        }
+    }
 }
+
 </script>
 
 <style scoped>
-    .nav__item {
-        display: inline;
-        padding: 1rem;
-    }
+.nav__item {
+    display: inline;
+    padding: 1rem;
+}
 </style>
