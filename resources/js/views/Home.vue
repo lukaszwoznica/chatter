@@ -1,6 +1,7 @@
 <template>
     <div class="home">
-        <h1>Chatter App</h1>
+        <h1>Welcome</h1>
+        <h2>This is Chatter App</h2>
     </div>
 </template>
 

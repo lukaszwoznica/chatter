@@ -1,11 +1,24 @@
 <template>
-    <div class="app">
-        <router-view></router-view>
-    </div>
+  <div class="app-wrapper">
+    <AppHeader/>
+    <main>
+      <router-view/>
+    </main>
+    <AppFooter/>
+  </div>
 </template>
 
 <script>
+import AppFooter from "./components/layout/AppFooter";
+import AppHeader from "./components/layout/AppHeader";
+
 export default {
-    name: "App",
+  name: "App",
+
+  components: {
+    AppHeader,
+    AppFooter
+  },
+
 }
 </script>
