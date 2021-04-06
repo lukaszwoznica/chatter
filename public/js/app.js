@@ -16848,13 +16848,113 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_ui_AppButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/ui/AppButton */ "./resources/js/components/ui/AppButton.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_ui_AppButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ui/AppButton */ "./resources/js/components/ui/AppButton.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Register",
   components: {
-    AppButton: _components_ui_AppButton__WEBPACK_IMPORTED_MODULE_0__.default
-  }
+    AppButton: _components_ui_AppButton__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  data: function data() {
+    return {
+      formFields: {
+        first_name: {
+          id: 'first_name',
+          value: '',
+          type: 'text',
+          label: 'First Name'
+        },
+        last_name: {
+          id: 'last_name',
+          value: '',
+          label: 'Last Name',
+          type: 'text'
+        },
+        email: {
+          id: 'email',
+          value: '',
+          type: 'email',
+          label: 'Email'
+        },
+        password: {
+          id: 'password',
+          value: '',
+          type: 'password',
+          label: 'Password'
+        },
+        password_confirmation: {
+          id: 'password_confirmation',
+          value: '',
+          type: 'password',
+          label: 'Confirm Password'
+        }
+      },
+      validationErrors: []
+    };
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)({
+    register: 'auth/register'
+  })), {}, {
+    submit: function submit() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var userData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                userData = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.mapValues)(_this.formFields, 'value');
+                _context.next = 4;
+                return _this.register(userData);
+
+              case 4:
+                _context.next = 12;
+                break;
+
+              case 6:
+                _context.prev = 6;
+                _context.t0 = _context["catch"](0);
+                _this.validationErrors = _context.t0.response.data.errors;
+                _this.formFields.password.value = '';
+                _this.formFields.password_confirmation.value = '';
+                return _context.abrupt("return");
+
+              case 12:
+                _context.next = 14;
+                return _this.$router.push({
+                  name: 'chats'
+                });
+
+              case 14:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 6]]);
+      }))();
+    }
+  })
 });
 
 /***/ }),
@@ -17215,21 +17315,49 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"form__group\"><label class=\"form__label\" for=\"first-name\">First Name</label><input class=\"form__input\" type=\"text\" id=\"first-name\"></div><div class=\"form__group\"><label class=\"form__label\" for=\"last-name\">Last Name</label><input class=\"form__input\" type=\"text\" id=\"last-name\"></div><div class=\"form__group\"><label class=\"form__label\" for=\"email\">Email</label><input class=\"form__input\" type=\"email\" id=\"email\"></div><div class=\"form__group\"><label class=\"form__label\" for=\"password\">Password</label><input class=\"form__input\" type=\"password\" id=\"password\"></div><div class=\"form__group\"><label class=\"form__label\" for=\"confirm-password\">Confirm Password</label><input class=\"form__input\" type=\"password\" id=\"confirm-password\"></div>", 5);
+var _hoisted_2 = {
+  "class": "form__group"
+};
+var _hoisted_3 = {
+  key: 0,
+  "class": "form__error"
+};
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Register ");
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Register ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AppButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppButton");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     "class": "form",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["prevent"]))
-  }, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.submit && $options.submit.apply($options, arguments);
+    }, ["prevent"]))
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.formFields, function (formField) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+      "class": "form__label",
+      "for": formField.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(formField.label), 9
+    /* TEXT, PROPS */
+    , ["for"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      "class": "form__input",
+      type: formField.type,
+      id: formField.id,
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return formField.value = $event;
+      }
+    }, null, 8
+    /* PROPS */
+    , ["type", "id", "onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelDynamic, formField.value]]), $data.validationErrors[formField.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("small", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.validationErrors[formField.id][0]), 1
+    /* TEXT */
+    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
     type: "submit"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_7];
+      return [_hoisted_4];
     }),
     _: 1
     /* STABLE */
@@ -17467,12 +17595,12 @@ var mutations = {
 var actions = {
   login: function login(_ref, credentials) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var dispatch, commit;
+      var dispatch;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              dispatch = _ref.dispatch, commit = _ref.commit;
+              dispatch = _ref.dispatch;
               _context.next = 3;
               return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.GetCsrfCookie);
 
@@ -17514,37 +17642,63 @@ var actions = {
       }, _callee2);
     }))();
   },
-  synchronizeAuthenticationState: function synchronizeAuthenticationState(_ref3) {
+  register: function register(_ref3, userData) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      var commit, response;
+      var dispatch;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              commit = _ref3.commit;
-              _context3.prev = 1;
-              _context3.next = 4;
+              dispatch = _ref3.dispatch;
+              _context3.next = 3;
+              return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.GetCsrfCookie);
+
+            case 3:
+              _context3.next = 5;
+              return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.Register, userData);
+
+            case 5:
+              dispatch('synchronizeAuthenticationState');
+
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  },
+  synchronizeAuthenticationState: function synchronizeAuthenticationState(_ref4) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      var commit, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref4.commit;
+              _context4.prev = 1;
+              _context4.next = 4;
               return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.GetAuthenticatedUser);
 
             case 4:
-              response = _context3.sent;
+              response = _context4.sent;
               commit('SET_AUTHENTICATED', true);
               commit('SET_USER', response.data);
-              _context3.next = 13;
+              _context4.next = 13;
               break;
 
             case 9:
-              _context3.prev = 9;
-              _context3.t0 = _context3["catch"](1);
+              _context4.prev = 9;
+              _context4.t0 = _context4["catch"](1);
               commit('SET_AUTHENTICATED', false);
               commit('SET_USER', null);
 
             case 13:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3, null, [[1, 9]]);
+      }, _callee4, null, [[1, 9]]);
     }))();
   }
 };

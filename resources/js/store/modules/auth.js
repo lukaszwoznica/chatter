@@ -16,7 +16,7 @@ const mutations = {
 }
 
 const actions = {
-    async login({dispatch, commit}, credentials) {
+    async login({dispatch}, credentials) {
         await axios.get(ApiRoutes.GetCsrfCookie)
         await axios.post(ApiRoutes.Auth.Login, credentials)
 
@@ -28,6 +28,13 @@ const actions = {
 
         commit('SET_AUTHENTICATED', false)
         commit('SET_USER', null)
+    },
+
+    async register({dispatch}, userData) {
+        await axios.get(ApiRoutes.GetCsrfCookie)
+        await axios.post(ApiRoutes.Auth.Register, userData)
+
+        dispatch('synchronizeAuthenticationState')
     },
 
     async synchronizeAuthenticationState({commit}) {
