@@ -81,15 +81,12 @@ export default {
                 const userData = mapValues(this.formFields, 'value')
 
                 await this.register(userData)
+                await this.$router.push({name: 'chats'})
             } catch (error) {
                 this.validationErrors = error.response.data.errors
                 this.formFields.password.value = ''
                 this.formFields.password_confirmation.value = ''
-
-                return
             }
-
-            await this.$router.push({name: 'chats'})
         }
     }
 }

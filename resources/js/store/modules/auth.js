@@ -19,8 +19,7 @@ const actions = {
     async login({dispatch}, credentials) {
         await axios.get(ApiRoutes.GetCsrfCookie)
         await axios.post(ApiRoutes.Auth.Login, credentials)
-
-        dispatch('synchronizeAuthenticationState')
+        await dispatch('synchronizeAuthenticationState')
     },
 
     async logout({commit}) {
@@ -33,8 +32,7 @@ const actions = {
     async register({dispatch}, userData) {
         await axios.get(ApiRoutes.GetCsrfCookie)
         await axios.post(ApiRoutes.Auth.Register, userData)
-
-        dispatch('synchronizeAuthenticationState')
+        await dispatch('synchronizeAuthenticationState')
     },
 
     async synchronizeAuthenticationState({commit}) {

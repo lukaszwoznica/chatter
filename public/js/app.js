@@ -16808,28 +16808,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return _this.login(_this.formFields);
 
               case 3:
-                _context.next = 10;
-                break;
-
-              case 5:
-                _context.prev = 5;
-                _context.t0 = _context["catch"](0);
-                _this.validationError = _context.t0.response.data.errors.email[0];
-                _this.formFields.password = '';
-                return _context.abrupt("return");
-
-              case 10:
-                _context.next = 12;
+                _context.next = 5;
                 return _this.$router.push({
                   name: 'chats'
                 });
 
-              case 12:
+              case 5:
+                _context.next = 11;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                _this.validationError = _context.t0.response.data.errors.email[0];
+                _this.formFields.password = '';
+
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 5]]);
+        }, _callee, null, [[0, 7]]);
       }))();
     }
   })
@@ -16929,29 +16928,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return _this.register(userData);
 
               case 4:
-                _context.next = 12;
-                break;
-
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](0);
-                _this.validationErrors = _context.t0.response.data.errors;
-                _this.formFields.password.value = '';
-                _this.formFields.password_confirmation.value = '';
-                return _context.abrupt("return");
-
-              case 12:
-                _context.next = 14;
+                _context.next = 6;
                 return _this.$router.push({
                   name: 'chats'
                 });
 
-              case 14:
+              case 6:
+                _context.next = 13;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+                _this.validationErrors = _context.t0.response.data.errors;
+                _this.formFields.password.value = '';
+                _this.formFields.password_confirmation.value = '';
+
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 6]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     }
   })
@@ -17415,17 +17413,14 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
-  components: {
-    App: _App__WEBPACK_IMPORTED_MODULE_3__.default
-  },
-  beforeCreate: function beforeCreate() {
-    this.$store.dispatch('auth/synchronizeAuthenticationState');
-  }
+_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('auth/synchronizeAuthenticationState').then(function () {
+  var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
+    components: {
+      App: _App__WEBPACK_IMPORTED_MODULE_3__.default
+    }
+  });
+  app.use(_router__WEBPACK_IMPORTED_MODULE_1__.default).use(_store__WEBPACK_IMPORTED_MODULE_2__.default).mount('#app');
 });
-app.use(_router__WEBPACK_IMPORTED_MODULE_1__.default);
-app.use(_store__WEBPACK_IMPORTED_MODULE_2__.default);
-app.mount('#app');
 
 /***/ }),
 
@@ -17463,6 +17458,91 @@ axios.defaults.baseURL = process.env.APP_URL;
 
 /***/ }),
 
+/***/ "./resources/js/router/guards/auth.js":
+/*!********************************************!*\
+  !*** ./resources/js/router/guards/auth.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ auth)
+/* harmony export */ });
+function auth(_ref) {
+  var next = _ref.next,
+      store = _ref.store;
+
+  if (!store.getters['auth/isAuthenticated']) {
+    return next({
+      name: 'login'
+    });
+  }
+
+  return next();
+}
+
+/***/ }),
+
+/***/ "./resources/js/router/guards/guest.js":
+/*!*********************************************!*\
+  !*** ./resources/js/router/guards/guest.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ guest)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function guest(_x) {
+  return _guest.apply(this, arguments);
+}
+
+function _guest() {
+  _guest = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref) {
+    var next, store;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            next = _ref.next, store = _ref.store;
+            _context.next = 3;
+            return store.getters['auth/isAuthenticated'];
+
+          case 3:
+            if (!_context.sent) {
+              _context.next = 5;
+              break;
+            }
+
+            return _context.abrupt("return", next({
+              name: 'chats'
+            }));
+
+          case 5:
+            return _context.abrupt("return", next());
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _guest.apply(this, arguments);
+}
+
+/***/ }),
+
 /***/ "./resources/js/router/index.js":
 /*!**************************************!*\
   !*** ./resources/js/router/index.js ***!
@@ -17474,14 +17554,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routes */ "./resources/js/router/routes.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
 /* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
 
 
-var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createRouter)({
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_1__.createWebHistory)(process.env.APP_URL),
+
+var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createWebHistory)(process.env.APP_URL),
   routes: _routes__WEBPACK_IMPORTED_MODULE_0__.default
+});
+router.beforeEach(function (to, from, next) {
+  var guard = to.meta.guard;
+
+  if (!guard) {
+    return next();
+  }
+
+  return guard({
+    to: to,
+    from: from,
+    next: next,
+    store: _store__WEBPACK_IMPORTED_MODULE_1__.default
+  });
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -17502,6 +17598,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/Login */ "./resources/js/views/Login.vue");
 /* harmony import */ var _views_Register__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/Register */ "./resources/js/views/Register.vue");
 /* harmony import */ var _views_Chats__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/Chats */ "./resources/js/views/Chats.vue");
+/* harmony import */ var _guards_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./guards/auth */ "./resources/js/router/guards/auth.js");
+/* harmony import */ var _guards_guest__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./guards/guest */ "./resources/js/router/guards/guest.js");
+
+
 
 
 
@@ -17509,19 +17609,31 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   path: '/',
   name: 'home',
-  component: _views_Home__WEBPACK_IMPORTED_MODULE_0__.default
+  component: _views_Home__WEBPACK_IMPORTED_MODULE_0__.default,
+  meta: {
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_5__.default
+  }
 }, {
   path: '/login',
   name: 'login',
-  component: _views_Login__WEBPACK_IMPORTED_MODULE_1__.default
+  component: _views_Login__WEBPACK_IMPORTED_MODULE_1__.default,
+  meta: {
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_5__.default
+  }
 }, {
   path: '/register',
   name: 'register',
-  component: _views_Register__WEBPACK_IMPORTED_MODULE_2__.default
+  component: _views_Register__WEBPACK_IMPORTED_MODULE_2__.default,
+  meta: {
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_5__.default
+  }
 }, {
   path: '/chats',
   name: 'chats',
-  component: _views_Chats__WEBPACK_IMPORTED_MODULE_3__.default
+  component: _views_Chats__WEBPACK_IMPORTED_MODULE_3__.default,
+  meta: {
+    guard: _guards_auth__WEBPACK_IMPORTED_MODULE_4__.default
+  }
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -17609,9 +17721,10 @@ var actions = {
               return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.Login, credentials);
 
             case 5:
-              dispatch('synchronizeAuthenticationState');
+              _context.next = 7;
+              return dispatch('synchronizeAuthenticationState');
 
-            case 6:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -17658,9 +17771,10 @@ var actions = {
               return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.Register, userData);
 
             case 5:
-              dispatch('synchronizeAuthenticationState');
+              _context3.next = 7;
+              return dispatch('synchronizeAuthenticationState');
 
-            case 6:
+            case 7:
             case "end":
               return _context3.stop();
           }

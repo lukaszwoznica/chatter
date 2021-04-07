@@ -49,13 +49,11 @@ export default {
         async submit() {
             try {
                 await this.login(this.formFields)
+                await this.$router.push({name: 'chats'})
             } catch (e) {
                 this.validationError = e.response.data.errors.email[0]
                 this.formFields.password = ''
-                return
             }
-
-            await this.$router.push({name: 'chats'})
         }
     }
 }
