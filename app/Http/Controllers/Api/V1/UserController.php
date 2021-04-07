@@ -5,10 +5,18 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    private UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index()
     {
         $users = User::paginate(50);
@@ -19,5 +27,17 @@ class UserController extends Controller
     public function show(User $user)
     {
         return new UserResource($user);
+    }
+
+    public function contacts()
+    {
+        $contacts = $this->userService->getAuthUserContacts();
+
+        return UserResource::collection($contacts);
+    }
+
+    public function authUser()
+    {
+        return auth()->user();
     }
 }
