@@ -8,6 +8,9 @@ const ApiRoutes = {
         Logout: `${baseUrl}/logout`,
         Register: `${baseUrl}/register`,
         GetAuthenticatedUser: `${baseUrl}/user`,
+    },
+    Users: {
+        Contacts: `${baseUrl}/contacts`,
     }
 }
 
