@@ -14,7 +14,7 @@
 import {mapGetters} from 'vuex'
 
 export default {
-    name: "ConversationFeed",
+    name: "MessagesFeed",
 
     props: {
         messages: Array

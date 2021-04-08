@@ -1,23 +1,23 @@
 <template>
     <div class="conversation" style="background-color: lightgray">
         <ConversationTitle :title="selectedContactFullName"/>
-        <ConversationFeed :messages="messages"/>
-        <ConversationComposer/>
+        <MessagesFeed :messages="messages"/>
+        <MessageComposer/>
     </div>
 </template>
 
 <script>
 import ConversationTitle from "./ConversationTitle";
-import ConversationFeed from "./ConversationFeed";
-import ConversationComposer from "./ConversationComposer";
+import MessagesFeed from "./MessagesFeed";
+import MessageComposer from "./MessageComposer";
 import {mapGetters, mapActions} from "vuex"
 
 export default {
     name: "ConversationWrapper",
 
     components: {
-        ConversationComposer,
-        ConversationFeed,
+        MessageComposer,
+        MessagesFeed,
         ConversationTitle
     },
 
