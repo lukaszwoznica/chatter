@@ -20,7 +20,6 @@
 
                 </div>
                 <div class="contacts__item__status">
-                    {{ selectedContact?.id === contact.id ? 'Selected' : ''}}
                 </div>
             </div>
         </div>

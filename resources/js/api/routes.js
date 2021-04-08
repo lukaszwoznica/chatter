@@ -11,6 +11,9 @@ const ApiRoutes = {
     },
     Users: {
         Contacts: `${baseUrl}/contacts`,
+    },
+    Messages: {
+        GetConversationMessages: (userId) => `${baseUrl}/messages/${userId}`
     }
 }
 
