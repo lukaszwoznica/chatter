@@ -11,19 +11,17 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-
 export default {
     name: "MessagesFeed",
 
     props: {
-        messages: Array
-    },
-
-    computed: {
-        ...mapGetters({
-            authUser: 'auth/user',
-        }),
+        messages: {
+            type: Array,
+            required: true
+        },
+        authUser: {
+            required: true
+        }
     }
 }
 </script>

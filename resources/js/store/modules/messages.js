@@ -9,7 +9,8 @@ const getters = {
 }
 
 const mutations = {
-    SET_MESSAGES: (state, messages) => state.messages = messages
+    SET_MESSAGES: (state, messages) => state.messages = messages,
+    ADD_MESSAGE: (state, message) => state.messages.push(message)
 }
 
 const actions = {
@@ -17,6 +18,14 @@ const actions = {
         const response = await axios.get(ApiRoutes.Messages.GetConversationMessages(userId))
 
         commit('SET_MESSAGES', response.data.data)
+    },
+
+    async sendMessage({commit}, message) {
+        const response = await axios.post(ApiRoutes.Messages.SendMessage, message)
+
+        if (response.status === 201) {
+            commit('ADD_MESSAGE', response.data.data)
+        }
     }
 }
 

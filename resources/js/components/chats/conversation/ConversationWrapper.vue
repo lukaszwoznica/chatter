@@ -1,8 +1,13 @@
 <template>
     <div class="conversation" style="background-color: lightgray">
-        <ConversationTitle :title="selectedContactFullName"/>
-        <MessagesFeed :messages="messages"/>
-        <MessageComposer/>
+        <template v-if="selectedContact">
+            <ConversationTitle :title="selectedContactFullName"/>
+            <MessagesFeed :messages="messages" :auth-user="authUser"/>
+            <MessageComposer :auth-user="authUser" :selected-contact="selectedContact"/>
+        </template>
+        <template v-else>
+            Select contact to start conversation
+        </template>
     </div>
 </template>
 
@@ -24,7 +29,8 @@ export default {
     computed: {
         ...mapGetters({
             selectedContact: 'contacts/selectedContact',
-            messages: 'messages/allMessages'
+            messages: 'messages/allMessages',
+            authUser: 'auth/user'
         }),
 
         selectedContactFullName() {
