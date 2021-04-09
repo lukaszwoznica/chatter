@@ -8,7 +8,7 @@ const store = createStore({
         auth,
         contacts,
         messages
-    }
+    },
 })
 
 export default store

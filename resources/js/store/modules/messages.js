@@ -26,6 +26,10 @@ const actions = {
         if (response.status === 201) {
             commit('ADD_MESSAGE', response.data.data)
         }
+    },
+
+    resetModuleState({commit}) {
+        commit('SET_MESSAGES', [])
     }
 }
 

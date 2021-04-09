@@ -48,7 +48,9 @@ export default {
 
     watch: {
         selectedContact() {
-            this.fetchMessages(this.selectedContact.id)
+            if (this.selectedContact !== null) {
+                this.fetchMessages(this.selectedContact.id)
+            }
         }
     }
 }

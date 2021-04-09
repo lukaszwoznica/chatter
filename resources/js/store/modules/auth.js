@@ -22,11 +22,10 @@ const actions = {
         await dispatch('synchronizeAuthenticationState')
     },
 
-    async logout({commit}) {
+    async logout({dispatch}) {
         await axios.post(ApiRoutes.Auth.Logout)
 
-        commit('SET_AUTHENTICATED', false)
-        commit('SET_USER', null)
+        dispatch('clearUserState')
     },
 
     async register({dispatch}, userData) {
@@ -35,16 +34,26 @@ const actions = {
         await dispatch('synchronizeAuthenticationState')
     },
 
-    async synchronizeAuthenticationState({commit}) {
+    async synchronizeAuthenticationState({commit, dispatch}) {
         try {
             const response = await axios.get(ApiRoutes.Auth.GetAuthenticatedUser)
 
             commit('SET_AUTHENTICATED', true)
             commit('SET_USER', response.data)
         } catch (error) {
-            commit('SET_AUTHENTICATED', false)
-            commit('SET_USER', null)
+            dispatch('resetModuleState')
         }
+    },
+
+    resetModuleState({commit}) {
+        commit('SET_AUTHENTICATED', false)
+        commit('SET_USER', null)
+    },
+
+    clearUserState({dispatch}) {
+        dispatch('resetModuleState')
+        dispatch('contacts/resetModuleState', null, {root: true})
+        dispatch('messages/resetModuleState', null, {root: true})
     }
 }
 

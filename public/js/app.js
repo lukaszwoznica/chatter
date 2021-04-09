@@ -16714,7 +16714,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   })),
   watch: {
     selectedContact: function selectedContact() {
-      this.fetchMessages(this.selectedContact.id);
+      if (this.selectedContact !== null) {
+        this.fetchMessages(this.selectedContact.id);
+      }
     }
   }
 });
@@ -18257,20 +18259,19 @@ var actions = {
   },
   logout: function logout(_ref2) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      var commit;
+      var dispatch;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              commit = _ref2.commit;
+              dispatch = _ref2.dispatch;
               _context2.next = 3;
               return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.Logout);
 
             case 3:
-              commit('SET_AUTHENTICATED', false);
-              commit('SET_USER', null);
+              dispatch('clearUserState');
 
-            case 5:
+            case 4:
             case "end":
               return _context2.stop();
           }
@@ -18307,12 +18308,12 @@ var actions = {
   },
   synchronizeAuthenticationState: function synchronizeAuthenticationState(_ref4) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-      var commit, response;
+      var commit, dispatch, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              commit = _ref4.commit;
+              commit = _ref4.commit, dispatch = _ref4.dispatch;
               _context4.prev = 1;
               _context4.next = 4;
               return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.GetAuthenticatedUser);
@@ -18321,22 +18322,36 @@ var actions = {
               response = _context4.sent;
               commit('SET_AUTHENTICATED', true);
               commit('SET_USER', response.data);
-              _context4.next = 13;
+              _context4.next = 12;
               break;
 
             case 9:
               _context4.prev = 9;
               _context4.t0 = _context4["catch"](1);
-              commit('SET_AUTHENTICATED', false);
-              commit('SET_USER', null);
+              dispatch('resetModuleState');
 
-            case 13:
+            case 12:
             case "end":
               return _context4.stop();
           }
         }
       }, _callee4, null, [[1, 9]]);
     }))();
+  },
+  resetModuleState: function resetModuleState(_ref5) {
+    var commit = _ref5.commit;
+    commit('SET_AUTHENTICATED', false);
+    commit('SET_USER', null);
+  },
+  clearUserState: function clearUserState(_ref6) {
+    var dispatch = _ref6.dispatch;
+    dispatch('resetModuleState');
+    dispatch('contacts/resetModuleState', null, {
+      root: true
+    });
+    dispatch('messages/resetModuleState', null, {
+      root: true
+    });
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -18424,6 +18439,11 @@ var actions = {
       return contact.id === contactId;
     });
     commit('SET_SELECTED_CONTACT', contact);
+  },
+  resetModuleState: function resetModuleState(_ref3) {
+    var commit = _ref3.commit;
+    commit('SET_CONTACTS', []);
+    commit('SET_SELECTED_CONTACT', null);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -18522,6 +18542,10 @@ var actions = {
         }
       }, _callee2);
     }))();
+  },
+  resetModuleState: function resetModuleState(_ref3) {
+    var commit = _ref3.commit;
+    commit('SET_MESSAGES', []);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
