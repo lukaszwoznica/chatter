@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\Events\NewMessageSentEvent;
+use App\Events\NewMessageEvent;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,7 +38,7 @@ class MessageService
             'sender_id' => auth()->id()
         ]));
 
-        NewMessageSentEvent::dispatch($message);
+        NewMessageEvent::dispatch($message);
 
         return $message;
     }

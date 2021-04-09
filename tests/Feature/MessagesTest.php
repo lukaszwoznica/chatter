@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Events\NewMessageSentEvent;
+use App\Events\NewMessageEvent;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -94,7 +94,7 @@ class MessagesTest extends TestCase
             ->assertJsonPath('data.sender.id', $this->currentUser->id)
             ->assertJsonPath('data.recipient.id', $this->otherUser->id);
         $this->assertCount(1, $messages = Message::all());
-        Event::assertDispatched(fn(NewMessageSentEvent $event) => $event->message->id === $messages->first()->id);
+        Event::assertDispatched(fn(NewMessageEvent $event) => $event->message->id === $messages->first()->id);
     }
 
     public function testUserCannotSendMessageToOtherUserWhenUnauthenticated()
