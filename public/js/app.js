@@ -18475,7 +18475,7 @@ var actions = {
             case 4:
               response = _context4.sent;
               commit('SET_AUTHENTICATED', true);
-              commit('SET_USER', response.data);
+              commit('SET_USER', response.data.data);
               _context4.next = 12;
               break;
 

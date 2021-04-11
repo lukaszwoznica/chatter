@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserService
 {
+    public function getAll(string $nameFilter = null): Collection
+    {
+        return User::when($nameFilter, function ($query) use ($nameFilter) {
+            $query->whereRaw("concat(first_name, ' ', last_name) like '%$nameFilter%'")
+                ->orWhereRaw("concat(last_name, ' ', first_name) like '%$nameFilter%'");
+        })->get();
+    }
+
     public function getAuthUserContacts(): Collection
     {
         return User::whereHas('messagesSent', function ($query) {

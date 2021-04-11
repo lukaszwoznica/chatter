@@ -17,9 +17,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(50);
+        $users = $this->userService->getAll($request->query('search'));
 
         return UserResource::collection($users);
     }
@@ -38,6 +38,6 @@ class UserController extends Controller
 
     public function authUser()
     {
-        return auth()->user();
+        return new UserResource(auth()->user());
     }
 }

@@ -39,7 +39,7 @@ const actions = {
             const response = await axios.get(ApiRoutes.Auth.GetAuthenticatedUser)
 
             commit('SET_AUTHENTICATED', true)
-            commit('SET_USER', response.data)
+            commit('SET_USER', response.data.data)
         } catch (error) {
             dispatch('resetModuleState')
         }
