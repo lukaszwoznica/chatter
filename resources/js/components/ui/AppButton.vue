@@ -1,7 +1,8 @@
 <template>
     <button class="button"
             :class="classList"
-            :type="type">
+            :type="type"
+            @click="$emit('onClick')">
         <slot>Button</slot>
     </button>
 </template>

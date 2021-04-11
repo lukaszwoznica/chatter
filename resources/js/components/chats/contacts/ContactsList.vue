@@ -1,5 +1,8 @@
 <template>
     <div class="contacts">
+        <AppButton @onClick="searchVisible = true">
+            Search
+        </AppButton>
         <div class="contacts__item"
              v-for="contact in contacts" :key="contact.id"
              style="display: flex"
@@ -23,14 +26,28 @@
                 </div>
             </div>
         </div>
+        <ContactSearchOverlay :visible="searchVisible" @onClose="searchVisible = false"/>
     </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+import AppButton from '../../ui/AppButton';
+import ContactSearchOverlay from './ContactSearchOverlay';
 
 export default {
     name: "ContactsList",
+
+    components: {
+        ContactSearchOverlay,
+        AppButton
+    },
+
+    data() {
+        return {
+            searchVisible: false
+        }
+    },
 
     computed: {
         ...mapGetters({

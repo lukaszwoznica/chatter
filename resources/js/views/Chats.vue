@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ContactsList from '../components/chats/ContactsList'
+import ContactsList from '../components/chats/contacts/ContactsList'
 import ConversationWrapper from '../components/chats/conversation/ConversationWrapper'
 import {mapGetters, mapMutations} from 'vuex'
 
