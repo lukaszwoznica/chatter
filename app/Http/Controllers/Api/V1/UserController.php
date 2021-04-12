@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ContactResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
@@ -33,7 +34,7 @@ class UserController extends Controller
     {
         $contacts = $this->userService->getAuthUserContacts();
 
-        return UserResource::collection($contacts);
+        return ContactResource::collection($contacts);
     }
 
     public function authUser()
