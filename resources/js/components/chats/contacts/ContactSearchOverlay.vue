@@ -4,15 +4,32 @@
             x
         </span>
         <div class="search-overlay__container">
-            <form>
-                <input type="text" placeholder="Search...">
+            <form @submit.prevent>
+                <input type="text" placeholder="Search..."
+                       ref="search"
+                       @input='onInput($event.target.value)'>
             </form>
+            <p v-show="isSearching">
+                Searching...
+            </p>
+            <ul class="results__list" v-if="results.length">
+                <li class="results__item" v-for="result in results" :key="result.id">
+                    {{ fullName(result) }}
+                    <AppButton @onClick="startConversation(result)">
+                        Start conversation
+                    </AppButton>
+                </li>
+            </ul>
+            <p v-else-if="searchQuery && !isSearching">No results</p>
         </div>
     </div>
 </template>
 
 <script>
-import AppButton from "../../ui/AppButton";
+import AppButton from '../../ui/AppButton';
+import ApiRoutes from "../../../api/routes";
+import {debounce} from 'lodash'
+import {mapMutations, mapActions} from 'vuex'
 
 export default {
     name: "ContactSearchOverlay",
@@ -28,11 +45,65 @@ export default {
         }
     },
 
-    methods: {
-        closeOverlay() {
-            this.visible = false
+    data() {
+        return {
+            searchQuery: null,
+            results: [],
+            isSearching: false
         }
     },
+
+    methods: {
+        ...mapActions({
+            selectContact: 'contacts/selectContact'
+        }),
+
+        ...mapMutations({
+            addContact: 'contacts/ADD_CONTACT'
+        }),
+
+        onInput(value) {
+            this.isSearching = true
+            this.setSearchQuery(value)
+        },
+
+        setSearchQuery: debounce(function (searchQuery) {
+            this.searchQuery = searchQuery
+        }, 600),
+
+        fullName: (user) => `${user.first_name} ${user.last_name}`,
+
+        startConversation(user) {
+            this.addContact(user)
+            this.selectContact(user.id)
+            this.$emit('onClose')
+        }
+    },
+
+    watch: {
+        async searchQuery() {
+            if (!this.searchQuery) {
+                this.results = []
+                this.isSearching = false
+                return
+            }
+
+            const response = await axios.get(ApiRoutes.Users.Search(this.searchQuery.trim()))
+
+            this.results = response.data.data
+            this.isSearching = false
+        },
+
+        visible() {
+            if (this.visible) {
+                this.$nextTick(() => this.$refs.search.focus())
+            } else {
+                this.searchQuery = null
+                this.results = []
+                this.$refs.search.value = ''
+            }
+        }
+    }
 }
 </script>
 
@@ -55,6 +126,8 @@ export default {
 .search-overlay__container {
     position: relative;
     display: flex;
+    flex-direction: column;
+    text-align: center;
     justify-content: center;
     top: 15%;
     width: 100%;
@@ -78,5 +151,9 @@ input {
     font-size: 60px;
     cursor: pointer;
     color: white;
+}
+
+p, li {
+    color: #ffffff;
 }
 </style>

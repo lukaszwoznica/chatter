@@ -38,7 +38,7 @@ export default {
         }),
 
         handleIncomingMessage(message) {
-            if (message.sender.id === this.selectedContact.id) {
+            if (message.sender.id === this.selectedContact?.id) {
                 this.addMessage(message)
             } else {
                 alert(`You have new message from ${message.sender.first_name} ${message.sender.last_name}`)
