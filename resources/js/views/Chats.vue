@@ -8,7 +8,7 @@
 <script>
 import ContactsList from '../components/chats/contacts/ContactsList'
 import ConversationWrapper from '../components/chats/conversation/ConversationWrapper'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 
 export default {
     name: "Chats",
@@ -21,7 +21,8 @@ export default {
     computed: {
         ...mapGetters({
             authUser: 'auth/user',
-            selectedContact: 'contacts/selectedContact'
+            selectedContact: 'contacts/selectedContact',
+            allContacts: 'contacts/allContacts'
         })
     },
 
@@ -34,10 +35,16 @@ export default {
 
     methods: {
         ...mapMutations({
-            addMessage: 'messages/ADD_MESSAGE'
+            addMessage: 'messages/ADD_MESSAGE',
+        }),
+
+        ...mapActions({
+            addNewContact: 'contacts/addNewContact'
         }),
 
         handleIncomingMessage(message) {
+            this.addNewContact(message.sender)
+
             if (message.sender.id === this.selectedContact?.id) {
                 this.addMessage(message)
             } else {

@@ -16658,10 +16658,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isSearching: false
     };
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)({
-    selectContact: 'contacts/selectContact'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapMutations)({
-    addContact: 'contacts/ADD_CONTACT'
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)({
+    selectContact: 'contacts/selectContact',
+    addNewContact: 'contacts/addNewContact'
   })), {}, {
     onInput: function onInput(value) {
       this.isSearching = true;
@@ -16674,7 +16673,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return "".concat(user.first_name, " ").concat(user.last_name);
     },
     startConversation: function startConversation(user) {
-      this.addContact(user);
+      this.addNewContact(user);
       this.selectContact(user.id);
       this.$emit('onClose');
     }
@@ -17126,7 +17125,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
     authUser: 'auth/user',
-    selectedContact: 'contacts/selectedContact'
+    selectedContact: 'contacts/selectedContact',
+    allContacts: 'contacts/allContacts'
   })),
   mounted: function mounted() {
     var _this = this;
@@ -17135,11 +17135,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this.handleIncomingMessage(event.message);
     });
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
     addMessage: 'messages/ADD_MESSAGE'
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
+    addNewContact: 'contacts/addNewContact'
   })), {}, {
     handleIncomingMessage: function handleIncomingMessage(message) {
       var _this$selectedContact;
+
+      this.addNewContact(message.sender);
 
       if (message.sender.id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
         this.addMessage(message);
@@ -18737,8 +18741,17 @@ var actions = {
     });
     commit('SET_SELECTED_CONTACT', contact);
   },
-  resetModuleState: function resetModuleState(_ref3) {
+  addNewContact: function addNewContact(_ref3, newContact) {
     var commit = _ref3.commit;
+
+    if (!state.contacts.find(function (contact) {
+      return contact.id === newContact.id;
+    })) {
+      commit('ADD_CONTACT', newContact);
+    }
+  },
+  resetModuleState: function resetModuleState(_ref4) {
+    var commit = _ref4.commit;
     commit('SET_CONTACTS', []);
     commit('SET_SELECTED_CONTACT', null);
   }

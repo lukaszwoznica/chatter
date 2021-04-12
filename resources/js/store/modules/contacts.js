@@ -29,6 +29,12 @@ const actions = {
         commit('SET_SELECTED_CONTACT', contact)
     },
 
+    addNewContact({commit}, newContact) {
+        if (!state.contacts.find(contact => contact.id === newContact.id)) {
+            commit('ADD_CONTACT', newContact)
+        }
+    },
+
     resetModuleState({commit}) {
         commit('SET_CONTACTS', [])
         commit('SET_SELECTED_CONTACT', null)
