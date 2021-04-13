@@ -16658,6 +16658,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isSearching: false
     };
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)({
+    getContactById: 'contacts/contactById'
+  })),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)({
     selectContact: 'contacts/selectContact',
     addNewContact: 'contacts/addNewContact'
@@ -16673,7 +16676,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return "".concat(user.first_name, " ").concat(user.last_name);
     },
     startConversation: function startConversation(user) {
-      this.addNewContact(user);
+      if (!this.getContactById(user.id)) {
+        this.addNewContact(user);
+      }
+
       this.selectContact(user.id);
       this.$emit('onClose');
     }
@@ -16913,42 +16919,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
-    sendMessage: 'messages/sendMessage'
+    sendMessage: 'messages/sendMessage',
+    setContactOnTop: 'contacts/setContactOnTop'
   })), {}, {
     submit: function submit() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var message;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
+                if (!_this.message.text) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _context.prev = 1;
                 _this.message.recipient_id = _this.selectedContact.id;
-                _context.next = 4;
+                _context.next = 5;
                 return _this.sendMessage(_this.message);
 
-              case 4:
-                _context.next = 9;
+              case 5:
+                message = _context.sent;
+
+                _this.setContactOnTop(_objectSpread(_objectSpread({}, _this.selectedContact), {}, {
+                  last_message: message.created_at
+                }));
+
+                _this.resetMessageData();
+
+                _context.next = 13;
                 break;
 
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
-
-              case 9:
-                _this.resetMessage();
-
               case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](1);
+                alert('Something went wrong while sending a message.');
+
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 6]]);
+        }, _callee, null, [[1, 10]]);
       }))();
     },
-    resetMessage: function resetMessage() {
+    resetMessageData: function resetMessageData() {
       this.message = {
         text: '',
         recipient_id: null
@@ -17126,7 +17144,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
     authUser: 'auth/user',
     selectedContact: 'contacts/selectedContact',
-    allContacts: 'contacts/allContacts'
+    getContactById: 'contacts/contactById'
   })),
   mounted: function mounted() {
     var _this = this;
@@ -17138,18 +17156,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
     addMessage: 'messages/ADD_MESSAGE'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
-    addNewContact: 'contacts/addNewContact'
+    addNewContact: 'contacts/addNewContact',
+    setContactOnTop: 'contacts/setContactOnTop'
   })), {}, {
     handleIncomingMessage: function handleIncomingMessage(message) {
       var _this$selectedContact;
 
-      this.addNewContact(message.sender);
+      this.updateContactListAfterNewMessage(message);
 
       if (message.sender.id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
         this.addMessage(message);
-      } else {
-        alert("You have new message from ".concat(message.sender.first_name, " ").concat(message.sender.last_name));
       }
+    },
+    updateContactListAfterNewMessage: function updateContactListAfterNewMessage(message) {
+      var _this$selectedContact2;
+
+      var senderContact = this.getContactById(message.sender.id);
+
+      if (!senderContact) {
+        this.addNewContact(_objectSpread(_objectSpread({}, message.sender), {}, {
+          last_message: message.created_at,
+          unread_messages: 1
+        }));
+        return;
+      }
+
+      if (((_this$selectedContact2 = this.selectedContact) === null || _this$selectedContact2 === void 0 ? void 0 : _this$selectedContact2.id) !== senderContact.id) {
+        senderContact.unread_messages++;
+      }
+
+      senderContact.last_message = message.created_at;
+      this.setContactOnTop(senderContact);
     }
   })
 });
@@ -17500,10 +17537,10 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e&scoped=true":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e&scoped=true ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -17512,6 +17549,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-1140917e");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-1140917e");
 
 var _hoisted_1 = {
   "class": "contacts"
@@ -17530,29 +17572,15 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_4 = {
-  "class": "contacts__item__top"
-};
-var _hoisted_5 = {
   "class": "contacts__item__name"
 };
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_5 = {
   "class": "contacts__item__time"
-}, null, -1
-/* HOISTED */
-);
+};
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "contacts__item__bottom"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "contacts__item__message"
-}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "contacts__item__status"
-})], -1
-/* HOISTED */
-);
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
-function render(_ctx, _cache, $props, $setup, $data, $options) {
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AppButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppButton");
 
   var _component_ContactSearchOverlay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ContactSearchOverlay");
@@ -17562,15 +17590,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.searchVisible = true;
     })
   }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+    "default": _withId(function () {
       return [_hoisted_2];
     }),
     _: 1
     /* STABLE */
 
   }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.contacts, function (contact) {
+    var _ctx$selectedContact;
+
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-      "class": "contacts__item",
+      "class": ["contacts__item", ((_ctx$selectedContact = _ctx.selectedContact) === null || _ctx$selectedContact === void 0 ? void 0 : _ctx$selectedContact.id) === contact.id ? 'contacts__item--active' : ''],
       key: contact.id,
       style: {
         "display": "flex"
@@ -17578,10 +17608,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return _ctx.selectContact(contact.id);
       }
-    }, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.contactFullName(contact)), 1
+    }, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.contactFullName(contact)), 1
     /* TEXT */
-    ), _hoisted_6]), _hoisted_7], 8
-    /* PROPS */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(contact.last_message), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+      "class": "contacts__item__unread"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("(".concat(contact.unread_messages, ")")), 513
+    /* TEXT, NEED_PATCH */
+    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, contact.unread_messages > 0]])], 10
+    /* CLASS, PROPS */
     , ["onClick"]);
   }), 128
   /* KEYED_FRAGMENT */
@@ -17593,7 +17629,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["visible"])]);
-}
+});
 
 /***/ }),
 
@@ -18696,6 +18732,13 @@ var getters = {
   },
   selectedContact: function selectedContact(state) {
     return state.selectedContact;
+  },
+  contactById: function contactById(state) {
+    return function (contactId) {
+      return state.contacts.find(function (contact) {
+        return contact.id === contactId;
+      });
+    };
   }
 };
 var mutations = {
@@ -18734,24 +18777,37 @@ var actions = {
     }))();
   },
   selectContact: function selectContact(_ref2, contactId) {
-    var state = _ref2.state,
+    var getters = _ref2.getters,
         commit = _ref2.commit;
-    var contact = state.contacts.find(function (contact) {
-      return contact.id === contactId;
-    });
+    var contact = getters.contactById(contactId);
     commit('SET_SELECTED_CONTACT', contact);
   },
   addNewContact: function addNewContact(_ref3, newContact) {
-    var commit = _ref3.commit;
+    var _newContact$last_mess, _newContact$unread_me;
 
-    if (!state.contacts.find(function (contact) {
-      return contact.id === newContact.id;
-    })) {
-      commit('ADD_CONTACT', newContact);
-    }
+    var getters = _ref3.getters,
+        commit = _ref3.commit;
+    commit('ADD_CONTACT', {
+      id: newContact.id,
+      first_name: newContact.first_name,
+      last_name: newContact.last_name,
+      email: newContact.email,
+      last_message: (_newContact$last_mess = newContact.last_message) !== null && _newContact$last_mess !== void 0 ? _newContact$last_mess : null,
+      unread_messages: (_newContact$unread_me = newContact.unread_messages) !== null && _newContact$unread_me !== void 0 ? _newContact$unread_me : 0
+    });
   },
-  resetModuleState: function resetModuleState(_ref4) {
-    var commit = _ref4.commit;
+  setContactOnTop: function setContactOnTop(_ref4, topContact) {
+    var getters = _ref4.getters,
+        dispatch = _ref4.dispatch,
+        commit = _ref4.commit;
+    var contacts = getters.allContacts.filter(function (contact) {
+      return contact.id !== topContact.id;
+    });
+    commit('SET_CONTACTS', contacts);
+    dispatch('addNewContact', topContact);
+  },
+  resetModuleState: function resetModuleState(_ref5) {
+    var commit = _ref5.commit;
     commit('SET_CONTACTS', []);
     commit('SET_SELECTED_CONTACT', null);
   }
@@ -18828,33 +18884,54 @@ var actions = {
     }))();
   },
   sendMessage: function sendMessage(_ref2, message) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      var commit, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
               commit = _ref2.commit;
-              _context2.next = 3;
-              return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.SendMessage, message);
+              return _context3.abrupt("return", new Promise( /*#__PURE__*/function () {
+                var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(resolve) {
+                  var response;
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+                    while (1) {
+                      switch (_context2.prev = _context2.next) {
+                        case 0:
+                          _context2.next = 2;
+                          return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.SendMessage, message);
 
-            case 3:
-              response = _context2.sent;
+                        case 2:
+                          response = _context2.sent;
 
-              if (response.status === 201) {
-                commit('ADD_MESSAGE', response.data.data);
-              }
+                          if (response.status === 201) {
+                            commit('ADD_MESSAGE', response.data.data);
+                            resolve(response.data.data);
+                          }
 
-            case 5:
+                        case 4:
+                        case "end":
+                          return _context2.stop();
+                      }
+                    }
+                  }, _callee2);
+                }));
+
+                return function (_x) {
+                  return _ref3.apply(this, arguments);
+                };
+              }()));
+
+            case 2:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }))();
   },
-  resetModuleState: function resetModuleState(_ref3) {
-    var commit = _ref3.commit;
+  resetModuleState: function resetModuleState(_ref4) {
+    var commit = _ref4.commit;
     commit('SET_MESSAGES', []);
   }
 };
@@ -18886,6 +18963,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.search-overlay[data-v-3bc31eb5] {\n    height: 100%;\n    width: 100%;\n    display: none;\n    position: fixed;\n    z-index: 1;\n    top: 0;\n    left: 0;\n    background-color: rgba(0, 0, 0, 0.8);\n}\n.search-overlay--visible[data-v-3bc31eb5] {\n    display: block;\n}\n.search-overlay__container[data-v-3bc31eb5] {\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    text-align: center;\n    justify-content: center;\n    top: 15%;\n    width: 100%;\n}\nform[data-v-3bc31eb5] {\n    width: 100%;\n    text-align: center;\n}\ninput[data-v-3bc31eb5] {\n    height: 50px;\n    width: 50%;\n    opacity: 0.9;\n}\n.search-overlay__close-button[data-v-3bc31eb5] {\n    position: absolute;\n    top: 20px;\n    right: 45px;\n    font-size: 60px;\n    cursor: pointer;\n    color: white;\n}\np[data-v-3bc31eb5], li[data-v-3bc31eb5] {\n    color: #ffffff;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.contacts[data-v-1140917e] {\n        min-width: 350px;\n}\n.contacts__item--active[data-v-1140917e] {\n        background-color: #d7d7d7;\n        border: 1px solid black\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -43341,6 +43442,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_style_index_0_id_1140917e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_style_index_0_id_1140917e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_style_index_0_id_1140917e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/MessagesFeed.vue?vue&type=style&index=0&id=6e6ae3c7&scoped=true&lang=css":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/MessagesFeed.vue?vue&type=style&index=0&id=6e6ae3c7&scoped=true&lang=css ***!
@@ -43747,12 +43878,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ContactsList_vue_vue_type_template_id_1140917e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContactsList.vue?vue&type=template&id=1140917e */ "./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e");
+/* harmony import */ var _ContactsList_vue_vue_type_template_id_1140917e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContactsList.vue?vue&type=template&id=1140917e&scoped=true */ "./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e&scoped=true");
 /* harmony import */ var _ContactsList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContactsList.vue?vue&type=script&lang=js */ "./resources/js/components/chats/contacts/ContactsList.vue?vue&type=script&lang=js");
+/* harmony import */ var _ContactsList_vue_vue_type_style_index_0_id_1140917e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css */ "./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css");
 
 
 
-_ContactsList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _ContactsList_vue_vue_type_template_id_1140917e__WEBPACK_IMPORTED_MODULE_0__.render
+
+;
+_ContactsList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _ContactsList_vue_vue_type_template_id_1140917e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_ContactsList_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-1140917e"
 /* hot reload */
 if (false) {}
 
@@ -44312,18 +44447,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e ***!
-  \***********************************************************************************************/
+/***/ "./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e&scoped=true":
+/*!***********************************************************************************************************!*\
+  !*** ./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e&scoped=true ***!
+  \***********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_template_id_1140917e__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_template_id_1140917e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_template_id_1140917e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ContactsList.vue?vue&type=template&id=1140917e */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_template_id_1140917e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ContactsList.vue?vue&type=template&id=1140917e&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=template&id=1140917e&scoped=true");
 
 
 /***/ }),
@@ -44513,6 +44648,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactSearchOverlay_vue_vue_type_style_index_0_id_3bc31eb5_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ContactSearchOverlay.vue?vue&type=style&index=0&id=3bc31eb5&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactSearchOverlay.vue?vue&type=style&index=0&id=3bc31eb5&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css":
+/*!*************************************************************************************************************************!*\
+  !*** ./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css ***!
+  \*************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ContactsList_vue_vue_type_style_index_0_id_1140917e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/contacts/ContactsList.vue?vue&type=style&index=0&id=1140917e&scoped=true&lang=css");
 
 
 /***/ }),

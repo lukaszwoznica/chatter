@@ -43,20 +43,29 @@ export default {
 
     methods: {
         ...mapActions({
-            sendMessage: 'messages/sendMessage'
+            sendMessage: 'messages/sendMessage',
+            setContactOnTop: 'contacts/setContactOnTop'
         }),
 
         async submit() {
-            try {
-                this.message.recipient_id = this.selectedContact.id
-                await this.sendMessage(this.message)
-            } catch (error) {
-                console.log(error)
+            if (this.message.text) {
+                try {
+                    this.message.recipient_id = this.selectedContact.id
+                    const message = await this.sendMessage(this.message)
+
+                    this.setContactOnTop({
+                        ...this.selectedContact,
+                        last_message: message.created_at
+                    })
+
+                    this.resetMessageData()
+                } catch (error) {
+                    alert('Something went wrong while sending a message.')
+                }
             }
-            this.resetMessage()
         },
 
-        resetMessage() {
+        resetMessageData() {
             this.message = {
                 text: '',
                 recipient_id: null

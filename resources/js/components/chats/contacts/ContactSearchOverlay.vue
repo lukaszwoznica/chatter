@@ -29,7 +29,7 @@
 import AppButton from '../../ui/AppButton';
 import ApiRoutes from "../../../api/routes";
 import {debounce} from 'lodash'
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
     name: "ContactSearchOverlay",
@@ -53,6 +53,12 @@ export default {
         }
     },
 
+    computed: {
+        ...mapGetters({
+            getContactById: 'contacts/contactById'
+        })
+    },
+
     methods: {
         ...mapActions({
             selectContact: 'contacts/selectContact',
@@ -71,7 +77,9 @@ export default {
         fullName: (user) => `${user.first_name} ${user.last_name}`,
 
         startConversation(user) {
-            this.addNewContact(user)
+            if (!this.getContactById(user.id)) {
+                this.addNewContact(user)
+            }
             this.selectContact(user.id)
             this.$emit('onClose')
         }

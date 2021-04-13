@@ -1,10 +1,10 @@
-require('./bootstrap');
+require('./bootstrap')
 
 import {createApp} from 'vue'
 
-import router from "./router";
-import store from "./store";
-import App from "./App";
+import router from './router'
+import store from './store'
+import App from './App'
 
 store.dispatch('auth/synchronizeAuthenticationState').then(() => {
     const app = createApp({

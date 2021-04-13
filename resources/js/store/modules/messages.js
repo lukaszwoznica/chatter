@@ -21,11 +21,14 @@ const actions = {
     },
 
     async sendMessage({commit}, message) {
-        const response = await axios.post(ApiRoutes.Messages.SendMessage, message)
+        return new Promise(async  (resolve) => {
+            const response = await axios.post(ApiRoutes.Messages.SendMessage, message)
 
-        if (response.status === 201) {
-            commit('ADD_MESSAGE', response.data.data)
-        }
+            if (response.status === 201) {
+                commit('ADD_MESSAGE', response.data.data)
+                resolve(response.data.data)
+            }
+        })
     },
 
     resetModuleState({commit}) {

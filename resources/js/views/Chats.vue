@@ -22,7 +22,7 @@ export default {
         ...mapGetters({
             authUser: 'auth/user',
             selectedContact: 'contacts/selectedContact',
-            allContacts: 'contacts/allContacts'
+            getContactById: 'contacts/contactById'
         })
     },
 
@@ -39,17 +39,34 @@ export default {
         }),
 
         ...mapActions({
-            addNewContact: 'contacts/addNewContact'
+            addNewContact: 'contacts/addNewContact',
+            setContactOnTop: 'contacts/setContactOnTop'
         }),
 
         handleIncomingMessage(message) {
-            this.addNewContact(message.sender)
+            this.updateContactListAfterNewMessage(message)
 
             if (message.sender.id === this.selectedContact?.id) {
                 this.addMessage(message)
-            } else {
-                alert(`You have new message from ${message.sender.first_name} ${message.sender.last_name}`)
             }
+        },
+
+        updateContactListAfterNewMessage(message) {
+            const senderContact = this.getContactById(message.sender.id)
+            if (!senderContact) {
+                this.addNewContact({
+                    ...message.sender,
+                    last_message: message.created_at,
+                    unread_messages: 1
+                })
+                return
+            }
+
+            if (this.selectedContact?.id !== senderContact.id) {
+                senderContact.unread_messages++
+            }
+            senderContact.last_message = message.created_at
+            this.setContactOnTop(senderContact)
         }
     }
 }

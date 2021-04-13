@@ -24,5 +24,8 @@
         "vue-loader": "^16.2.0",
         "vue-router": "^4.0.5",
         "vuex": "^4.0.0"
+    },
+    "dependencies": {
+        "luxon": "^1.26.0"
     }
 }
