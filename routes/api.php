@@ -22,6 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/contacts', [UserController::class, 'contacts'])->name('users.contacts');
     Route::apiResource('users', UserController::class)->only('index', 'show');
 
-    Route::get('/messages/{user}', [MessageController::class, 'conversation'])->name('messages.conversation');
-    Route::post('/messages', [MessageController::class, 'send'])->name('messages.send');
+    Route::prefix('messages')->name('messages.')->group(function () {
+        Route::get('{user}', [MessageController::class, 'conversation'])->name('conversation');
+        Route::post('', [MessageController::class, 'send'])->name('send');
+        Route::patch('{message}', [MessageController::class, 'markAsRead'])->name('read');
+    });
 });

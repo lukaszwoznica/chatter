@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\NewMessageEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SendMessageRequest;
 use App\Http\Resources\MessageResource;
+use App\Models\Message;
 use App\Models\User;
 use App\Services\MessageService;
 use Illuminate\Http\Request;
@@ -20,7 +22,7 @@ class MessageController extends Controller
 
     public function conversation(User $user)
     {
-        $this->messageService->markAsReadFromUser($user);
+        $this->messageService->markAllAsReadFromUser($user);
         $messages = $this->messageService->getAllForUser($user);
 
         return MessageResource::collection($messages);
@@ -30,6 +32,15 @@ class MessageController extends Controller
     {
         $message = $this->messageService->create($request->validated());
 
+        NewMessageEvent::dispatch($message);
+
         return new MessageResource($message);
+    }
+
+    public function markAsRead(Message $message)
+    {
+        $updatedMessage = $this->messageService->markAsRead($message);
+
+        return new MessageResource($updatedMessage);
     }
 }
