@@ -14,7 +14,7 @@
 
 <script>
 import AppButton from '../../ui/AppButton';
-import {mapActions} from 'vuex'
+import {mapActions, mapMutations} from 'vuex'
 
 export default {
     name: "ConversationComposer",
@@ -44,7 +44,10 @@ export default {
     methods: {
         ...mapActions({
             sendMessage: 'messages/sendMessage',
-            setContactOnTop: 'contacts/setContactOnTop'
+        }),
+
+        ...mapMutations({
+           updateContact: 'contacts/UPDATE_CONTACT'
         }),
 
         async submit() {
@@ -53,7 +56,7 @@ export default {
                     this.message.recipient_id = this.selectedContact.id
                     const message = await this.sendMessage(this.message)
 
-                    this.setContactOnTop({
+                    this.updateContact({
                         ...this.selectedContact,
                         last_message: message.created_at
                     })

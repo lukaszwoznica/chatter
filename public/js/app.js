@@ -16749,14 +16749,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var _ui_AppButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../ui/AppButton */ "./resources/js/components/ui/AppButton.vue");
 /* harmony import */ var _ContactSearchOverlay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContactSearchOverlay */ "./resources/js/components/chats/contacts/ContactSearchOverlay.vue");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -16772,11 +16775,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       searchVisible: false
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)({
     contacts: 'contacts/allContacts',
     selectedContact: 'contacts/selectedContact'
-  })),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
+  })), {}, {
+    sortedContacts: function sortedContacts() {
+      return (0,lodash__WEBPACK_IMPORTED_MODULE_2__.orderBy)(this.contacts, ['last_message'], ['desc']);
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)({
     fetchContacts: 'contacts/fetchContacts',
     selectContact: 'contacts/selectContact'
   })), {}, {
@@ -16918,9 +16925,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
-    sendMessage: 'messages/sendMessage',
-    setContactOnTop: 'contacts/setContactOnTop'
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
+    sendMessage: 'messages/sendMessage'
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
+    updateContact: 'contacts/UPDATE_CONTACT'
   })), {}, {
     submit: function submit() {
       var _this = this;
@@ -16944,7 +16952,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 5:
                 message = _context.sent;
 
-                _this.setContactOnTop(_objectSpread(_objectSpread({}, _this.selectedContact), {}, {
+                _this.updateContact(_objectSpread(_objectSpread({}, _this.selectedContact), {}, {
                   last_message: message.created_at
                 }));
 
@@ -17154,10 +17162,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
-    addMessage: 'messages/ADD_MESSAGE'
+    addMessage: 'messages/ADD_MESSAGE',
+    updateContact: 'contacts/UPDATE_CONTACT'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
-    addNewContact: 'contacts/addNewContact',
-    setContactOnTop: 'contacts/setContactOnTop'
+    addNewContact: 'contacts/addNewContact'
   })), {}, {
     handleIncomingMessage: function handleIncomingMessage(message) {
       var _this$selectedContact;
@@ -17186,7 +17194,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       senderContact.last_message = message.created_at;
-      this.setContactOnTop(senderContact);
+      this.updateContact(senderContact);
     }
   })
 });
@@ -17596,7 +17604,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     _: 1
     /* STABLE */
 
-  }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.contacts, function (contact) {
+  }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.sortedContacts, function (contact) {
     var _ctx$selectedContact;
 
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
@@ -18750,6 +18758,15 @@ var mutations = {
   },
   SET_SELECTED_CONTACT: function SET_SELECTED_CONTACT(state, contact) {
     return state.selectedContact = contact;
+  },
+  UPDATE_CONTACT: function UPDATE_CONTACT(state, updatedContact) {
+    var index = state.contacts.findIndex(function (contact) {
+      return contact.id === updatedContact.id;
+    });
+
+    if (index !== -1) {
+      state.contacts.splice(index, 1, updatedContact);
+    }
   }
 };
 var actions = {
@@ -18796,18 +18813,8 @@ var actions = {
       unread_messages: (_newContact$unread_me = newContact.unread_messages) !== null && _newContact$unread_me !== void 0 ? _newContact$unread_me : 0
     });
   },
-  setContactOnTop: function setContactOnTop(_ref4, topContact) {
-    var getters = _ref4.getters,
-        dispatch = _ref4.dispatch,
-        commit = _ref4.commit;
-    var contacts = getters.allContacts.filter(function (contact) {
-      return contact.id !== topContact.id;
-    });
-    commit('SET_CONTACTS', contacts);
-    dispatch('addNewContact', topContact);
-  },
-  resetModuleState: function resetModuleState(_ref5) {
-    var commit = _ref5.commit;
+  resetModuleState: function resetModuleState(_ref4) {
+    var commit = _ref4.commit;
     commit('SET_CONTACTS', []);
     commit('SET_SELECTED_CONTACT', null);
   }

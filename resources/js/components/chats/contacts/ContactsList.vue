@@ -5,7 +5,7 @@
         </AppButton>
         <div class="contacts__item"
              :class="selectedContact?.id === contact.id ? 'contacts__item--active' : ''"
-             v-for="contact in contacts" :key="contact.id"
+             v-for="contact in sortedContacts" :key="contact.id"
              style="display: flex"
              @click="selectContact(contact.id)">
 
@@ -33,6 +33,7 @@
 import {mapGetters, mapActions} from 'vuex'
 import AppButton from '../../ui/AppButton'
 import ContactSearchOverlay from './ContactSearchOverlay'
+import {orderBy} from 'lodash'
 
 export default {
     name: "ContactsList",
@@ -53,6 +54,10 @@ export default {
             contacts: 'contacts/allContacts',
             selectedContact: 'contacts/selectedContact'
         }),
+
+      sortedContacts() {
+          return orderBy(this.contacts, ['last_message'], ['desc'])
+      }
     },
 
     methods: {

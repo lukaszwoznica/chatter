@@ -16,7 +16,13 @@ const getters = {
 const mutations = {
     SET_CONTACTS: (state, contacts) => state.contacts = contacts,
     ADD_CONTACT: (state, contact) => state.contacts.unshift(contact),
-    SET_SELECTED_CONTACT: (state, contact) => state.selectedContact = contact
+    SET_SELECTED_CONTACT: (state, contact) => state.selectedContact = contact,
+    UPDATE_CONTACT: (state, updatedContact) => {
+        const index = state.contacts.findIndex(contact => contact.id === updatedContact.id)
+        if (index !== -1) {
+            state.contacts.splice(index, 1, updatedContact)
+        }
+    }
 }
 
 const actions = {
@@ -41,13 +47,6 @@ const actions = {
             last_message: newContact.last_message ?? null,
             unread_messages: newContact.unread_messages ?? 0
         })
-    },
-
-    setContactOnTop({getters, dispatch, commit}, topContact) {
-        const contacts = getters.allContacts.filter(contact => contact.id !== topContact.id)
-
-        commit('SET_CONTACTS', contacts)
-        dispatch('addNewContact', topContact)
     },
 
     resetModuleState({commit}) {

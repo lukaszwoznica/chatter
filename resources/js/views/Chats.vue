@@ -36,11 +36,11 @@ export default {
     methods: {
         ...mapMutations({
             addMessage: 'messages/ADD_MESSAGE',
+            updateContact: 'contacts/UPDATE_CONTACT'
         }),
 
         ...mapActions({
             addNewContact: 'contacts/addNewContact',
-            setContactOnTop: 'contacts/setContactOnTop'
         }),
 
         handleIncomingMessage(message) {
@@ -66,7 +66,7 @@ export default {
                 senderContact.unread_messages++
             }
             senderContact.last_message = message.created_at
-            this.setContactOnTop(senderContact)
+            this.updateContact(senderContact)
         }
     }
 }
