@@ -10,7 +10,13 @@ const getters = {
 
 const mutations = {
     SET_MESSAGES: (state, messages) => state.messages = messages,
-    ADD_MESSAGE: (state, message) => state.messages.push(message)
+    ADD_MESSAGE: (state, message) => state.messages.push(message),
+    UPDATE_MESSAGE: (state, updatedMessage) => {
+        const index = state.messages.findIndex(message => message.id === updatedMessage.id)
+        if (index !== -1) {
+            state.messages.splice(index, 1, updatedMessage)
+        }
+    }
 }
 
 const actions = {
@@ -20,7 +26,7 @@ const actions = {
         commit('SET_MESSAGES', response.data.data)
     },
 
-    async sendMessage({commit}, message) {
+    sendMessage({commit}, message) {
         return new Promise(async  (resolve) => {
             const response = await axios.post(ApiRoutes.Messages.SendMessage, message)
 
@@ -29,6 +35,14 @@ const actions = {
                 resolve(response.data.data)
             }
         })
+    },
+
+    async markMessageAsRead({commit}, messageId) {
+        const response = await axios.patch(ApiRoutes.Messages.MarkMessageAsRead(messageId))
+
+        if (response.status === 200) {
+            commit('UPDATE_MESSAGE', response.data.data)
+        }
     },
 
     resetModuleState({commit}) {

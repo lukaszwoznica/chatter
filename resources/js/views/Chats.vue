@@ -31,16 +31,23 @@ export default {
             .listen('NewMessageEvent', event => {
                 this.handleIncomingMessage(event.message)
             })
+            .listen('MessagesReadEvent', event => {
+                if (this.selectedContact.id === event.messages[0].recipient.id) {
+                    event.messages.forEach(message => this.updateMessage(message))
+                }
+            })
     },
 
     methods: {
         ...mapMutations({
             addMessage: 'messages/ADD_MESSAGE',
-            updateContact: 'contacts/UPDATE_CONTACT'
+            updateContact: 'contacts/UPDATE_CONTACT',
+            updateMessage: 'messages/UPDATE_MESSAGE'
         }),
 
         ...mapActions({
             addNewContact: 'contacts/addNewContact',
+            markMessageAsRead: 'messages/markMessageAsRead'
         }),
 
         handleIncomingMessage(message) {
@@ -48,6 +55,7 @@ export default {
 
             if (message.sender.id === this.selectedContact?.id) {
                 this.addMessage(message)
+                this.markMessageAsRead(message.id)
             }
         },
 

@@ -34,7 +34,9 @@ const actions = {
 
     selectContact({getters, commit}, contactId) {
         const contact = getters.contactById(contactId)
+        contact.unread_messages = 0
 
+        commit('UPDATE_CONTACT', contact)
         commit('SET_SELECTED_CONTACT', contact)
     },
 

@@ -15,7 +15,8 @@ const ApiRoutes = {
     },
     Messages: {
         GetConversationMessages: (userId) => `${baseUrl}/messages/${userId}`,
-        SendMessage: `${baseUrl}/messages`
+        SendMessage: `${baseUrl}/messages`,
+        MarkMessageAsRead: (messageId) => `${baseUrl}/messages/${messageId}`
     }
 }
 

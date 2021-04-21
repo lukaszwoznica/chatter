@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Events\MessagesReadEvent;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,10 +26,20 @@ class MessageService
 
     public function markAllAsReadFromUser(User $user): void
     {
-        Message::where('sender_id', $user->id)
+        $updatedMessagesCount = Message::where('sender_id', $user->id)
             ->where('recipient_id', auth()->id())
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
+
+        if ($updatedMessagesCount > 0) {
+            $updatedMessages = Message::where('sender_id', $user->id)
+                ->where('recipient_id', auth()->id())
+                ->orderByDesc('read_at')
+                ->limit($updatedMessagesCount)
+                ->get();
+
+            MessagesReadEvent::dispatch($updatedMessages);
+        }
     }
 
     public function markAsRead(Message $message): Message

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Events\MessagesReadEvent;
 use App\Events\NewMessageEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SendMessageRequest;
@@ -40,6 +41,8 @@ class MessageController extends Controller
     public function markAsRead(Message $message)
     {
         $updatedMessage = $this->messageService->markAsRead($message);
+
+        MessagesReadEvent::dispatch(collect([$updatedMessage]));
 
         return new MessageResource($updatedMessage);
     }

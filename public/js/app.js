@@ -17159,13 +17159,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     Echo["private"]("messages.".concat(this.authUser.id)).listen('NewMessageEvent', function (event) {
       _this.handleIncomingMessage(event.message);
+    }).listen('MessagesReadEvent', function (event) {
+      if (_this.selectedContact.id === event.messages[0].recipient.id) {
+        event.messages.forEach(function (message) {
+          return _this.updateMessage(message);
+        });
+      }
     });
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
     addMessage: 'messages/ADD_MESSAGE',
-    updateContact: 'contacts/UPDATE_CONTACT'
+    updateContact: 'contacts/UPDATE_CONTACT',
+    updateMessage: 'messages/UPDATE_MESSAGE'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
-    addNewContact: 'contacts/addNewContact'
+    addNewContact: 'contacts/addNewContact',
+    markMessageAsRead: 'messages/markMessageAsRead'
   })), {}, {
     handleIncomingMessage: function handleIncomingMessage(message) {
       var _this$selectedContact;
@@ -17174,6 +17182,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (message.sender.id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
         this.addMessage(message);
+        this.markMessageAsRead(message.id);
       }
     },
     updateContactListAfterNewMessage: function updateContactListAfterNewMessage(message) {
@@ -17800,18 +17809,25 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "messages"
 };
+var _hoisted_3 = {
+  key: 0
+};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.messages, function (message) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.messages, function (message, index) {
     var _$props$authUser;
 
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
       key: message.id,
       "class": ["message", "message--".concat(message.sender.id === ((_$props$authUser = $props.authUser) === null || _$props$authUser === void 0 ? void 0 : _$props$authUser.id) ? 'sent' : 'received')]
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 3
-    /* TEXT, CLASS */
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text) + " ", 1
+    /* TEXT */
+    ), message.read_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_3, " Read at " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.read_at), 1
+    /* TEXT */
+    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
+    /* CLASS */
     );
   }), 128
   /* KEYED_FRAGMENT */
@@ -18248,7 +18264,10 @@ var ApiRoutes = {
     GetConversationMessages: function GetConversationMessages(userId) {
       return "".concat(baseUrl, "/messages/").concat(userId);
     },
-    SendMessage: "".concat(baseUrl, "/messages")
+    SendMessage: "".concat(baseUrl, "/messages"),
+    MarkMessageAsRead: function MarkMessageAsRead(messageId) {
+      return "".concat(baseUrl, "/messages/").concat(messageId);
+    }
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ApiRoutes);
@@ -18797,6 +18816,8 @@ var actions = {
     var getters = _ref2.getters,
         commit = _ref2.commit;
     var contact = getters.contactById(contactId);
+    contact.unread_messages = 0;
+    commit('UPDATE_CONTACT', contact);
     commit('SET_SELECTED_CONTACT', contact);
   },
   addNewContact: function addNewContact(_ref3, newContact) {
@@ -18864,6 +18885,15 @@ var mutations = {
   },
   ADD_MESSAGE: function ADD_MESSAGE(state, message) {
     return state.messages.push(message);
+  },
+  UPDATE_MESSAGE: function UPDATE_MESSAGE(state, updatedMessage) {
+    var index = state.messages.findIndex(function (message) {
+      return message.id === updatedMessage.id;
+    });
+
+    if (index !== -1) {
+      state.messages.splice(index, 1, updatedMessage);
+    }
   }
 };
 var actions = {
@@ -18891,45 +18921,57 @@ var actions = {
     }))();
   },
   sendMessage: function sendMessage(_ref2, message) {
+    var commit = _ref2.commit;
+    return new Promise( /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(resolve) {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.SendMessage, message);
+
+              case 2:
+                response = _context2.sent;
+
+                if (response.status === 201) {
+                  commit('ADD_MESSAGE', response.data.data);
+                  resolve(response.data.data);
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function (_x) {
+        return _ref3.apply(this, arguments);
+      };
+    }());
+  },
+  markMessageAsRead: function markMessageAsRead(_ref4, messageId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      var commit;
+      var commit, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              commit = _ref2.commit;
-              return _context3.abrupt("return", new Promise( /*#__PURE__*/function () {
-                var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(resolve) {
-                  var response;
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-                    while (1) {
-                      switch (_context2.prev = _context2.next) {
-                        case 0:
-                          _context2.next = 2;
-                          return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.SendMessage, message);
+              commit = _ref4.commit;
+              _context3.next = 3;
+              return axios.patch(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.MarkMessageAsRead(messageId));
 
-                        case 2:
-                          response = _context2.sent;
+            case 3:
+              response = _context3.sent;
 
-                          if (response.status === 201) {
-                            commit('ADD_MESSAGE', response.data.data);
-                            resolve(response.data.data);
-                          }
+              if (response.status === 200) {
+                commit('UPDATE_MESSAGE', response.data.data);
+              }
 
-                        case 4:
-                        case "end":
-                          return _context2.stop();
-                      }
-                    }
-                  }, _callee2);
-                }));
-
-                return function (_x) {
-                  return _ref3.apply(this, arguments);
-                };
-              }()));
-
-            case 2:
+            case 5:
             case "end":
               return _context3.stop();
           }
@@ -18937,8 +18979,8 @@ var actions = {
       }, _callee3);
     }))();
   },
-  resetModuleState: function resetModuleState(_ref4) {
-    var commit = _ref4.commit;
+  resetModuleState: function resetModuleState(_ref5) {
+    var commit = _ref5.commit;
     commit('SET_MESSAGES', []);
   }
 };
@@ -19017,7 +19059,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.message--sent[data-v-6e6ae3c7] {\n        color: blue;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.message--sent[data-v-6e6ae3c7] {\n        color: blue;\n}\nspan[data-v-6e6ae3c7] {\n        color: green;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
