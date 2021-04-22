@@ -3,6 +3,7 @@
         <form @submit.prevent="submit">
             <textarea cols="40" rows="1"
                       v-model.trim="message.text"
+                      @input="onTyping"
                       @keydown.enter.prevent="submit">
             </textarea>
             <AppButton type="submit">
@@ -28,6 +29,9 @@ export default {
             required: true
         },
         authUser: {
+            required: true
+        },
+        conversationId: {
             required: true
         }
     },
@@ -66,6 +70,16 @@ export default {
                     alert('Something went wrong while sending a message.')
                 }
             }
+        },
+
+        onTyping() {
+            const channel = Echo.private(`conversation.${this.conversationId}`);
+
+            setTimeout(() => {
+                channel.whisper('TypingEvent', {
+                    user: this.authUser
+                });
+            }, 300)
         },
 
         resetMessageData() {

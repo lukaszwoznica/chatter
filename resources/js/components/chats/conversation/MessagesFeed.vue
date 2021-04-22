@@ -10,6 +10,9 @@
                 </span>
             </li>
         </ul>
+        <span v-if="typingUser">
+            {{ typingUser.first_name }} is typing...
+        </span>
     </div>
 </template>
 
@@ -24,16 +27,38 @@ export default {
         },
         authUser: {
             required: true
+        },
+        conversationId: {
+            required: true
         }
+    },
+
+    data() {
+        return {
+            typingUser: null,
+            typingClock: null
+        }
+    },
+
+    created() {
+        Echo.private(`conversation.${this.conversationId}`)
+            .listenForWhisper('TypingEvent', event => {
+                this.typingUser = event.user
+
+                if (this.typingClock) {
+                    clearTimeout(this.typingClock)
+                }
+                this.typingClock = setTimeout(() => this.typingUser = null, 1000)
+            })
     }
 }
 </script>
 
 <style scoped>
-    .message--sent {
-        color: blue;
-    }
-    span {
-        color: green;
-    }
+.message--sent {
+    color: blue;
+}
+span {
+    color: green;
+}
 </style>

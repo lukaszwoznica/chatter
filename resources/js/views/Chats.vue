@@ -56,6 +56,7 @@ export default {
             if (message.sender.id === this.selectedContact?.id) {
                 this.addMessage(message)
                 this.markMessageAsRead(message.id)
+                this.$root.$emit('clearTyping')
             }
         },
 

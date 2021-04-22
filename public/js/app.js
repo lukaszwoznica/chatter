@@ -16859,6 +16859,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.selectedContact !== null) {
         return "".concat(this.selectedContact.first_name, " ").concat(this.selectedContact.last_name);
       }
+    },
+    cantorPairConversationId: function cantorPairConversationId() {
+      if (this.selectedContact !== null) {
+        var x = Math.min(this.authUser.id, this.selectedContact.id);
+        var y = Math.max(this.authUser.id, this.selectedContact.id);
+        return 0.5 * (x + y) * (x + y + 1) + y;
+      }
     }
   }),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)({
@@ -16914,6 +16921,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       required: true
     },
     authUser: {
+      required: true
+    },
+    conversationId: {
       required: true
     }
   },
@@ -16974,6 +16984,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee, null, [[1, 10]]);
       }))();
     },
+    onTyping: function onTyping() {
+      var _this2 = this;
+
+      var channel = Echo["private"]("conversation.".concat(this.conversationId));
+      setTimeout(function () {
+        channel.whisper('TypingEvent', {
+          user: _this2.authUser
+        });
+      }, 300);
+    },
     resetMessageData: function resetMessageData() {
       this.message = {
         text: '',
@@ -17005,7 +17025,31 @@ __webpack_require__.r(__webpack_exports__);
     },
     authUser: {
       required: true
+    },
+    conversationId: {
+      required: true
     }
+  },
+  data: function data() {
+    return {
+      typingUser: null,
+      typingClock: null
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    Echo["private"]("conversation.".concat(this.conversationId)).listenForWhisper('TypingEvent', function (event) {
+      _this.typingUser = event.user;
+
+      if (_this.typingClock) {
+        clearTimeout(_this.typingClock);
+      }
+
+      _this.typingClock = setTimeout(function () {
+        return _this.typingUser = null;
+      }, 1000);
+    });
   }
 });
 
@@ -17183,6 +17227,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (message.sender.id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
         this.addMessage(message);
         this.markMessageAsRead(message.id);
+        this.$root.$emit('clearTyping');
       }
     },
     updateContactListAfterNewMessage: function updateContactListAfterNewMessage(message) {
@@ -17711,15 +17756,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["title"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessagesFeed, {
     messages: _ctx.messages,
-    "auth-user": _ctx.authUser
-  }, null, 8
-  /* PROPS */
-  , ["messages", "auth-user"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessageComposer, {
     "auth-user": _ctx.authUser,
-    "selected-contact": _ctx.selectedContact
+    "conversation-id": $options.cantorPairConversationId
   }, null, 8
   /* PROPS */
-  , ["auth-user", "selected-contact"])], 64
+  , ["messages", "auth-user", "conversation-id"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessageComposer, {
+    "auth-user": _ctx.authUser,
+    "selected-contact": _ctx.selectedContact,
+    "conversation-id": $options.cantorPairConversationId
+  }, null, 8
+  /* PROPS */
+  , ["auth-user", "selected-contact", "conversation-id"])], 64
   /* STABLE_FRAGMENT */
   )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
@@ -17753,7 +17800,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AppButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppButton");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
-    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submit && $options.submit.apply($options, arguments);
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("textarea", {
@@ -17762,7 +17809,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.message.text = $event;
     }),
-    onKeydown: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onInput: _cache[2] || (_cache[2] = function () {
+      return $options.onTyping && $options.onTyping.apply($options, arguments);
+    }),
+    onKeydown: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submit && $options.submit.apply($options, arguments);
     }, ["prevent"]), ["enter"]))
   }, "\n            ", 544
@@ -17812,6 +17862,9 @@ var _hoisted_2 = {
 var _hoisted_3 = {
   key: 0
 };
+var _hoisted_4 = {
+  key: 0
+};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -17831,7 +17884,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     );
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]);
+  ))]), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.typingUser.first_name) + " is typing... ", 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 });
 
 /***/ }),
@@ -19059,7 +19114,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.message--sent[data-v-6e6ae3c7] {\n        color: blue;\n}\nspan[data-v-6e6ae3c7] {\n        color: green;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.message--sent[data-v-6e6ae3c7] {\n    color: blue;\n}\nspan[data-v-6e6ae3c7] {\n    color: green;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

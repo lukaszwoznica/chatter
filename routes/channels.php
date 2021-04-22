@@ -18,3 +18,7 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('messages.{recipient}', function ($user, User $recipient) {
     return (int) $user->id === (int) $recipient->id;
 });
+
+Broadcast::channel('conversation.{id}', function ($user) {
+    return auth()->check();
+});

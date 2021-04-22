@@ -2,8 +2,12 @@
     <div class="conversation" style="background-color: lightgray">
         <template v-if="selectedContact">
             <ConversationTitle :title="selectedContactFullName"/>
-            <MessagesFeed :messages="messages" :auth-user="authUser"/>
-            <MessageComposer :auth-user="authUser" :selected-contact="selectedContact"/>
+            <MessagesFeed :messages="messages"
+                          :auth-user="authUser"
+                          :conversation-id="cantorPairConversationId"/>
+            <MessageComposer :auth-user="authUser"
+                             :selected-contact="selectedContact"
+                             :conversation-id="cantorPairConversationId"/>
         </template>
         <template v-else>
             Select contact to start conversation
@@ -36,6 +40,15 @@ export default {
         selectedContactFullName() {
             if (this.selectedContact !== null) {
                 return `${this.selectedContact.first_name} ${this.selectedContact.last_name}`
+            }
+        },
+
+        cantorPairConversationId() {
+            if (this.selectedContact !== null) {
+                const x = Math.min(this.authUser.id, this.selectedContact.id)
+                const y = Math.max(this.authUser.id, this.selectedContact.id)
+
+                return (0.5 * (x + y) * (x + y + 1)) + y
             }
         }
     },
