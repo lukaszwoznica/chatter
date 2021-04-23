@@ -20,7 +20,8 @@ class ContactResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'unread_messages' => $this->unread_messages,
-            'last_message' => $this->last_message
+            'last_message' => $this->last_message,
+            'last_online_at' => optional($this->last_online_at)->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -18,7 +18,7 @@ namespace App\Models{
  * @property int $sender_id
  * @property int $recipient_id
  * @property string $text
- * @property string|null $read_at
+ * @property \Illuminate\Support\Carbon|null $read_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $recipient
@@ -50,8 +50,13 @@ namespace App\Models{
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
+ * @property string|null $last_online_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messagesReceived
+ * @property-read int|null $messages_received_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messagesSent
+ * @property-read int|null $messages_sent_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
@@ -63,6 +68,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLastOnlineAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)

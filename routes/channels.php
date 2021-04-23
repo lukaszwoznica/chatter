@@ -26,3 +26,7 @@ Broadcast::channel('conversation.{id}', function ($user, $conversationId) {
 
     return in_array((int) $user->id, $usersIds);
 });
+
+Broadcast::channel('online', function ($user) {
+   return $user;
+});

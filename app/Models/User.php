@@ -21,6 +21,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'last_online_at',
     ];
 
     /**
@@ -40,6 +41,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+    ];
+
+    protected $dates = [
+        'last_online_at'
     ];
 
     public function messagesSent()
