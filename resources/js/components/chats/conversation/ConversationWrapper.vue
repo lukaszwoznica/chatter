@@ -1,7 +1,7 @@
 <template>
     <div class="conversation" style="background-color: lightgray">
         <template v-if="selectedContact">
-            <ConversationTitle :title="selectedContactFullName"/>
+            <ConversationHeader :title="selectedContactFullName"/>
             <MessagesFeed :messages="messages"
                           :auth-user="authUser"
                           :conversation-id="cantorPairConversationId"/>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ConversationTitle from "./ConversationTitle";
+import ConversationHeader from "./ConversationHeader";
 import MessagesFeed from "./MessagesFeed";
 import MessageComposer from "./MessageComposer";
 import {mapGetters, mapActions} from "vuex"
@@ -27,7 +27,7 @@ export default {
     components: {
         MessageComposer,
         MessagesFeed,
-        ConversationTitle
+        ConversationHeader
     },
 
     computed: {

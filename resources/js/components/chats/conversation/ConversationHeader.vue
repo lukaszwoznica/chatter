@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "ConversationTitle",
+    name: "ConversationHeader",
 
     props: {
         title: String
