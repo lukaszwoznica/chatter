@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class TrackLastActive
+class TrackUserLastActivity
 {
     public function handle(Request $request, Closure $next)
     {
