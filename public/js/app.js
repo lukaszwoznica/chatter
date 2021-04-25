@@ -18885,6 +18885,7 @@ var actions = {
       first_name: newContact.first_name,
       last_name: newContact.last_name,
       email: newContact.email,
+      last_online_at: newContact.last_online_at,
       last_message: (_newContact$last_mess = newContact.last_message) !== null && _newContact$last_mess !== void 0 ? _newContact$last_mess : null,
       unread_messages: (_newContact$unread_me = newContact.unread_messages) !== null && _newContact$unread_me !== void 0 ? _newContact$unread_me : 0
     });
