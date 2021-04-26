@@ -21,21 +21,21 @@ class UserService
 
     public function getUserContacts(User $user): Collection
     {
-        return User::whereHas('messagesSent', function ($query) {
-            $query->where('recipient_id', auth()->id());
-        })->orWhereHas('messagesReceived', function ($query) {
-            $query->where('sender_id', auth()->id());
-        })->withCount(['messagesSent as unread_messages' => function ($query) {
-            $query->where('recipient_id', auth()->id())
+        return User::whereHas('messagesSent', function ($query) use ($user) {
+            $query->where('recipient_id', $user->id);
+        })->orWhereHas('messagesReceived', function ($query) use ($user) {
+            $query->where('sender_id', $user->id);
+        })->withCount(['messagesSent as unread_messages' => function ($query) use ($user) {
+            $query->where('recipient_id', $user->id)
                 ->whereNull('read_at');
         }])->addSelect([
             'last_message' => Message::select('created_at')
-                ->where(function ($query) {
+                ->where(function ($query) use ($user) {
                     $query->whereColumn('sender_id', 'users.id')
-                        ->where('recipient_id', auth()->id());
-                })->orWhere(function ($query) {
+                        ->where('recipient_id', $user->id);
+                })->orWhere(function ($query) use ($user) {
                     $query->whereColumn('recipient_id', 'users.id')
-                        ->where('sender_id', auth()->id());
+                        ->where('sender_id', $user->id);
                 })->orderByDesc('created_at')
                 ->limit(1)
         ])->orderByDesc('last_message')
