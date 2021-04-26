@@ -30,9 +30,9 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function contacts()
+    public function contacts(User $user)
     {
-        $contacts = $this->userService->getAuthUserContacts();
+        $contacts = $this->userService->getUserContacts($user);
 
         return ContactResource::collection($contacts);
     }

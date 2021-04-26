@@ -26,8 +26,10 @@ const mutations = {
 }
 
 const actions = {
-    async fetchContacts({commit}) {
-        const response = await axios.get(ApiRoutes.Users.Contacts)
+    async fetchContacts({dispatch, commit, getters, rootGetters}) {
+        const authUser = rootGetters['auth/user']
+
+        const response = await axios.get(ApiRoutes.Users.Contacts(authUser.id))
 
         commit('SET_CONTACTS', response.data.data)
     },

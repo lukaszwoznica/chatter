@@ -10,7 +10,7 @@ const ApiRoutes = {
         GetAuthenticatedUser: `${baseUrl}/user`,
     },
     Users: {
-        Contacts: `${baseUrl}/contacts`,
+        Contacts: (userId) => `${baseUrl}/contacts/${userId}`,
         Search: (name) =>`${baseUrl}/users?search=${name}`,
     },
     Messages: {

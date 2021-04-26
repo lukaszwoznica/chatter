@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserController::class, 'authUser'])->name('users.authenticated');
-    Route::get('/contacts', [UserController::class, 'contacts'])->name('users.contacts');
+    Route::get('/contacts/{user}', [UserController::class, 'contacts'])->name('users.contacts');
     Route::apiResource('users', UserController::class)->only('index', 'show');
 
     Route::prefix('messages')->name('messages.')->group(function () {

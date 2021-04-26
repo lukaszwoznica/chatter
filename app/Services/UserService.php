@@ -19,7 +19,7 @@ class UserService
         })->get();
     }
 
-    public function getAuthUserContacts(): Collection
+    public function getUserContacts(User $user): Collection
     {
         return User::whereHas('messagesSent', function ($query) {
             $query->where('recipient_id', auth()->id());

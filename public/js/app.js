@@ -18357,7 +18357,9 @@ var ApiRoutes = {
     GetAuthenticatedUser: "".concat(baseUrl, "/user")
   },
   Users: {
-    Contacts: "".concat(baseUrl, "/contacts"),
+    Contacts: function Contacts(userId) {
+      return "".concat(baseUrl, "/contacts/").concat(userId);
+    },
     Search: function Search(name) {
       return "".concat(baseUrl, "/users?search=").concat(name);
     }
@@ -18899,20 +18901,21 @@ var mutations = {
 var actions = {
   fetchContacts: function fetchContacts(_ref) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, response;
+      var dispatch, commit, getters, rootGetters, authUser, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              commit = _ref.commit;
-              _context.next = 3;
-              return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Users.Contacts);
+              dispatch = _ref.dispatch, commit = _ref.commit, getters = _ref.getters, rootGetters = _ref.rootGetters;
+              authUser = rootGetters['auth/user'];
+              _context.next = 4;
+              return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Users.Contacts(authUser.id));
 
-            case 3:
+            case 4:
               response = _context.sent;
               commit('SET_CONTACTS', response.data.data);
 
-            case 5:
+            case 6:
             case "end":
               return _context.stop();
           }
