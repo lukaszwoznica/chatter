@@ -48,6 +48,11 @@ class User extends Authenticatable
         'last_online_at'
     ];
 
+    public function receivesBroadcastNotificationsOn()
+    {
+        return "user-notifications.{$this->id}";
+    }
+
     public function messagesSent()
     {
         return $this->hasMany(Message::class, 'sender_id');

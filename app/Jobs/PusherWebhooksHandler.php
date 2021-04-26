@@ -4,15 +4,18 @@ namespace App\Jobs;
 
 
 use App\Models\User;
+use App\Notifications\UserOnlineStatusChangedNotification;
+use App\Services\UserService;
+use Illuminate\Support\Facades\Notification;
 use Spatie\WebhookClient\ProcessWebhookJob;
 
 class PusherWebhooksHandler extends ProcessWebhookJob
 {
-    public function handle()
+    public function handle(UserService $userService)
     {
         $payload = json_decode($this->webhookCall, true)['payload'];
 
-        collect($payload['events'])->each(function ($event) {
+        collect($payload['events'])->each(function ($event) use ($userService) {
             $channelSegments = explode('.', $event['channel'], 2);
 
             if ($channelSegments[0] === 'private-messages') {
@@ -21,10 +24,11 @@ class PusherWebhooksHandler extends ProcessWebhookJob
                     $data['last_online_at'] = now();
                 }
 
-                User::where('id', $channelSegments[1])
-                    ->update($data);
+                $user = User::find($channelSegments[1]);
+                $user->update($data);
 
-                // notify contacts that user status has changed
+                $userContacts = $userService->getUserContacts($user);
+                Notification::send($userContacts, new UserOnlineStatusChangedNotification($user));
             }
         });
     }

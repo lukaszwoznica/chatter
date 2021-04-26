@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 
+Broadcast::channel('user-notifications.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
 Broadcast::channel('messages.{recipient}', function ($user, User $recipient) {
     return (int) $user->id === (int) $recipient->id;
 });
@@ -27,6 +31,3 @@ Broadcast::channel('conversation.{id}', function ($user, $conversationId) {
     return in_array((int) $user->id, $usersIds);
 });
 
-Broadcast::channel('online', function ($user) {
-   return $user;
-});
