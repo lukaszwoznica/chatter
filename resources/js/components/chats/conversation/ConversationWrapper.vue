@@ -1,7 +1,7 @@
 <template>
     <div class="conversation" style="background-color: lightgray">
         <template v-if="selectedContact">
-            <ConversationHeader :title="selectedContactFullName"/>
+            <ConversationHeader :selected-contact="selectedContact"/>
             <MessagesFeed :messages="messages"
                           :auth-user="authUser"
                           :conversation-id="cantorPairConversationId"/>

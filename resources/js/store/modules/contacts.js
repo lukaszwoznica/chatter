@@ -42,16 +42,34 @@ const actions = {
         commit('SET_SELECTED_CONTACT', contact)
     },
 
-    addNewContact({getters, commit}, newContact) {
+    addNewContact({commit}, newContact) {
         commit('ADD_CONTACT', {
             id: newContact.id,
             first_name: newContact.first_name,
             last_name: newContact.last_name,
             email: newContact.email,
+            is_online: newContact.is_online,
             last_online_at: newContact.last_online_at,
             last_message: newContact.last_message ?? null,
             unread_messages: newContact.unread_messages ?? 0
         })
+    },
+
+    updateContactOnlineStatus({getters, commit}, updatedContact) {
+        let contact = getters.contactById(updatedContact.id)
+        if (!contact) {
+            return
+        }
+
+        contact = {
+            ...contact,
+            ...updatedContact
+        }
+
+        if (contact.id === getters.selectedContact?.id) {
+            commit('SET_SELECTED_CONTACT', contact)
+        }
+        commit('UPDATE_CONTACT', contact)
     },
 
     resetModuleState({commit}) {

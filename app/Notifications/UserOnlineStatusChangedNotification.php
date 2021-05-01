@@ -27,9 +27,16 @@ class UserOnlineStatusChangedNotification extends Notification
     public function toBroadcast($notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
-            'user_id' => $this->user->id,
-            'is_online' => $this->user->is_online,
-            'last_online_at' => optional($this->user->last_online_at)->format('Y-m-d H:i:s')
+            'user' => [
+                'id' => $this->user->id,
+                'is_online' => $this->user->is_online,
+                'last_online_at' => optional($this->user->last_online_at)->format('Y-m-d H:i:s')
+            ]
         ]);
+    }
+
+    public function broadcastType()
+    {
+        return 'UserOnlineStatusChangedNotification';
     }
 }

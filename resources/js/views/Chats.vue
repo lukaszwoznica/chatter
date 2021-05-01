@@ -36,6 +36,13 @@ export default {
                     event.messages.forEach(message => this.updateMessage(message))
                 }
             })
+
+        Echo.private(`user-notifications.${this.authUser.id}`)
+            .notification(notification => {
+                if (notification.type === 'UserOnlineStatusChangedNotification') {
+                    this.updateContactOnlineStatus(notification.user)
+                }
+            })
     },
 
     methods: {
@@ -47,7 +54,8 @@ export default {
 
         ...mapActions({
             addNewContact: 'contacts/addNewContact',
-            markMessageAsRead: 'messages/markMessageAsRead'
+            markMessageAsRead: 'messages/markMessageAsRead',
+            updateContactOnlineStatus: 'contacts/updateContactOnlineStatus'
         }),
 
         handleIncomingMessage(message) {

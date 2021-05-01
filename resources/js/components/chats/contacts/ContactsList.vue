@@ -9,6 +9,10 @@
              style="display: flex"
              @click="selectContact(contact.id)">
 
+            <div class="contacts__online-indicator" v-show="contact.is_online">
+                &#9679;
+            </div>
+
             <div class="contacts__avatar">
                 <img src="https://via.placeholder.com/50" alt="" class="contacts__avatar__image">
             </div>
@@ -82,5 +86,8 @@ export default {
     .contacts__item--active {
         background-color: #d7d7d7;
         border: 1px solid black
+    }
+    .contacts__online-indicator {
+        color: #00b600;
     }
 </style>

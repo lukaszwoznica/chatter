@@ -16812,7 +16812,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ConversationHeader",
   props: {
-    title: String
+    selectedContact: {
+      required: true
+    }
+  },
+  computed: {
+    contactFullName: function contactFullName() {
+      return "".concat(this.selectedContact.first_name, " ").concat(this.selectedContact.last_name);
+    }
   }
 });
 
@@ -17116,16 +17123,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                Echo.leave("messages.".concat(_this.authUser.id));
+                Echo.leave("user-notifications.".concat(_this.authUser.id));
+                _context.next = 4;
                 return _this.logoutAction();
 
-              case 2:
-                _context.next = 4;
+              case 4:
+                _context.next = 6;
                 return _this.$router.push({
                   name: 'home'
                 });
 
-              case 4:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -17210,6 +17219,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
     });
+    Echo["private"]("user-notifications.".concat(this.authUser.id)).notification(function (notification) {
+      if (notification.type === 'UserOnlineStatusChangedNotification') {
+        _this.updateContactOnlineStatus(notification.user);
+      }
+    });
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
     addMessage: 'messages/ADD_MESSAGE',
@@ -17217,7 +17231,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     updateMessage: 'messages/UPDATE_MESSAGE'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
     addNewContact: 'contacts/addNewContact',
-    markMessageAsRead: 'messages/markMessageAsRead'
+    markMessageAsRead: 'messages/markMessageAsRead',
+    updateContactOnlineStatus: 'contacts/updateContactOnlineStatus'
   })), {}, {
     handleIncomingMessage: function handleIncomingMessage(message) {
       var _this$selectedContact;
@@ -17640,7 +17655,11 @@ var _hoisted_1 = {
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search ");
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_3 = {
+  "class": "contacts__online-indicator"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "contacts__avatar"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
   src: "https://via.placeholder.com/50",
@@ -17650,10 +17669,10 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_4 = {
+var _hoisted_5 = {
   "class": "contacts__item__name"
 };
-var _hoisted_5 = {
+var _hoisted_6 = {
   "class": "contacts__item__time"
 };
 
@@ -17687,9 +17706,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       onClick: function onClick($event) {
         return _ctx.selectContact(contact.id);
       }
-    }, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.contactFullName(contact)), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, " ● ", 512
+    /* NEED_PATCH */
+    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, contact.is_online]]), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.contactFullName(contact)), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(contact.last_message), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(contact.last_message), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
       "class": "contacts__item__unread"
@@ -17726,12 +17747,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
+  "class": "conversation__header"
+};
+var _hoisted_2 = {
   "class": "conversation__title"
 };
+var _hoisted_3 = {
+  "class": "conversation__online-status"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active now ");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.title), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.contactFullName), 1
   /* TEXT */
-  )]);
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [$props.selectedContact.is_online ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 0
+  }, [_hoisted_4], 2112
+  /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+  )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Last active: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.selectedContact.last_online_at), 1
+  /* TEXT */
+  )], 2112
+  /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+  ))])])]);
 }
 
 /***/ }),
@@ -17768,10 +17808,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [_ctx.selectedContact ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ConversationHeader, {
-    title: $options.selectedContactFullName
+    "selected-contact": _ctx.selectedContact
   }, null, 8
   /* PROPS */
-  , ["title"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessagesFeed, {
+  , ["selected-contact"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessagesFeed, {
     messages: _ctx.messages,
     "auth-user": _ctx.authUser,
     "conversation-id": $options.cantorPairConversationId
@@ -18852,6 +18892,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _api_routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../api/routes */ "./resources/js/api/routes.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -18934,20 +18980,39 @@ var actions = {
   addNewContact: function addNewContact(_ref3, newContact) {
     var _newContact$last_mess, _newContact$unread_me;
 
-    var getters = _ref3.getters,
-        commit = _ref3.commit;
+    var commit = _ref3.commit;
     commit('ADD_CONTACT', {
       id: newContact.id,
       first_name: newContact.first_name,
       last_name: newContact.last_name,
       email: newContact.email,
+      is_online: newContact.is_online,
       last_online_at: newContact.last_online_at,
       last_message: (_newContact$last_mess = newContact.last_message) !== null && _newContact$last_mess !== void 0 ? _newContact$last_mess : null,
       unread_messages: (_newContact$unread_me = newContact.unread_messages) !== null && _newContact$unread_me !== void 0 ? _newContact$unread_me : 0
     });
   },
-  resetModuleState: function resetModuleState(_ref4) {
-    var commit = _ref4.commit;
+  updateContactOnlineStatus: function updateContactOnlineStatus(_ref4, updatedContact) {
+    var _getters$selectedCont;
+
+    var getters = _ref4.getters,
+        commit = _ref4.commit;
+    var contact = getters.contactById(updatedContact.id);
+
+    if (!contact) {
+      return;
+    }
+
+    contact = _objectSpread(_objectSpread({}, contact), updatedContact);
+
+    if (contact.id === ((_getters$selectedCont = getters.selectedContact) === null || _getters$selectedCont === void 0 ? void 0 : _getters$selectedCont.id)) {
+      commit('SET_SELECTED_CONTACT', contact);
+    }
+
+    commit('UPDATE_CONTACT', contact);
+  },
+  resetModuleState: function resetModuleState(_ref5) {
+    var commit = _ref5.commit;
     commit('SET_CONTACTS', []);
     commit('SET_SELECTED_CONTACT', null);
   }
@@ -19147,7 +19212,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.contacts[data-v-1140917e] {\n        min-width: 350px;\n}\n.contacts__item--active[data-v-1140917e] {\n        background-color: #d7d7d7;\n        border: 1px solid black\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.contacts[data-v-1140917e] {\n        min-width: 350px;\n}\n.contacts__item--active[data-v-1140917e] {\n        background-color: #d7d7d7;\n        border: 1px solid black\n}\n.contacts__online-indicator[data-v-1140917e] {\n        color: #00b600;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

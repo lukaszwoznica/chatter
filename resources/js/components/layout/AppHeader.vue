@@ -45,6 +45,8 @@ export default {
         }),
 
         async logout() {
+            Echo.leave(`messages.${this.authUser.id}`)
+            Echo.leave(`user-notifications.${this.authUser.id}`)
             await this.logoutAction()
             await this.$router.push({name: 'home'})
         }
