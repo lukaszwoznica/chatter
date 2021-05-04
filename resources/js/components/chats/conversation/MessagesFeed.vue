@@ -40,16 +40,28 @@ export default {
         }
     },
 
-    created() {
-        Echo.private(`conversation.${this.conversationId}`)
-            .listenForWhisper('TypingEvent', event => {
-                this.typingUser = event.user
+    methods: {
+        listenForWhisperOnConversationChannel() {
+            Echo.private(`conversation.${this.conversationId}`)
+                .listenForWhisper('TypingEvent', event => {
+                    this.typingUser = event.user
 
-                if (this.typingClock) {
-                    clearTimeout(this.typingClock)
-                }
-                this.typingClock = setTimeout(() => this.typingUser = null, 1000)
-            })
+                    if (this.typingClock) {
+                        clearTimeout(this.typingClock)
+                    }
+                    this.typingClock = setTimeout(() => this.typingUser = null, 1000)
+                })
+        }
+    },
+
+    mounted() {
+        this.listenForWhisperOnConversationChannel()
+    },
+
+    watch: {
+        conversationId() {
+            this.listenForWhisperOnConversationChannel()
+        }
     }
 }
 </script>

@@ -16857,6 +16857,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     MessagesFeed: _MessagesFeed__WEBPACK_IMPORTED_MODULE_1__.default,
     ConversationHeader: _ConversationHeader__WEBPACK_IMPORTED_MODULE_0__.default
   },
+  data: function data() {
+    return {
+      previousConversationId: null
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)({
     selectedContact: 'contacts/selectedContact',
     messages: 'messages/allMessages',
@@ -16883,6 +16888,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.selectedContact !== null) {
         this.fetchMessages(this.selectedContact.id);
       }
+
+      if (this.previousConversationId !== null) {
+        Echo.leave("conversation.".concat(this.previousConversationId));
+      }
+
+      Echo["private"]("conversation.".concat(this.cantorPairConversationId));
+      this.previousConversationId = this.cantorPairConversationId;
     }
   }
 });
@@ -17007,7 +17019,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         recipient_id: null
       };
     }
-  })
+  }),
+  watch: {
+    selectedContact: function selectedContact() {
+      this.resetMessageData();
+    }
+  }
 });
 
 /***/ }),
@@ -17043,20 +17060,30 @@ __webpack_require__.r(__webpack_exports__);
       typingClock: null
     };
   },
-  created: function created() {
-    var _this = this;
+  methods: {
+    listenForWhisperOnConversationChannel: function listenForWhisperOnConversationChannel() {
+      var _this = this;
 
-    Echo["private"]("conversation.".concat(this.conversationId)).listenForWhisper('TypingEvent', function (event) {
-      _this.typingUser = event.user;
+      Echo["private"]("conversation.".concat(this.conversationId)).listenForWhisper('TypingEvent', function (event) {
+        _this.typingUser = event.user;
 
-      if (_this.typingClock) {
-        clearTimeout(_this.typingClock);
-      }
+        if (_this.typingClock) {
+          clearTimeout(_this.typingClock);
+        }
 
-      _this.typingClock = setTimeout(function () {
-        return _this.typingUser = null;
-      }, 1000);
-    });
+        _this.typingClock = setTimeout(function () {
+          return _this.typingUser = null;
+        }, 1000);
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.listenForWhisperOnConversationChannel();
+  },
+  watch: {
+    conversationId: function conversationId() {
+      this.listenForWhisperOnConversationChannel();
+    }
   }
 });
 

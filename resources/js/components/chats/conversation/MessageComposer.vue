@@ -88,6 +88,12 @@ export default {
                 recipient_id: null
             }
         }
+    },
+
+    watch: {
+        selectedContact() {
+            this.resetMessageData()
+        }
     }
 }
 </script>

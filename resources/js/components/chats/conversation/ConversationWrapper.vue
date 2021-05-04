@@ -30,6 +30,12 @@ export default {
         ConversationHeader
     },
 
+    data() {
+        return {
+            previousConversationId: null
+        }
+    },
+
     computed: {
         ...mapGetters({
             selectedContact: 'contacts/selectedContact',
@@ -64,6 +70,13 @@ export default {
             if (this.selectedContact !== null) {
                 this.fetchMessages(this.selectedContact.id)
             }
+
+            if (this.previousConversationId !== null) {
+                Echo.leave(`conversation.${this.previousConversationId}`)
+            }
+
+            Echo.private(`conversation.${this.cantorPairConversationId}`)
+            this.previousConversationId = this.cantorPairConversationId
         }
     }
 }
