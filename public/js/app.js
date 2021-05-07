@@ -17699,6 +17699,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this.differentValidationError = errors;
                   }
+
+                  _this.requestData.password = '';
+                  _this.requestData.password_confirmation = '';
                 }
 
               case 10:

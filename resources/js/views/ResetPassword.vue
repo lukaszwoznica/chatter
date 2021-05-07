@@ -72,11 +72,15 @@ export default {
             } catch (error) {
                 if (error.response.status === 422) {
                     const errors = error.response.data.errors
+
                     if (errors.password) {
                         this.passwordValidationError = errors.password[0]
                     } else {
                         this.differentValidationError = errors
                     }
+
+                    this.requestData.password = ''
+                    this.requestData.password_confirmation = ''
                 }
             }
         }
