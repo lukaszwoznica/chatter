@@ -2,6 +2,8 @@ import Home from '../views/Home'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import Chats from '../views/Chats'
+import PasswordRecovery from '../views/PasswordRecovery'
+import ResetPassword from '../views/ResetPassword'
 import NotFound from '../views/NotFound'
 
 import auth from './guards/auth'
@@ -38,6 +40,22 @@ const routes = [
         component: Chats,
         meta: {
             guard: auth
+        }
+    },
+    {
+        path: '/password-recovery',
+        name: 'password-recovery',
+        component: PasswordRecovery,
+        meta: {
+            guard: guest
+        }
+    },
+    {
+        path: '/reset-password/:email/:token',
+        name: 'reset-password',
+        component: ResetPassword,
+        meta: {
+            guard: guest
         }
     },
     {

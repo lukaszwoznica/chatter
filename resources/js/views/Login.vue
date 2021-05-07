@@ -16,6 +16,8 @@
         <AppButton type="submit">
             Login
         </AppButton>
+
+        <router-link :to="{name: 'password-recovery'}">Forgot password?</router-link>
     </form>
 </template>
 
