@@ -14,8 +14,8 @@ class UserService
     {
         return User::when($nameFilter, function ($query) use ($nameFilter) {
             $pattern = "%$nameFilter%";
-            $query->whereRaw("concat(first_name, ' ', last_name) like ?", [$pattern])
-                ->orWhereRaw("concat(last_name, ' ', first_name) like ?", [$pattern]);
+            $query->whereRaw($this->concatenateStrings('first_name', "' '", 'last_name') . ' like ?', [$pattern])
+                ->orWhereRaw($this->concatenateStrings('last_name', "' '", 'first_name') . ' like ?', [$pattern]);
         })->get();
     }
 
@@ -40,5 +40,12 @@ class UserService
                 ->limit(1)
         ])->orderByDesc('last_message')
             ->get();
+    }
+
+    private function concatenateStrings(...$columnNames): string
+    {
+        return env('DB_CONNECTION') === 'sqlite'
+            ? implode(' || ', $columnNames)
+            : 'concat(' . implode(', ', $columnNames) . ')';
     }
 }
