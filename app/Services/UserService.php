@@ -42,10 +42,10 @@ class UserService
             ->get();
     }
 
-    private function concatenateStrings(...$columnNames): string
+    private function concatenateStrings(...$strings): string
     {
         return env('DB_CONNECTION') === 'sqlite'
-            ? implode(' || ', $columnNames)
-            : 'concat(' . implode(', ', $columnNames) . ')';
+            ? implode(' || ', $strings)
+            : 'concat(' . implode(', ', $strings) . ')';
     }
 }
