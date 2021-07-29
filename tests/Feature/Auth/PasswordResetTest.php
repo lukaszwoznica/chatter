@@ -44,7 +44,7 @@ class PasswordResetTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testUserCannotResetPasswordWithoutProvidingEmail()
@@ -54,7 +54,7 @@ class PasswordResetTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testUserCannotResetPasswordWithInvalidEmail()
@@ -64,7 +64,7 @@ class PasswordResetTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testUserCannotResetPasswordWithEmailThatNotExists()
@@ -74,7 +74,7 @@ class PasswordResetTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testUserCannotResetPasswordWithoutProvidingNewPassword()
@@ -84,7 +84,7 @@ class PasswordResetTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     public function testUserCannotResetPasswordWhenPasswordConfirmationNotMatch()
@@ -94,7 +94,7 @@ class PasswordResetTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     public function testUserCannotResetPasswordWhenNewPasswordIsShorterThanEightCharacters()
@@ -104,7 +104,7 @@ class PasswordResetTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     private function passwordResetData(): array

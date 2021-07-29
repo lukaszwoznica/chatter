@@ -20,7 +20,7 @@ class ForgotPasswordTest extends TestCase
         $response = $this->postJson(route('password.email'));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testEmailAddressMustBeValidToSendEmailWithPasswordResetLink()
@@ -30,7 +30,7 @@ class ForgotPasswordTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testEmailWithPasswordResetLinkIsSentAfterCorrectUserRequest()
@@ -58,7 +58,7 @@ class ForgotPasswordTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
         $this->assertDatabaseMissing('password_resets', [
             'email' => 'nonexist@email.com'
         ]);

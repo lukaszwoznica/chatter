@@ -59,7 +59,7 @@ class LoginTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
         $this->assertGuest();
     }
 
@@ -70,7 +70,7 @@ class LoginTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
         $this->assertGuest();
     }
 
@@ -81,7 +81,7 @@ class LoginTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
         $this->assertGuest();
     }
 
@@ -92,7 +92,7 @@ class LoginTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
         $this->assertGuest();
     }
 

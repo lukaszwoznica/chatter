@@ -47,7 +47,7 @@ class ConfirmPasswordTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     public function testUserCannotConfirmPasswordWithInvalidPassword()
@@ -57,7 +57,7 @@ class ConfirmPasswordTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     public function testUserCannotCheckPasswordConfirmationStatusWhenUnauthenticated()

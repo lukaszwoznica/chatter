@@ -50,7 +50,7 @@ class RegisterTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.first_name'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.first_name')->etc());
     }
 
     public function testUserCannotRegisterWithoutLastName()
@@ -60,7 +60,7 @@ class RegisterTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.last_name'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.last_name')->etc());
     }
 
     public function testUserCannotRegisterWithoutEmail()
@@ -70,7 +70,7 @@ class RegisterTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testUserCannotRegisterWithInvalidEmail()
@@ -80,7 +80,7 @@ class RegisterTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testUserCannotRegisterWithTakenEmail()
@@ -92,7 +92,7 @@ class RegisterTest extends TestCase
         $response = $this->postJson($this->registerRoute, $this->userData());
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
     }
 
     public function testUserCannotRegisterWithoutPassword()
@@ -102,7 +102,7 @@ class RegisterTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     public function testUserCannotRegisterWhenPasswordConfirmationNotMatch()
@@ -112,7 +112,7 @@ class RegisterTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     public function testUserCannotRegisterWhenPasswordIsShorterThanEightCharacters()
@@ -122,7 +122,7 @@ class RegisterTest extends TestCase
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password'));
+            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
     }
 
     private function userData(): array
