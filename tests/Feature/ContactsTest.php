@@ -85,4 +85,12 @@ class ContactsTest extends TestCase
                 ]
             ]);
     }
+
+    public function testUserCanGetOnlyOwnContactsList()
+    {
+        $response = $this->actingAs($this->currentUser)
+            ->getJson(route('users.contacts', $this->userContacts->last()));
+
+        $response->assertForbidden();
+    }
 }

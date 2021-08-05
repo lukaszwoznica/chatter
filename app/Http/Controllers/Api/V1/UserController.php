@@ -32,6 +32,8 @@ class UserController extends Controller
 
     public function contacts(User $user)
     {
+        $this->authorize('viewContactsList', $user);
+
         $contacts = $this->userService->getUserContacts($user);
 
         return ContactResource::collection($contacts);
