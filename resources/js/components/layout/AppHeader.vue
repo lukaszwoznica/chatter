@@ -1,5 +1,10 @@
 <template>
     <header class="header">
+        <div class="logo">
+            <router-link :to="{name: 'home'}" class="logo__link">
+                <img class="logo__img" src="img/logo.webp" alt="Logo placeholder">
+            </router-link>
+        </div>
         <nav class="nav">
             <ul class="nav__list">
                 <li class="nav__item">
