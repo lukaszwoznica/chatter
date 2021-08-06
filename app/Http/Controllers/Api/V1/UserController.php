@@ -30,15 +30,6 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function contacts(User $user)
-    {
-        $this->authorize('viewContactsList', $user);
-
-        $contacts = $this->userService->getUserContacts($user);
-
-        return ContactResource::collection($contacts);
-    }
-
     public function authUser()
     {
         return new UserResource(auth()->user());

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\MessageController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
@@ -19,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserController::class, 'authUser'])->name('users.authenticated');
-    Route::get('/contacts/{user}', [UserController::class, 'contacts'])->name('users.contacts');
     Route::apiResource('users', UserController::class)->only('index', 'show');
+    Route::get('/contacts/{user}', ContactController::class)->name('users.contacts');
 
     Route::prefix('messages')->name('messages.')->group(function () {
         Route::get('{user}', [MessageController::class, 'conversation'])->name('conversation');
