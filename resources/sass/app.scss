@@ -1,3 +1,14 @@
-* {
-    color: #004c8d;
-}
+// Normalize
+@use "~normalize-scss/sass/normalize/import-now";
+
+// Base styles
+@use "base";
+
+// Layout styles
+@use "layout";
+
+// Components styles
+@use "components";
+
+// Pages styles
+@use "pages";

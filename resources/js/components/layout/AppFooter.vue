@@ -1,5 +1,5 @@
 <template>
-    <footer>
+    <footer class="footer">
         Chatter 2021
     </footer>
 </template>
