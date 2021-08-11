@@ -1,6 +1,8 @@
 <template>
     <footer class="footer">
-        Chatter 2021
+        <p class="footer__text">
+            &copy; 2021 <strong>Chatter</strong> by Łukasz Woźnica
+        </p>
     </footer>
 </template>
 

@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "luxon": "^1.26.0",
-        "normalize-scss": "^7.0.1"
+        "normalize-scss": "^7.0.1",
+        "vue-lottie-player": "^0.1.9"
     }
 }

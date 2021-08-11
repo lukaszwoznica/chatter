@@ -7,9 +7,6 @@
         </div>
         <nav class="nav">
             <ul class="nav__list">
-                <li class="nav__item">
-                    <router-link :to="{name: 'home'}">Home</router-link>
-                </li>
                 <template v-if="!isAuthenticated">
                     <li class="nav__item">
                         <router-link :to="{name: 'login'}">Login</router-link>
@@ -19,9 +16,6 @@
                     </li>
                 </template>
                 <template v-else>
-                    <li class="nav__item">
-                        <router-link :to="{name: 'chats'}">Chats</router-link>
-                    </li>
                     <li class="nav__item">
                         <a href="#" @click.prevent="logout">Logout</a>
                     </li>

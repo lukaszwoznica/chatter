@@ -1,0 +1,46 @@
+@use "functions" as *;
+
+// Dynamically adjust the text color to the background
+@mixin dynamic-color($bg-color) {
+    background: $bg-color;
+    color: text-color($bg-color);
+}
+
+// Media queries breakpoints
+@mixin xs-screen {
+    @media screen and (max-width: 600px) {
+        @content;
+    }
+}
+
+@mixin s-screen {
+    @media screen and (min-width: 600px) {
+        @content;
+    }
+}
+
+@mixin m-screen {
+    @media screen and (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin l-screen {
+    @media screen and (min-width: 992px) {
+        @content;
+    }
+}
+
+@mixin xl-screen {
+    @media screen and (min-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin xxl-screen {
+    @media screen and (min-width: 1400px) {
+        @content;
+    }
+}
+
+

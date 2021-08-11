@@ -7,5 +7,13 @@ $font-normal: 500;
 $font-bold: 700;
 
 // Colors
+$primary: hsl(292, 46%, 57%);
+$secondary: hsl(14, 66%, 58%);
+
 $white: hsl(0, 0%, 100%);
-$black: hsl(0, 0%, 0%)
+$lightgrey: hsl(0, 0%, 90%);
+$black: hsl(0, 0%, 0%);
+
+// Gradients
+$home-gradient: linear-gradient(to top, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4);
+$button-gradient: linear-gradient(to left, #e45f66, #e25584, #d455a5, #b65fc4);
