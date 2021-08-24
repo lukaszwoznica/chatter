@@ -1,0 +1,61 @@
+@use "../abstracts" as *;
+
+.form {
+    &__group {
+        padding: .5rem 1rem;
+        margin-bottom: 1rem;
+    }
+
+    &__input-group {
+        position: relative;
+    }
+
+    &__input {
+        padding: .5rem 1rem;
+        border-radius: 15px;
+        border: 1px solid darken($lightgray, 15%);
+        width: 100%;
+
+        &:focus {
+            border: 1px solid darken($primary, 10%);
+            outline: none;
+        }
+
+        &:focus ~ label, &:not(:placeholder-shown) ~ label {
+            transform: translateY(-1.8rem) translateX(-.5rem);
+            font-size: .8rem;
+            color: darken($primary, 10%);
+        }
+
+        &--invalid {
+            border: 1px solid $red;
+        }
+    }
+
+    &__button-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem 1rem 1rem;
+    }
+
+    &__label {
+        position: absolute;
+        left: 0;
+        padding: .6rem 1rem;
+        pointer-events: none;
+        transition: 0.4s;
+    }
+
+    &__error {
+        padding: 0 .5rem;
+        color: $red;
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input[type="password"] {
+        letter-spacing: .2rem;
+        -webkit-text-stroke-width: .1rem;
+    }
+}

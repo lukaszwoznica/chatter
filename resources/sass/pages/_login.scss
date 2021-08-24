@@ -1,0 +1,15 @@
+@use "../abstracts" as *;
+
+.forgot-password-link {
+    @include flex-center;
+    padding: .5rem;
+
+    a {
+        font-size: .85rem;
+        color: $gray;
+
+        &:hover {
+            color: $black;
+        }
+    }
+}

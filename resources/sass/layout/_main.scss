@@ -1,3 +1,13 @@
+@use "../abstracts" as *;
+
 .main {
     padding-bottom: 3rem;
+
+    .container {
+        @include flex-center;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        padding: 3rem 3rem;
+    }
 }

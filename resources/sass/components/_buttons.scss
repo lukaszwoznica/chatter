@@ -1,14 +1,33 @@
 @use "../abstracts" as *;
 
 .button {
-    padding: 0.5rem 1rem;
+    cursor: pointer;
+    padding: .8rem 2.5rem;
+    display: block;
+    border: none;
+    border-radius: 20px;
+    font-weight: $font-bold;
+
+    &--primary {
+        background-color: $primary;
+        background-image: $primary-button-gradient;
+        background-size: 150% 100%;
+        background-position: right;
+        color: $white;
+        transition: all .3s ease-in-out;
+
+        &:hover {
+            background-position: left;
+            box-shadow: 0 5px 10px 0 rgba($primary, 0.5);
+        }
+    }
 }
 
 .cta-button {
     cursor: pointer;
     position: relative;
     display: inline-block;
-    background-image: $button-gradient;
+    background-image: $cta-button-gradient;
     background-size: 200% 100%;
     background-position: left;
     color: $white;

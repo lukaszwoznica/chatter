@@ -19,3 +19,11 @@ button {
     font-size: 1rem;
 }
 
+input, label {
+    font-family: $base-font-family;
+    font-size: 1rem;
+}
+
+label {
+    color: darken($gray, 10%);
+}
