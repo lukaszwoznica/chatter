@@ -1,24 +1,39 @@
 <template>
-    <h1>Register Page</h1>
-    <form class="form" @submit.prevent="submit">
-        <template v-for="formField in formFields">
-            <div class="form__group">
-                <label class="form__label" :for="formField.id">
-                    {{ formField.label }}
-                </label>
-                <input class="form__input"
-                       :type="formField.type"
-                       :id="formField.id"
-                       v-model="formField.value">
-                <small class="form__error" v-if="validationErrors[formField.id]">
-                    {{ validationErrors[formField.id][0]}}
-                </small>
+    <div class="container">
+        <div class="card form-card">
+            <div class="card__title">
+                <h1>Create Account</h1>
             </div>
-        </template>
-        <AppButton type="submit">
-            Register
-        </AppButton>
-    </form>
+            <div class="card__content">
+                <form class="form" @submit.prevent="submit">
+                    <template v-for="formField in formFields">
+                        <div class="form__group">
+                            <div class="form__input-group">
+                                <input class="form__input"
+                                       :type="formField.type"
+                                       :id="formField.id"
+                                       v-model="formField.value"
+                                       :class="{ 'form__input--invalid': validationErrors[formField.id] }"
+                                       @input="resetValidationError"
+                                       placeholder=" " required>
+                                <label class="form__label" :for="formField.id">
+                                    {{ formField.label }}
+                                </label>
+                            </div>
+                            <small class="form__error" v-if="validationErrors[formField.id]">
+                                {{ validationErrors[formField.id][0] }}
+                            </small>
+                        </div>
+                    </template>
+                    <div class="form__button-wrapper">
+                        <AppButton type="submit" :classList="['button--primary']">
+                            Register
+                        </AppButton>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -86,6 +101,12 @@ export default {
                 this.validationErrors = error.response.data.errors
                 this.formFields.password.value = ''
                 this.formFields.password_confirmation.value = ''
+            }
+        },
+
+        resetValidationError(event) {
+            if (this.validationErrors[event.target.id] !== '') {
+                this.validationErrors[event.target.id] = ''
             }
         }
     }
