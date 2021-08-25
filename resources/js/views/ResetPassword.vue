@@ -1,39 +1,55 @@
 <template>
-    <h1>Reset password</h1>
+    <div class="container">
+        <div class="card form-card">
+            <div class="card__title">
+                <h1>Reset password</h1>
+            </div>
+            <div class="card__content">
+                <template v-if="!success">
+                    <div class="alert" v-if="differentValidationError">
+                        {{ differentValidationError[Object.keys(differentValidationError)[0]][0] }}
+                    </div>
 
-    <template v-if="!success">
-        <p>Set your new password.</p>
+                    <form class="form" @submit.prevent="submit">
+                        <div class="form__group">
+                            <div class="form__input-group">
+                                <input class="form__input" type="password" id="password" placeholder=" "
+                                       :class="{ 'form__input--invalid': passwordValidationError !== '' }"
+                                       v-model="requestData.password" @input="resetValidationError">
+                                <label class="form__label" for="password">New Password</label>
+                            </div>
+                            <small class="form__error" v-if="passwordValidationError">
+                                {{ passwordValidationError }}
+                            </small>
+                        </div>
 
-        <div class="alert" v-if="differentValidationError">
-            {{ differentValidationError[Object.keys(differentValidationError)[0]][0] }}
+                        <div class="form__group">
+                            <div class="form__input-group">
+                                <input class="form__input" type="password" id="password_confirmation" placeholder=" "
+                                       :class="{ 'form__input--invalid': passwordValidationError !== '' }"
+                                       v-model="requestData.password_confirmation" @input="resetValidationError">
+                                <label class="form__label" for="password_confirmation">Confirm Password</label>
+                            </div>
+                        </div>
+
+                        <div class="form__button-wrapper">
+                            <AppButton type="submit" :classList="['button--primary']">
+                                Reset Password
+                            </AppButton>
+                        </div>
+                    </form>
+                </template>
+
+                <template v-else>
+                    <p>
+                        Your password has been successfully reset. You can
+                        <router-link :to="{name: 'login'}">login</router-link>
+                        now.
+                    </p>
+                </template>
+            </div>
         </div>
-
-        <form class="form" @submit.prevent="submit" >
-            <div class="form__group">
-                <label class="form__label" for="password">New Password</label>
-                <input class="form__input" type="password" id="password"
-                       v-model="requestData.password">
-                <small class="form__error" v-if="passwordValidationError">
-                    {{ passwordValidationError }}
-                </small>
-            </div>
-            <div class="form__group">
-                <label class="form__label" for="password_confirmation">Confirm Password</label>
-                <input class="form__input" type="password" id="password_confirmation"
-                       v-model="requestData.password_confirmation">
-            </div>
-
-            <AppButton type="submit">
-                Reset Password
-            </AppButton>
-        </form>
-    </template>
-
-    <template v-else>
-        <p>
-            Your password has been successfully reset. You can <router-link :to="{name: 'login'}">login</router-link> now.
-        </p>
-    </template>
+    </div>
 </template>
 
 <script>
@@ -82,6 +98,12 @@ export default {
                     this.requestData.password = ''
                     this.requestData.password_confirmation = ''
                 }
+            }
+        },
+
+        resetValidationError() {
+            if (this.passwordValidationError !== '') {
+                this.passwordValidationError = ''
             }
         }
     }
