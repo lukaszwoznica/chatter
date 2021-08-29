@@ -2,6 +2,13 @@
 
 .main {
     padding-bottom: 3rem;
+    display: flex;
+    align-items: flex-start;
+    min-height: calc(100vh - 100px);
+
+    &--p0 {
+        padding-bottom: 0;
+    }
 
     .container {
         @include flex-center;

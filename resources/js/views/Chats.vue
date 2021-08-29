@@ -1,5 +1,5 @@
 <template>
-    <div class="chats-wrapper" style="display: flex;">
+    <div class="chats-container">
         <ContactsList/>
         <ConversationWrapper/>
     </div>

@@ -1,13 +1,13 @@
 <template>
     <div class="conversation__composer">
         <form @submit.prevent="submit">
-            <textarea cols="40" rows="1"
+            <textarea rows="1"
                       v-model.trim="message.text"
                       @input="onTyping"
                       @keydown.enter.prevent="submit">
             </textarea>
             <AppButton type="submit">
-                Send
+                &#10147;
             </AppButton>
         </form>
     </div>

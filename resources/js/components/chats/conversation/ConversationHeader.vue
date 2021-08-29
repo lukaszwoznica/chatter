@@ -4,14 +4,12 @@
             <h3>{{ contactFullName }}</h3>
         </div>
         <div class="conversation__online-status">
-            <p>
-                <template v-if="selectedContact.is_online">
-                    Active now
-                </template>
-                <template v-else>
-                    Last active: {{ selectedContact.last_online_at }}
-                </template>
-            </p>
+            <template v-if="selectedContact.is_online">
+                Active now
+            </template>
+            <template v-else>
+                Last active: {{ selectedContact.last_online_at }}
+            </template>
         </div>
     </div>
 </template>

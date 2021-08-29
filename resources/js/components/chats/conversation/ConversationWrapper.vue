@@ -1,5 +1,5 @@
 <template>
-    <div class="conversation" style="background-color: lightgray">
+    <div class="conversation">
         <template v-if="selectedContact">
             <ConversationHeader :selected-contact="selectedContact"/>
             <MessagesFeed :messages="messages"

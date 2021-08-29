@@ -4,10 +4,12 @@
             <li v-for="(message, index) in messages" :key="message.id"
                 class="message"
                 :class="`message--${message.sender.id === authUser?.id ? 'sent' : 'received'}`">
-                {{ message.text }}
-                <span v-if="message.read_at">
-                    Read at {{ message.read_at }}
-                </span>
+                <div class="message__content">
+                    {{ message.text }}
+                </div>
+<!--                <span v-if="message.read_at && index === messages.length - 1">-->
+<!--                    Read at {{ message.read_at }}-->
+<!--                </span>-->
             </li>
         </ul>
         <span v-if="typingUser">
@@ -66,11 +68,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.message--sent {
-    color: blue;
-}
-span {
-    color: green;
-}
-</style>

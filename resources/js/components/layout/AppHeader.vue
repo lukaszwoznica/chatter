@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header" :class="classList">
         <div class="logo">
             <router-link :to="{name: 'home'}" class="logo__link">
                 <img class="logo__img" src="img/logo.webp" alt="Logo placeholder">
@@ -31,6 +31,13 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
     name: "AppHeader",
 
+    props: {
+        classList: {
+            type: Array,
+            required: false
+        }
+    },
+
     computed: {
         ...mapGetters({
             isAuthenticated: 'auth/isAuthenticated',
@@ -53,10 +60,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-.nav__item {
-    display: inline;
-    padding: 1rem;
-}
-</style>

@@ -1,11 +1,11 @@
 <template>
     <div class="app-wrapper">
-        <AppHeader/>
-        <main class="main">
+        <AppHeader :classList="isChatsRoute ? ['header--chats'] : ''"/>
+        <main class="main" :class="isChatsRoute ? 'main--p0' : ''">
             <router-view/>
         </main>
-        <AppFooter/>
-        <template v-if="currentRouteName !== 'chats'">
+        <template v-if="!isChatsRoute">
+            <AppFooter/>
             <div class="bg-gradient"></div>
             <div class="bg-shape bg-shape--circle"></div>
             <div class="bg-shape bg-shape--eclipse"></div>
@@ -26,8 +26,8 @@ export default {
     },
 
     computed: {
-        currentRouteName() {
-            return this.$route.name
+        isChatsRoute() {
+            return this.$route.name === 'chats'
         }
     }
 }
