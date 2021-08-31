@@ -16920,7 +16920,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ui_AppButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../ui/AppButton */ "./resources/js/components/ui/AppButton.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _mixins_TextareaAutoResize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins/TextareaAutoResize */ "./resources/js/mixins/TextareaAutoResize.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -16935,8 +16936,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ConversationComposer",
+  mixins: [_mixins_TextareaAutoResize__WEBPACK_IMPORTED_MODULE_2__.default],
   components: {
     AppButton: _ui_AppButton__WEBPACK_IMPORTED_MODULE_1__.default
   },
@@ -16959,9 +16962,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)({
     sendMessage: 'messages/sendMessage'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapMutations)({
     updateContact: 'contacts/UPDATE_CONTACT'
   })), {}, {
     submit: function submit() {
@@ -17008,7 +17011,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee, null, [[1, 10]]);
       }))();
     },
-    onTyping: function onTyping() {
+    onInput: function onInput(event) {
+      this.autoResize(event, 250);
+      this.whisperTypingEvent();
+    },
+    whisperTypingEvent: function whisperTypingEvent() {
       var _this2 = this;
 
       var channel = Echo["private"]("conversation.".concat(this.conversationId));
@@ -18125,23 +18132,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submit && $options.submit.apply($options, arguments);
-    }, ["prevent"]))
+    }, ["prevent"])),
+    "class": "form"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("textarea", {
-    rows: "1",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.message.text = $event;
     }),
+    rows: "1",
+    "class": "form__textarea form__textarea--message",
     onInput: _cache[2] || (_cache[2] = function () {
-      return $options.onTyping && $options.onTyping.apply($options, arguments);
+      return $options.onInput && $options.onInput.apply($options, arguments);
     }),
     onKeydown: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submit && $options.submit.apply($options, arguments);
-    }, ["prevent"]), ["enter"]))
+    }, ["prevent"]), ["enter"])),
+    placeholder: "Type a message"
   }, "\n            ", 544
   /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.message.text, void 0, {
     trim: true
-  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
+  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppButton, {
     type: "submit"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -18150,7 +18160,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })], 32
+  }, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, this.message.text]])], 32
   /* HYDRATE_EVENTS */
   )]);
 }
@@ -19110,6 +19122,33 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   key: "11845c2240763f8fa686",
   cluster: "eu",
   forceTLS: true
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/TextareaAutoResize.js":
+/*!***************************************************!*\
+  !*** ./resources/js/mixins/TextareaAutoResize.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    autoResize: function autoResize(event, maxHeight) {
+      if (!(event.target.scrollHeight + 2 > maxHeight)) {
+        event.target.style.overflow = 'hidden';
+        event.target.style.height = 'auto';
+        event.target.style.height = "".concat(event.target.scrollHeight + 2, "px");
+      } else {
+        event.target.style.overflow = 'auto';
+      }
+    }
+  }
 });
 
 /***/ }),

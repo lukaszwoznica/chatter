@@ -51,6 +51,25 @@
         padding: 0 .5rem;
         color: $red;
     }
+
+    &__textarea {
+        border-radius: 15px;
+        border: 1px solid darken($lightgray, 15%);
+        padding: .4rem 1rem;
+
+        &:focus {
+            border: 1px solid darken($primary, 10%);
+            outline: none;
+        }
+
+        &--message {
+            resize: none;
+            width: 100%;
+            line-height: 1;
+            margin-right: .5rem;
+            overflow: hidden;
+        }
+    }
 }
 
 .form-info {

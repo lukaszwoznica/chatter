@@ -832,6 +832,22 @@ label {
   padding: 0 0.5rem;
   color: #ff3333;
 }
+.form__textarea {
+  border-radius: 15px;
+  border: 1px solid #bfbfbf;
+  padding: 0.4rem 1rem;
+}
+.form__textarea:focus {
+  border: 1px solid #a041af;
+  outline: none;
+}
+.form__textarea--message {
+  resize: none;
+  width: 100%;
+  line-height: 1;
+  margin-right: 0.5rem;
+  overflow: hidden;
+}
 
 .form-info {
   padding: 1rem 1rem;
@@ -999,13 +1015,6 @@ label {
 .conversation__composer form {
   display: inherit;
   width: 100%;
-}
-.conversation__composer textarea {
-  resize: none;
-  width: 100%;
-  line-height: 1;
-  margin-right: 0.5rem;
-  height: auto;
 }
 .conversation__composer button {
   padding: 0 0.5rem;

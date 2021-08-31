@@ -1,12 +1,14 @@
 <template>
     <div class="conversation__composer">
-        <form @submit.prevent="submit">
-            <textarea rows="1"
-                      v-model.trim="message.text"
-                      @input="onTyping"
-                      @keydown.enter.prevent="submit">
+        <form @submit.prevent="submit" class="form">
+            <textarea v-model.trim="message.text"
+                      rows="1"
+                      class="form__textarea form__textarea--message"
+                      @input="onInput"
+                      @keydown.enter.prevent="submit"
+                      placeholder="Type a message">
             </textarea>
-            <AppButton type="submit">
+            <AppButton type="submit" v-show="this.message.text">
                 &#10147;
             </AppButton>
         </form>
@@ -14,11 +16,14 @@
 </template>
 
 <script>
-import AppButton from '../../ui/AppButton';
+import AppButton from '../../ui/AppButton'
+import mixinTextareaAutoResize from '../../../mixins/TextareaAutoResize'
 import {mapActions, mapMutations} from 'vuex'
 
 export default {
     name: "ConversationComposer",
+
+    mixins: [mixinTextareaAutoResize],
 
     components: {
         AppButton
@@ -51,7 +56,7 @@ export default {
         }),
 
         ...mapMutations({
-           updateContact: 'contacts/UPDATE_CONTACT'
+            updateContact: 'contacts/UPDATE_CONTACT'
         }),
 
         async submit() {
@@ -72,7 +77,12 @@ export default {
             }
         },
 
-        onTyping() {
+        onInput(event) {
+            this.autoResize(event, 250)
+            this.whisperTypingEvent()
+        },
+
+        whisperTypingEvent() {
             const channel = Echo.private(`conversation.${this.conversationId}`);
 
             setTimeout(() => {
