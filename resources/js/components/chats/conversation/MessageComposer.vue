@@ -8,8 +8,8 @@
                       @keydown.enter.prevent="submit"
                       placeholder="Type a message">
             </textarea>
-            <AppButton type="submit" v-show="this.message.text">
-                &#10147;
+            <AppButton type="submit" v-show="this.message.text" :class-list="['send-message-button']">
+                <font-awesome-icon :icon="['fas', 'arrow-right']"></font-awesome-icon>
             </AppButton>
         </form>
     </div>
@@ -19,6 +19,7 @@
 import AppButton from '../../ui/AppButton'
 import mixinTextareaAutoResize from '../../../mixins/TextareaAutoResize'
 import {mapActions, mapMutations} from 'vuex'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 export default {
     name: "ConversationComposer",
@@ -26,7 +27,7 @@ export default {
     mixins: [mixinTextareaAutoResize],
 
     components: {
-        AppButton
+        AppButton, FontAwesomeIcon
     },
 
     props: {
@@ -78,7 +79,7 @@ export default {
         },
 
         onInput(event) {
-            this.autoResize(event, 250)
+            this.autoResize(event, 150)
             this.whisperTypingEvent()
         },
 

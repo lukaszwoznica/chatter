@@ -1016,9 +1016,23 @@ label {
   display: inherit;
   width: 100%;
 }
-.conversation__composer button {
-  padding: 0 0.5rem;
-  background-color: gray;
+.conversation__composer .send-message-button {
+  display: inline-block;
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  background-image: linear-gradient(to left, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4);
+  background-size: 150% 100%;
+  background-position: left;
+  color: white;
+  padding: 0;
+  margin: 0 0.3rem;
+  font-size: 0.9rem;
+  align-self: flex-end;
+  transition: background-position 0.2s ease-in-out;
+}
+.conversation__composer .send-message-button:hover {
+  background-position: right;
 }
 
 .messages {

@@ -28,6 +28,9 @@
         "vuex": "^4.0.0"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.36",
+        "@fortawesome/free-solid-svg-icons": "^5.15.4",
+        "@fortawesome/vue-fontawesome": "^3.0.0-4",
         "luxon": "^1.26.0",
         "normalize-scss": "^7.0.1",
         "vue-lottie-player": "^0.1.9"

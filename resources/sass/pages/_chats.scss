@@ -95,9 +95,24 @@
             width: 100%;
         }
 
-        button {
-            padding: 0 .5rem;
-            background-color: gray;
+        .send-message-button {
+            display: inline-block;
+            height: 34px;
+            width: 34px;
+            border-radius: 50%;
+            background-image: $left-gradient;
+            background-size: 150% 100%;
+            background-position: left;
+            color: $white;
+            padding: 0;
+            margin: 0 .3rem;
+            font-size: .9rem;
+            align-self: flex-end;
+            transition: background-position .2s ease-in-out;
+
+            &:hover {
+                background-position: right;
+            }
         }
     }
 }
