@@ -7,11 +7,11 @@ namespace App\Services;
 use App\Events\MessagesReadEvent;
 use App\Models\Message;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class MessageService
 {
-    public function getAllForUser(User $user): Collection
+    public function getAllForUser(User $user, int $perPage): LengthAwarePaginator
     {
         return Message::where(function ($query) use ($user) {
             $query->where('sender_id', auth()->id())
@@ -21,7 +21,7 @@ class MessageService
                 ->where('recipient_id', auth()->id());
         })->with('sender', 'recipient')
             ->latest()
-            ->get();
+            ->paginate($perPage);
     }
 
     public function markAllAsReadFromUser(User $user): void

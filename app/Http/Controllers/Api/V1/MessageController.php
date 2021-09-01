@@ -21,10 +21,10 @@ class MessageController extends Controller
         $this->messageService = $messageService;
     }
 
-    public function conversation(User $user)
+    public function conversation(Request $request, User $user)
     {
         $this->messageService->markAllAsReadFromUser($user);
-        $messages = $this->messageService->getAllForUser($user);
+        $messages = $this->messageService->getAllForUser($user, $request->query('per_page') ?? 15);
 
         return MessageResource::collection($messages);
     }
