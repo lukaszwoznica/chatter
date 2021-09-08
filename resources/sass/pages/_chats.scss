@@ -150,3 +150,12 @@
         }
     }
 }
+
+.infinite-status-prompt {
+    font-size: .9rem;
+    color: $gray;
+
+    p {
+        padding-top: 1.5rem;
+    }
+}

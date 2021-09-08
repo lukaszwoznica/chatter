@@ -1063,3 +1063,11 @@ label {
 .message--sent .message__content {
   background-color: #b65fc4;
 }
+
+.infinite-status-prompt {
+  font-size: 0.9rem;
+  color: #666666;
+}
+.infinite-status-prompt p {
+  padding-top: 1.5rem;
+}

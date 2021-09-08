@@ -16,7 +16,7 @@ const ApiRoutes = {
         Search: (name) =>`${baseUrl}/users?search=${name}`,
     },
     Messages: {
-        GetConversationMessages: (userId) => `${baseUrl}/messages/${userId}`,
+        GetConversationMessages: (userId, page) => `${baseUrl}/messages/${userId}?page=${page}`,
         SendMessage: `${baseUrl}/messages`,
         MarkMessageAsRead: (messageId) => `${baseUrl}/messages/${messageId}`
     }

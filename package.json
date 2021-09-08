@@ -33,6 +33,7 @@
         "@fortawesome/vue-fontawesome": "^3.0.0-4",
         "luxon": "^1.26.0",
         "normalize-scss": "^7.0.1",
+        "vue-infinite-loading": "^3.0.0-alpha.0-0",
         "vue-lottie-player": "^0.1.9"
     }
 }

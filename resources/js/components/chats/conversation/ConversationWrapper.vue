@@ -2,9 +2,7 @@
     <div class="conversation">
         <template v-if="selectedContact">
             <ConversationHeader :selected-contact="selectedContact"/>
-            <MessagesFeed :messages="messages"
-                          :auth-user="authUser"
-                          :conversation-id="cantorPairConversationId"/>
+            <MessagesFeed :conversation-id="cantorPairConversationId"/>
             <MessageComposer :auth-user="authUser"
                              :selected-contact="selectedContact"
                              :conversation-id="cantorPairConversationId"/>
@@ -19,7 +17,7 @@
 import ConversationHeader from "./ConversationHeader";
 import MessagesFeed from "./MessagesFeed";
 import MessageComposer from "./MessageComposer";
-import {mapGetters, mapActions} from "vuex"
+import {mapGetters} from "vuex"
 
 export default {
     name: "ConversationWrapper",
@@ -59,18 +57,8 @@ export default {
         }
     },
 
-    methods: {
-        ...mapActions({
-            fetchMessages: 'messages/fetchMessages'
-        }),
-    },
-
     watch: {
         selectedContact() {
-            if (this.selectedContact !== null) {
-                this.fetchMessages(this.selectedContact.id)
-            }
-
             if (this.previousConversationId !== null) {
                 Echo.leave(`conversation.${this.previousConversationId}`)
             }

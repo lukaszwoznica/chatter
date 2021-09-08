@@ -26947,15 +26947,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)({
-    fetchMessages: 'messages/fetchMessages'
-  })),
   watch: {
     selectedContact: function selectedContact() {
-      if (this.selectedContact !== null) {
-        this.fetchMessages(this.selectedContact.id);
-      }
-
       if (this.previousConversationId !== null) {
         Echo.leave("conversation.".concat(this.previousConversationId));
       }
@@ -27117,16 +27110,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MessagesFeed",
+  components: {
+    InfiniteLoading: vue_infinite_loading__WEBPACK_IMPORTED_MODULE_1__.default
+  },
   props: {
-    messages: {
-      type: Array,
-      required: true
-    },
-    authUser: {
-      required: true
-    },
     conversationId: {
       required: true
     }
@@ -27134,10 +27141,19 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       typingUser: null,
-      typingClock: null
+      typingClock: null,
+      isLoadingMessages: false
     };
   },
-  methods: {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
+    messages: 'messages/allMessages',
+    selectedContact: 'contacts/selectedContact',
+    authUser: 'auth/user'
+  })),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
+    fetchMessages: 'messages/fetchMessages',
+    resetMessagesState: 'messages/resetModuleState'
+  })), {}, {
     listenForWhisperOnConversationChannel: function listenForWhisperOnConversationChannel() {
       var _this = this;
 
@@ -27152,14 +27168,48 @@ __webpack_require__.r(__webpack_exports__);
           return _this.typingUser = null;
         }, 1000);
       });
+    },
+    infiniteLoadingHandler: function infiniteLoadingHandler($state) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var _this2$selectedContac;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this2.isLoadingMessages = true;
+                _context.next = 3;
+                return _this2.fetchMessages({
+                  userId: (_this2$selectedContac = _this2.selectedContact) === null || _this2$selectedContac === void 0 ? void 0 : _this2$selectedContac.id,
+                  infiniteLoaderContext: $state
+                });
+
+              case 3:
+                _this2.isLoadingMessages = false;
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
-  },
+  }),
   mounted: function mounted() {
     this.listenForWhisperOnConversationChannel();
   },
   watch: {
     conversationId: function conversationId() {
       this.listenForWhisperOnConversationChannel();
+    },
+    selectedContact: function selectedContact() {
+      if (this.selectedContact !== null) {
+        this.resetMessagesState();
+        this.$refs.infiniteLoading.stateChanger.reset();
+      }
     }
   }
 });
@@ -28150,12 +28200,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["selected-contact"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessagesFeed, {
-    messages: _ctx.messages,
-    "auth-user": _ctx.authUser,
     "conversation-id": $options.cantorPairConversationId
   }, null, 8
   /* PROPS */
-  , ["messages", "auth-user", "conversation-id"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessageComposer, {
+  , ["conversation-id"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessageComposer, {
     "auth-user": _ctx.authUser,
     "selected-contact": _ctx.selectedContact,
     "conversation-id": $options.cantorPairConversationId
@@ -28252,30 +28300,59 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "conversation__feed"
 };
-var _hoisted_2 = {
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
   "class": "messages"
 };
-var _hoisted_3 = {
+var _hoisted_4 = {
   "class": "message__content"
 };
-var _hoisted_4 = {
+var _hoisted_5 = {
   key: 0
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.messages, function (message, index) {
-    var _$props$authUser;
+  var _component_infinite_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("infinite-loading");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_infinite_loading, {
+    onInfinite: $options.infiniteLoadingHandler,
+    direction: "top",
+    ref: "infiniteLoading"
+  }, {
+    "no-more": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_2];
+    }),
+    "no-results": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [!$data.isLoadingMessages && _ctx.messages.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+        key: 0
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" There are no messages in this conversation yet. Send your first message to " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedContact.first_name) + ". ", 1
+      /* TEXT */
+      )], 2112
+      /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+      )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["onInfinite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.messages, function (message, index) {
+    var _ctx$authUser;
 
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
       key: message.id,
-      "class": ["message", "message--".concat(message.sender.id === ((_$props$authUser = $props.authUser) === null || _$props$authUser === void 0 ? void 0 : _$props$authUser.id) ? 'sent' : 'received')]
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
+      "class": ["message", "message--".concat(message.sender.id === ((_ctx$authUser = _ctx.authUser) === null || _ctx$authUser === void 0 ? void 0 : _ctx$authUser.id) ? 'sent' : 'received')]
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <span v-if=\"message.read_at && index === messages.length - 1\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                    Read at {{ message.read_at }}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                </span>")], 2
     /* CLASS */
     );
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.typingUser.first_name) + " is typing... ", 1
+  ))]), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.typingUser.first_name) + " is typing... ", 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
@@ -29113,8 +29190,8 @@ var ApiRoutes = {
     }
   },
   Messages: {
-    GetConversationMessages: function GetConversationMessages(userId) {
-      return "".concat(baseUrl, "/messages/").concat(userId);
+    GetConversationMessages: function GetConversationMessages(userId, page) {
+      return "".concat(baseUrl, "/messages/").concat(userId, "?page=").concat(page);
     },
     SendMessage: "".concat(baseUrl, "/messages"),
     MarkMessageAsRead: function MarkMessageAsRead(messageId) {
@@ -29805,13 +29882,33 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 var state = {
-  messages: []
+  messages: [],
+  page: 1,
+  lastPage: null
 };
 var getters = {
   allMessages: function allMessages(state) {
     return state.messages;
+  },
+  currentPage: function currentPage(state) {
+    return state.page;
+  },
+  lastPage: function lastPage(state) {
+    return state.lastPage;
   }
 };
 var mutations = {
@@ -29821,6 +29918,11 @@ var mutations = {
   ADD_MESSAGE: function ADD_MESSAGE(state, message) {
     return state.messages.push(message);
   },
+  ADD_MESSAGES_TO_FRONT: function ADD_MESSAGES_TO_FRONT(state, messages) {
+    var _state$messages;
+
+    return (_state$messages = state.messages).unshift.apply(_state$messages, _toConsumableArray(messages));
+  },
   UPDATE_MESSAGE: function UPDATE_MESSAGE(state, updatedMessage) {
     var index = state.messages.findIndex(function (message) {
       return message.id === updatedMessage.id;
@@ -29829,25 +29931,50 @@ var mutations = {
     if (index !== -1) {
       state.messages.splice(index, 1, updatedMessage);
     }
+  },
+  SET_PAGE: function SET_PAGE(state, page) {
+    return state.page = page;
+  },
+  SET_LAST_PAGE: function SET_LAST_PAGE(state, lastPage) {
+    return state.lastPage = lastPage;
   }
 };
 var actions = {
-  fetchMessages: function fetchMessages(_ref, userId) {
+  fetchMessages: function fetchMessages(_ref, _ref2) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, response;
+      var getters, commit, userId, infiniteLoaderContext, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              commit = _ref.commit;
-              _context.next = 3;
-              return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.GetConversationMessages(userId));
+              getters = _ref.getters, commit = _ref.commit;
+              userId = _ref2.userId, infiniteLoaderContext = _ref2.infiniteLoaderContext;
 
-            case 3:
-              response = _context.sent;
-              commit('SET_MESSAGES', response.data.data);
+              if (!(getters.lastPage !== null && getters.currentPage > getters.lastPage)) {
+                _context.next = 5;
+                break;
+              }
+
+              infiniteLoaderContext.complete();
+              return _context.abrupt("return");
 
             case 5:
+              _context.next = 7;
+              return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.GetConversationMessages(userId, getters.currentPage));
+
+            case 7:
+              response = _context.sent;
+
+              if (response.data.data.length) {
+                commit('SET_PAGE', getters.currentPage + 1);
+                commit('SET_LAST_PAGE', response.data.meta.last_page);
+                commit('ADD_MESSAGES_TO_FRONT', response.data.data.reverse());
+                infiniteLoaderContext.loaded();
+              } else {
+                infiniteLoaderContext.complete();
+              }
+
+            case 9:
             case "end":
               return _context.stop();
           }
@@ -29855,10 +29982,10 @@ var actions = {
       }, _callee);
     }))();
   },
-  sendMessage: function sendMessage(_ref2, message) {
-    var commit = _ref2.commit;
+  sendMessage: function sendMessage(_ref3, message) {
+    var commit = _ref3.commit;
     return new Promise( /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(resolve) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(resolve) {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
@@ -29884,18 +30011,18 @@ var actions = {
       }));
 
       return function (_x) {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       };
     }());
   },
-  markMessageAsRead: function markMessageAsRead(_ref4, messageId) {
+  markMessageAsRead: function markMessageAsRead(_ref5, messageId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
       var commit, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              commit = _ref4.commit;
+              commit = _ref5.commit;
               _context3.next = 3;
               return axios.patch(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Messages.MarkMessageAsRead(messageId));
 
@@ -29914,9 +30041,11 @@ var actions = {
       }, _callee3);
     }))();
   },
-  resetModuleState: function resetModuleState(_ref5) {
-    var commit = _ref5.commit;
+  resetModuleState: function resetModuleState(_ref6) {
+    var commit = _ref6.commit;
     commit('SET_MESSAGES', []);
+    commit('SET_PAGE', 1);
+    commit('SET_LAST_PAGE', null);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -70900,6 +71029,783 @@ module.exports = function (list, options) {
     lastIdentifiers = newLastIdentifiers;
   };
 };
+
+/***/ }),
+
+/***/ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.esm.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/vue-infinite-loading/dist/vue-infinite-loading.esm.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+function E () {
+  // Keep this empty so it's easier to inherit from
+  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
+}
+
+E.prototype = {
+  on: function (name, callback, ctx) {
+    var e = this.e || (this.e = {});
+
+    (e[name] || (e[name] = [])).push({
+      fn: callback,
+      ctx: ctx
+    });
+
+    return this;
+  },
+
+  once: function (name, callback, ctx) {
+    var self = this;
+    function listener () {
+      self.off(name, listener);
+      callback.apply(ctx, arguments);
+    }
+    listener._ = callback;
+    return this.on(name, listener, ctx);
+  },
+
+  emit: function (name) {
+    var data = [].slice.call(arguments, 1);
+    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+    var i = 0;
+    var len = evtArr.length;
+
+    for (i; i < len; i++) {
+      evtArr[i].fn.apply(evtArr[i].ctx, data);
+    }
+
+    return this;
+  },
+
+  off: function (name, callback) {
+    var e = this.e || (this.e = {});
+    var evts = e[name];
+    var liveEvents = [];
+
+    if (evts && callback) {
+      for (var i = 0, len = evts.length; i < len; i++) {
+        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
+          liveEvents.push(evts[i]);
+      }
+    }
+
+    // Remove event from queue to prevent memory leak
+    // Suggested by https://github.com/lazd
+    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
+
+    (liveEvents.length)
+      ? e[name] = liveEvents
+      : delete e[name];
+
+    return this;
+  }
+};
+
+var _tinyEmitter_2_1_0_tinyEmitter = E;
+var TinyEmitter = E;
+_tinyEmitter_2_1_0_tinyEmitter.TinyEmitter = TinyEmitter;
+
+var instance = new _tinyEmitter_2_1_0_tinyEmitter();
+
+var eventHub = {
+  $on: (...args) => instance.on(...args),
+  $once: (...args) => instance.once(...args),
+  $off: (...args) => instance.off(...args),
+  $emit: (...args) => instance.emit(...args)
+};
+
+const SPINNERS = ['bubbles', 'circles', 'spiral', 'wavedots'];
+var script$1 = /* #__PURE__ */(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  name: 'Spinner',
+  props: ['spinner'],
+  computed: {
+    spinnerView() {
+      return SPINNERS[this.spinner || ''] || 'default' // fallback to spinner of config
+      ;
+    }
+
+  }
+});
+
+const _withId$1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-10593c59");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-10593c59");
+
+const _hoisted_1$1 = {
+  key: 0,
+  class: "loading-default"
+};
+const _hoisted_2$1 = {
+  key: 1,
+  class: "loading-bubbles"
+};
+const _hoisted_3 = {
+  key: 2,
+  class: "loading-circles"
+};
+const _hoisted_4 = {
+  key: 3,
+  class: "loading-spiral"
+};
+const _hoisted_5 = {
+  key: 4,
+  class: "loading-wave-dots"
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+const render$1 = /*#__PURE__*/_withId$1((_ctx, _cache, $props, $setup, $data, $options) => {
+  return _ctx.spinnerView === 'default' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("i", _hoisted_1$1)) : _ctx.spinnerView === 'bubbles' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_2$1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(8, x => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+      class: "bubble-item",
+      key: x
+    });
+  }), 64))])) : _ctx.spinnerView === 'circles' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(8, x => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+      class: "circle-item",
+      key: x
+    });
+  }), 64))])) : _ctx.spinnerView === 'spiral' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("i", _hoisted_4)) : _ctx.spinnerView === 'wavedots' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5, x => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+      class: "wave-item",
+      key: x
+    });
+  }), 64))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("", true);
+});
+
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z$1 = ".loading-wave-dots[data-v-10593c59] {\n  position: relative;\n}\n.loading-wave-dots[data-v-10593c59] .wave-item {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  display: inline-block;\n  margin-top: -8px/2;\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  animation: loading-wave-dots-10593c59 linear 2.8s infinite;\n}\n.loading-wave-dots[data-v-10593c59] .wave-item:first-child {\n  margin-left: -8px/2 + -32px;\n}\n.loading-wave-dots[data-v-10593c59] .wave-item:nth-child(2) {\n  margin-left: -8px/2 + -16px;\n  animation-delay: 0.14s;\n}\n.loading-wave-dots[data-v-10593c59] .wave-item:nth-child(3) {\n  margin-left: -8px/2;\n  animation-delay: 0.28s;\n}\n.loading-wave-dots[data-v-10593c59] .wave-item:nth-child(4) {\n  margin-left: -8px/2 + 16px;\n  animation-delay: 0.42s;\n}\n.loading-wave-dots[data-v-10593c59] .wave-item:last-child {\n  margin-left: -8px/2 + 32px;\n  animation-delay: 0.56s;\n}\n@keyframes loading-wave-dots-10593c59 {\n0% {\n    transform: translateY(0);\n    background: #bbb;\n}\n10% {\n    transform: translateY(-6px);\n    background: #999;\n}\n20% {\n    transform: translateY(0);\n    background: #bbb;\n}\n100% {\n    transform: translateY(0);\n    background: #bbb;\n}\n}\n.loading-circles[data-v-10593c59] .circle-item {\n  width: 5px;\n  height: 5px;\n  animation: loading-circles-10593c59 linear 0.75s infinite;\n}\n.loading-circles[data-v-10593c59] .circle-item:first-child {\n  margin-top: -5px/2 + -12px;\n  margin-left: -5px/2;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(2) {\n  margin-top: -5px/2 + -8.76px;\n  margin-left: -5px/2 + 8.76px;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(3) {\n  margin-top: -5px/2;\n  margin-left: -5px/2 + 12px;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(4) {\n  margin-top: -5px/2 + 8.76px;\n  margin-left: -5px/2 + 8.76px;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(5) {\n  margin-top: -5px/2 + 12px;\n  margin-left: -5px/2;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(6) {\n  margin-top: -5px/2 + 8.76px;\n  margin-left: -5px/2 + -8.76px;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(7) {\n  margin-top: -5px/2;\n  margin-left: -5px/2 + -12px;\n}\n.loading-circles[data-v-10593c59] .circle-item:last-child {\n  margin-top: -5px/2 + -8.76px;\n  margin-left: -5px/2 + -8.76px;\n}\n@keyframes loading-circles-10593c59 {\n0% {\n    background: #dfdfdf;\n}\n90% {\n    background: #505050;\n}\n100% {\n    background: #dfdfdf;\n}\n}\n.loading-bubbles[data-v-10593c59] .bubble-item {\n  background: #666;\n  animation: loading-bubbles-10593c59 linear 0.75s infinite;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:first-child {\n  margin-top: -1px/2 + -12px;\n  margin-left: -1px/2;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(2) {\n  margin-top: -1px/2 + -8.76px;\n  margin-left: -1px/2 + 8.76px;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(3) {\n  margin-top: -1px/2;\n  margin-left: -1px/2 + 12px;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(4) {\n  margin-top: -1px/2 + 8.76px;\n  margin-left: -1px/2 + 8.76px;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(5) {\n  margin-top: -1px/2 + 12px;\n  margin-left: -1px/2;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(6) {\n  margin-top: -1px/2 + 8.76px;\n  margin-left: -1px/2 + -8.76px;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(7) {\n  margin-top: -1px/2;\n  margin-left: -1px/2 + -12px;\n}\n.loading-bubbles[data-v-10593c59] .bubble-item:last-child {\n  margin-top: -1px/2 + -8.76px;\n  margin-left: -1px/2 + -8.76px;\n}\n@keyframes loading-bubbles-10593c59 {\n0% {\n    width: 1px;\n    height: 1px;\n    box-shadow: 0 0 0 3px #666;\n}\n90% {\n    width: 1px;\n    height: 1px;\n    box-shadow: 0 0 0 0 #666;\n}\n100% {\n    width: 1px;\n    height: 1px;\n    box-shadow: 0 0 0 3px #666;\n}\n}\n.loading-default[data-v-10593c59] {\n  position: relative;\n  border: 1px solid #999;\n  animation: loading-rotating-10593c59 ease 1.5s infinite;\n}\n.loading-default[data-v-10593c59]:before {\n  content: '';\n  position: absolute;\n  display: block;\n  top: 0;\n  left: 50%;\n  margin-top: -6px/2;\n  margin-left: -6px/2;\n  width: 6px;\n  height: 6px;\n  background-color: #999;\n  border-radius: 50%;\n}\n.loading-spiral[data-v-10593c59] {\n  border: 2px solid #777;\n  border-right-color: transparent;\n  animation: loading-rotating-10593c59 linear 0.85s infinite;\n}\n@keyframes loading-rotating-10593c59 {\n0% {\n    transform: rotate(0);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.loading-bubbles[data-v-10593c59],\n.loading-circles[data-v-10593c59] {\n  position: relative;\n}\n.loading-circles[data-v-10593c59] .circle-item,\n.loading-bubbles[data-v-10593c59] .bubble-item {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  display: inline-block;\n  border-radius: 50%;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(2),\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(2) {\n  animation-delay: 0.093s;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(3),\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(3) {\n  animation-delay: 0.186s;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(4),\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(4) {\n  animation-delay: 0.279s;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(5),\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(5) {\n  animation-delay: 0.372s;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(6),\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(6) {\n  animation-delay: 0.465s;\n}\n.loading-circles[data-v-10593c59] .circle-item:nth-child(7),\n.loading-bubbles[data-v-10593c59] .bubble-item:nth-child(7) {\n  animation-delay: 0.558s;\n}\n.loading-circles[data-v-10593c59] .circle-item:last-child,\n.loading-bubbles[data-v-10593c59] .bubble-item:last-child {\n  animation-delay: 0.651s;\n}\n";
+styleInject(css_248z$1);
+
+script$1.render = render$1;
+script$1.__scopeId = "data-v-10593c59";
+
+/*
+ * default property values
+ */
+const props = {
+  // the default spinner type
+  spinner: 'default',
+  // the default critical distance
+  distance: 100,
+  // the default force use infinite wrapper flag
+  forceUseInfiniteWrapper: false
+};
+/**
+ * default system settings
+ */
+
+const system = {
+  // the default throttle space of time
+  throttleLimit: 50,
+  // the timeout for check infinite loop, unit: ms
+  loopCheckTimeout: 1000,
+  // the max allowed number of continuous calls, unit: ms
+  loopCheckMaxCalls: 10
+};
+/**
+ * default slot messages
+ */
+
+const slots = {
+  noResults: 'No results :(',
+  noMore: 'No more data :)',
+  error: 'Opps, something went wrong :(',
+  errorBtnText: 'Retry',
+  spinner: ''
+};
+/**
+ * the 3rd argument for event bundler
+ * @see https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+ */
+
+const evt3rdArg = (() => {
+  let result = false;
+
+  try {
+    const arg = Object.defineProperty({}, 'passive', {
+      get() {
+        result = {
+          passive: true
+        };
+        return true;
+      }
+
+    });
+    window.addEventListener('testpassive', arg, arg);
+    window.remove('testpassive', arg, arg);
+  } catch (e) {
+    /* */
+  }
+
+  return result;
+})();
+/**
+ * warning messages
+ */
+
+const WARNINGS = {
+  INFINITE_EVENT: '`:on-infinite` property will be deprecated soon, please use `@infinite` event instead.'
+};
+/**
+ * error messages
+ */
+
+const ERRORS = {
+  INFINITE_LOOP: [`executed the callback function more than ${system.loopCheckMaxCalls} times for a short time, it looks like searched a wrong scroll wrapper that doest not has fixed height or maximum height, please check it. If you want to force to set a element as scroll wrapper ranther than automatic searching, you can do this:`, `
+<!-- add a special attribute for the real scroll wrapper -->
+<div infinite-wrapper>
+  ...
+  <!-- set force-use-infinite-wrapper -->
+  <infinite-loading force-use-infinite-wrapper></infinite-loading>
+</div>
+or
+<div class="infinite-wrapper">
+  ...
+  <!-- set force-use-infinite-wrapper as css selector of the real scroll wrapper -->
+  <infinite-loading force-use-infinite-wrapper=".infinite-wrapper"></infinite-loading>
+</div>
+    `, 'more details: https://github.com/PeachScript/vue-infinite-loading/issues/55#issuecomment-316934169'].join('\n')
+};
+/**
+ * plugin status constants
+ */
+
+const STATUS = {
+  READY: 0,
+  LOADING: 1,
+  COMPLETE: 2,
+  ERROR: 3
+};
+/**
+ * default slot styles
+ */
+
+const SLOT_STYLES = {
+  color: '#666',
+  fontSize: '14px',
+  padding: '10px 0'
+};
+var config = {
+  mode: 'development',
+  props,
+  system,
+  slots,
+  WARNINGS,
+  ERRORS,
+  STATUS
+};
+
+/* eslint-disable no-console */
+/**
+ * console warning in production
+ * @param {String} msg console content
+ */
+
+function warn(msg) {
+  /* istanbul ignore else */
+  {
+    console.warn(`[Vue-infinite-loading warn]: ${msg}`);
+  }
+}
+/**
+ * console error
+ * @param {String} msg console content
+ */
+
+function error(msg) {
+  console.error(`[Vue-infinite-loading error]: ${msg}`);
+}
+const throttleer = {
+  timers: [],
+  caches: [],
+
+  throttle(fn) {
+    if (this.caches.indexOf(fn) === -1) {
+      // cache current handler
+      this.caches.push(fn); // save timer for current handler
+
+      this.timers.push(setTimeout(() => {
+        fn(); // empty cache and timer
+
+        this.caches.splice(this.caches.indexOf(fn), 1);
+        this.timers.shift();
+      }, config.system.throttleLimit));
+    }
+  },
+
+  reset() {
+    // reset all timers
+    this.timers.forEach(timer => {
+      clearTimeout(timer);
+    });
+    this.timers.length = 0; // empty caches
+
+    this.caches = [];
+  }
+
+};
+const loopTracker = {
+  isChecked: false,
+  timer: null,
+  times: 0,
+
+  track() {
+    // record track times
+    this.times += 1; // try to mark check status
+
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.isChecked = true;
+    }, config.system.loopCheckTimeout); // throw warning if the times of continuous calls large than the maximum times
+
+    if (this.times > config.system.loopCheckMaxCalls) {
+      error(ERRORS.INFINITE_LOOP);
+      this.isChecked = true;
+    }
+  }
+
+};
+const scrollBarStorage = {
+  key: '_infiniteScrollHeight',
+
+  getScrollElm(elm) {
+    return elm === window ? document.documentElement : elm;
+  },
+
+  save(elm) {
+    const target = this.getScrollElm(elm); // save scroll height on the scroll parent
+
+    target[this.key] = target.scrollHeight;
+  },
+
+  restore(elm) {
+    const target = this.getScrollElm(elm);
+    /* istanbul ignore else */
+
+    if (typeof target[this.key] === 'number') {
+      target.scrollTop = target.scrollHeight - target[this.key] + target.scrollTop;
+    }
+
+    this.remove(target);
+  },
+
+  remove(elm) {
+    if (elm[this.key] !== undefined) {
+      // remove scroll height
+      delete elm[this.key]; // eslint-disable-line no-param-reassign
+    }
+  }
+
+};
+/**
+ * kebab-case a camel-case string
+ * @param   {String}    str  source string
+ * @return  {String}
+ */
+
+function kebabCase(str) {
+  return str.replace(/[A-Z]/g, s => `-${s.toLowerCase()}`);
+}
+/**
+ * get visibility for element
+ * @param   {DOM}     elm
+ * @return  {Boolean}
+ */
+
+function isVisible(elm) {
+  return elm.offsetWidth + elm.offsetHeight > 0;
+}
+
+var script = /* #__PURE__ */(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  name: 'InfiniteLoading',
+
+  data() {
+    return {
+      scrollParent: null,
+      scrollHandler: null,
+      isFirstLoad: true,
+      // save the current loading whether it is the first loading
+      status: STATUS.READY,
+      slots: config.slots
+    };
+  },
+
+  components: {
+    Spinner: script$1
+  },
+  emits: ['infinite', '$InfiniteLoading:loaded', '$InfiniteLoading:complete', '$InfiniteLoading:reset'],
+  computed: {
+    isShowSpinner() {
+      return this.status === STATUS.LOADING;
+    },
+
+    isShowError() {
+      return this.status === STATUS.ERROR;
+    },
+
+    isShowNoResults() {
+      return this.status === STATUS.COMPLETE && this.isFirstLoad;
+    },
+
+    isShowNoMore() {
+      return this.status === STATUS.COMPLETE && !this.isFirstLoad;
+    },
+
+    slotStyles() {
+      const styles = {};
+      Object.keys(config.slots).forEach(key => {
+        const name = kebabCase(key);
+
+        if ( // no slot and the configured default slot is not a Vue component
+        !this.$slots[name] && !config.slots[key].render || // has slot and slot is pure text node
+        this.$slots[name] && this.$slots[name]()[0].type === vue__WEBPACK_IMPORTED_MODULE_0__.Text) {
+          // only apply default styles for pure text slot
+          styles[key] = SLOT_STYLES;
+        }
+      });
+      return styles;
+    }
+
+  },
+  props: {
+    distance: {
+      type: Number,
+      default: config.props.distance
+    },
+    spinner: String,
+    direction: {
+      type: String,
+      default: 'bottom'
+    },
+    forceUseInfiniteWrapper: {
+      type: [Boolean, String],
+      default: config.props.forceUseInfiniteWrapper
+    },
+    identifier: {
+      default: +new Date()
+    }
+  },
+  watch: {
+    identifier() {
+      this.stateChanger.reset();
+    }
+
+  },
+
+  mounted() {
+    this.$watch('forceUseInfiniteWrapper', () => {
+      this.scrollParent = this.getScrollParent();
+    }, {
+      immediate: true
+    });
+
+    this.scrollHandler = ev => {
+      if (this.status === STATUS.READY) {
+        if (ev && ev.constructor === Event && isVisible(this.$el)) {
+          throttleer.throttle(this.attemptLoad);
+        } else {
+          this.attemptLoad();
+        }
+      }
+    };
+
+    setTimeout(() => {
+      this.scrollHandler();
+      this.scrollParent.addEventListener('scroll', this.scrollHandler, evt3rdArg);
+    }, 1);
+    eventHub.$on('$InfiniteLoading:loaded', () => {
+      this.isFirstLoad = false;
+
+      if (this.direction === 'top') {
+        // wait for DOM updated
+        this.$nextTick(() => {
+          scrollBarStorage.restore(this.scrollParent);
+        });
+      }
+
+      if (this.status === STATUS.LOADING) {
+        this.$nextTick(this.attemptLoad.bind(null, true));
+      }
+    });
+    eventHub.$on('$InfiniteLoading:complete', () => {
+      this.status = STATUS.COMPLETE; // force re-complation computed properties to fix the problem of get slot text delay
+
+      this.$nextTick(() => {
+        this.$forceUpdate();
+      });
+      this.scrollParent.removeEventListener('scroll', this.scrollHandler, evt3rdArg);
+    });
+    eventHub.$on('$InfiniteLoading:reset', () => {
+      this.status = STATUS.READY;
+      this.isFirstLoad = true;
+      scrollBarStorage.remove(this.scrollParent);
+      this.scrollParent.addEventListener('scroll', this.scrollHandler, evt3rdArg); // wait for list to be empty and the empty action may trigger a scroll event
+
+      setTimeout(() => {
+        throttleer.reset();
+        this.scrollHandler();
+      }, 1);
+    });
+    /**
+     * change state for this component, pass to the callback
+     */
+
+    this.stateChanger = {
+      loaded: () => {
+        this.$emit('$InfiniteLoading:loaded', {
+          target: this
+        });
+        eventHub.$emit('$InfiniteLoading:loaded', {
+          target: this
+        });
+      },
+      complete: () => {
+        this.$emit('$InfiniteLoading:complete', {
+          target: this
+        });
+        eventHub.$emit('$InfiniteLoading:complete', {
+          target: this
+        });
+      },
+      reset: () => {
+        this.$emit('$InfiniteLoading:reset', {
+          target: this
+        });
+        eventHub.$emit('$InfiniteLoading:reset', {
+          target: this
+        });
+      },
+      error: () => {
+        this.status = STATUS.ERROR;
+        throttleer.reset();
+      }
+    };
+
+    if (this.onInfinite) {
+      warn(WARNINGS.INFINITE_EVENT);
+    }
+  },
+
+  /**
+   * To adapt to keep-alive feature, but only work on Vue 2.2.0 and above, see: https://vuejs.org/v2/api/#keep-alive
+   */
+  deactivated() {
+    /* istanbul ignore else */
+    if (this.status === STATUS.LOADING) {
+      this.status = STATUS.READY;
+    }
+
+    this.scrollParent.removeEventListener('scroll', this.scrollHandler, evt3rdArg);
+  },
+
+  activated() {
+    this.scrollParent.addEventListener('scroll', this.scrollHandler, evt3rdArg);
+  },
+
+  methods: {
+    /**
+     * attempt trigger load
+     * @param {Boolean} isContinuousCall  the flag of continuous call, it will be true
+     *                                    if this method be called in the `loaded`
+     *                                    event handler
+     */
+    attemptLoad(isContinuousCall) {
+      if (this.status !== STATUS.COMPLETE && isVisible(this.$el) && this.getCurrentDistance() <= this.distance) {
+        this.status = STATUS.LOADING;
+
+        if (this.direction === 'top') {
+          // wait for spinner display
+          this.$nextTick(() => {
+            scrollBarStorage.save(this.scrollParent);
+          });
+        }
+
+        if (typeof this.onInfinite === 'function') {
+          this.onInfinite.call(null, this.stateChanger);
+        } else {
+          this.$emit('infinite', this.stateChanger);
+        }
+
+        if (isContinuousCall && !this.forceUseInfiniteWrapper && !loopTracker.isChecked) {
+          // check this component whether be in an infinite loop if it is not checked
+          // more details: https://github.com/PeachScript/vue-infinite-loading/issues/55#issuecomment-316934169
+          loopTracker.track();
+        }
+      } else if (this.status === STATUS.LOADING) {
+        this.status = STATUS.READY;
+      }
+    },
+
+    /**
+     * get current distance from the specified direction
+     * @return {Number}     distance
+     */
+    getCurrentDistance() {
+      let distance;
+
+      if (this.direction === 'top') {
+        distance = typeof this.scrollParent.scrollTop === 'number' ? this.scrollParent.scrollTop : this.scrollParent.pageYOffset;
+      } else {
+        const infiniteElmOffsetTopFromBottom = this.$el.getBoundingClientRect().top;
+        const scrollElmOffsetTopFromBottom = this.scrollParent === window ? window.innerHeight : this.scrollParent.getBoundingClientRect().bottom;
+        distance = infiniteElmOffsetTopFromBottom - scrollElmOffsetTopFromBottom;
+      }
+
+      return distance;
+    },
+
+    /**
+     * get the first scroll parent of an element
+     * @param  {DOM} elm    cache element for recursive search
+     * @return {DOM}        the first scroll parent
+     */
+    getScrollParent(elm = this.$el) {
+      let result;
+
+      if (typeof this.forceUseInfiniteWrapper === 'string') {
+        result = document.querySelector(this.forceUseInfiniteWrapper);
+      }
+
+      if (!result) {
+        if (elm.tagName === 'BODY') {
+          result = window;
+        } else if (!this.forceUseInfiniteWrapper && ['scroll', 'auto'].indexOf(getComputedStyle(elm).overflowY) > -1) {
+          result = elm;
+        } else if (elm.hasAttribute('infinite-wrapper') || elm.hasAttribute('data-infinite-wrapper')) {
+          result = elm;
+        }
+      }
+
+      return result || this.getScrollParent(elm.parentNode);
+    }
+
+  },
+
+  unmounted() {
+    /* istanbul ignore else */
+    if (!this.status !== STATUS.COMPLETE) {
+      throttleer.reset();
+      scrollBarStorage.remove(this.scrollParent);
+      this.scrollParent.removeEventListener('scroll', this.scrollHandler, evt3rdArg);
+    }
+  }
+
+});
+
+const _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-ce57e962");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-ce57e962");
+
+const _hoisted_1 = {
+  class: "infinite-loading-container"
+};
+
+const _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br", null, null, -1);
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+const render = /*#__PURE__*/_withId((_ctx, _cache, $props, $setup, $data, $options) => {
+  const _component_spinner = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("spinner");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+    class: "infinite-status-prompt",
+    style: _ctx.slotStyles.spinner
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "spinner", {
+    isFirstLoad: _ctx.isFirstLoad
+  }, () => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_spinner, {
+    spinner: _ctx.spinner
+  }, null, 8, ["spinner"])])], 4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isShowSpinner]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+    class: "infinite-status-prompt",
+    style: _ctx.slotStyles.noResults
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "no-results", {}, () => [_ctx.slots.noResults.render ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)(_ctx.slots.noResults), {
+    key: 0
+  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.slots.noResults), 1)], 64))])], 4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isShowNoResults]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+    class: "infinite-status-prompt",
+    style: _ctx.slotStyles.noMore
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "no-more", {}, () => [_ctx.slots.noMore.render ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)(_ctx.slots.noMore), {
+    key: 0
+  })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.slots.noMore), 1)], 64))])], 4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isShowNoMore]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+    class: "infinite-status-prompt",
+    style: _ctx.slotStyles.error
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "error", {
+    trigger: _ctx.attemptLoad
+  }, () => [_ctx.slots.error.render ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)(_ctx.slots.error), {
+    key: 0,
+    trigger: _ctx.attemptLoad
+  }, null, 8, ["trigger"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.slots.error) + " ", 1), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    class: "btn-try-infinite",
+    onClick: _cache[1] || (_cache[1] = (...args) => _ctx.attemptLoad && _ctx.attemptLoad(...args)),
+    textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.slots.errorBtnText)
+  }, null, 8, ["textContent"])], 64))])], 4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isShowError]])]);
+});
+
+var css_248z = ".infinite-loading-container[data-v-ce57e962] {\n  clear: both;\n  text-align: center;\n}\n.infinite-loading-container[data-v-ce57e962] *[class^=loading-] {\n  display: inline-block;\n  margin: 5px 0;\n  width: 28px;\n  height: 28px;\n  font-size: 28px;\n  line-height: 28px;\n  border-radius: 50%;\n}\n.btn-try-infinite[data-v-ce57e962] {\n  margin-top: 5px;\n  padding: 5px 10px;\n  color: #999;\n  font-size: 14px;\n  line-height: 1;\n  background: transparent;\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  outline: none;\n  cursor: pointer;\n}\n.btn-try-infinite[data-v-ce57e962]:not(:active):hover {\n  opacity: 0.8;\n}\n";
+styleInject(css_248z);
+
+script.render = render;
+script.__scopeId = "data-v-ce57e962";
+
+// Import vue component
+// IIFE injects install function into component, allowing component
+// to be registered via Vue.use() as well as Vue.component(),
+
+var entry_esm = /* #__PURE__ */(() => {
+  // Get component instance
+  const installable = script; // Attach install function executed by Vue.use()
+
+  installable.install = app => {
+    app.component('VueInfiniteLoading', installable);
+  };
+
+  return installable;
+})(); // It's possible to expose named exports when writing components that can
+// also be used as directives, etc. - eg. import { RollupDemoDirective } from 'rollup-demo';
+// export const RollupDemoDirective = directive;
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (entry_esm);
+
 
 /***/ }),
 
