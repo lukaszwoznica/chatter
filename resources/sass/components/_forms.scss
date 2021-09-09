@@ -13,22 +13,22 @@
     &__input {
         padding: .5rem 1rem;
         border-radius: 15px;
-        border: 1px solid darken($lightgray, 15%);
+        border: 1px solid darken($clr-lightgray, 15%);
         width: 100%;
 
         &:focus {
-            border: 1px solid darken($primary, 10%);
+            border: 1px solid darken($clr-primary, 10%);
             outline: none;
         }
 
         &:focus ~ label, &:not(:placeholder-shown) ~ label {
             transform: translateY(-1.8rem) translateX(-.5rem);
             font-size: .8rem;
-            color: darken($primary, 10%);
+            color: darken($clr-primary, 10%);
         }
 
         &--invalid {
-            border: 1px solid $red;
+            border: 1px solid $clr-red;
         }
     }
 
@@ -49,16 +49,16 @@
 
     &__error {
         padding: 0 .5rem;
-        color: $red;
+        color: $clr-red;
     }
 
     &__textarea {
         border-radius: 15px;
-        border: 1px solid darken($lightgray, 15%);
+        border: 1px solid darken($clr-lightgray, 15%);
         padding: .4rem 1rem;
 
         &:focus {
-            border: 1px solid darken($primary, 10%);
+            border: 1px solid darken($clr-primary, 10%);
             outline: none;
         }
 

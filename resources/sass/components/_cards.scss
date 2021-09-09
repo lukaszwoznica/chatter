@@ -2,7 +2,7 @@
 
 .card {
     background:
-        linear-gradient(lighten($lightgray, 6%), lighten($lightgray, 6%)) padding-box,
+        linear-gradient(lighten($clr-lightgray, 6%), lighten($clr-lightgray, 6%)) padding-box,
         $left-gradient border-box;
     border-top: 4px solid transparent;
     border-radius: 20px;

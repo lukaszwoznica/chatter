@@ -9,16 +9,16 @@
     font-weight: $font-bold;
 
     &--primary {
-        background-color: $primary;
+        background-color: $clr-primary;
         background-image: $primary-button-gradient;
         background-size: 150% 100%;
         background-position: right;
-        color: $white;
+        color: $clr-white;
         transition: all .3s ease-in-out;
 
         &:hover {
             background-position: left;
-            box-shadow: 0 5px 10px 0 rgba($primary, 0.5);
+            box-shadow: 0 5px 10px 0 rgba($clr-primary, 0.5);
         }
     }
 }
@@ -30,7 +30,7 @@
     background-image: $cta-button-gradient;
     background-size: 200% 100%;
     background-position: left;
-    color: $white;
+    color: $clr-white;
     font-weight: $font-bold;
     font-size: 1.2rem;
     padding: 1rem 3rem;
@@ -54,7 +54,7 @@
 
     &:hover {
         background-position: right;
-        color: $white;
+        color: $clr-white;
         padding: 1rem 3.5rem;
     }
 }

@@ -2,15 +2,15 @@
 
 body {
     font-family: $base-font-family;
-    color: $black;
+    color: $clr-black;
 }
 
 a {
-    color: $black;
+    color: $clr-black;
     text-decoration: none;
 
     &:hover {
-        color: lighten($black, 40%);
+        color: lighten($clr-black, 40%);
     }
 }
 
@@ -25,5 +25,5 @@ input, label {
 }
 
 label {
-    color: darken($gray, 10%);
+    color: darken($clr-gray, 10%);
 }

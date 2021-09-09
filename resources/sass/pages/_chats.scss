@@ -9,7 +9,7 @@
 
 .contacts {
     flex: 1;
-    background-color: $lightgray;
+    background-color: $clr-lightgray;
 
     &__header {
         display: flex;
@@ -25,7 +25,7 @@
         margin-right: .5rem;
 
         &--active {
-            background-color: $white;
+            background-color: $clr-white;
             border-radius: 0 30px 30px 0;
 
             .contacts__name {
@@ -50,7 +50,7 @@
         font-size: 1.1rem;
         bottom: 4px;
         right: 1px;
-        text-shadow: -2px 0 $lightgray, 0 2px $lightgray, 2px 0 $lightgray, 0 -2px $lightgray;
+        text-shadow: -2px 0 $clr-lightgray, 0 2px $clr-lightgray, 2px 0 $clr-lightgray, 0 -2px $clr-lightgray;
         color: hsl(120, 100%, 35%);
     }
 
@@ -67,8 +67,8 @@
     flex-direction: column;
 
     &__header {
-        background-color: lighten($lightgray, 8%);
-        border-bottom: 1px solid $lightgray;
+        background-color: lighten($clr-lightgray, 8%);
+        border-bottom: 1px solid $clr-lightgray;
         padding: 1rem 2rem;
     }
 
@@ -88,8 +88,8 @@
         display: flex;
         margin-top: auto;
         padding: .6rem;
-        background-color: lighten($lightgray, 8%);
-        border-top: 1px solid $lightgray;
+        background-color: lighten($clr-lightgray, 8%);
+        border-top: 1px solid $clr-lightgray;
 
         form {
             display: inherit;
@@ -104,7 +104,7 @@
             background-image: $left-gradient;
             background-size: 150% 100%;
             background-position: left;
-            color: $white;
+            color: $clr-white;
             padding: 0;
             margin: 0 .3rem;
             font-size: .9rem;
@@ -152,7 +152,7 @@
         padding-left: 45px;
 
         .message__content {
-            background-color: lighten($gray, 5%);
+            background-color: lighten($clr-gray, 5%);
         }
     }
 
@@ -166,14 +166,14 @@
         justify-content: flex-end;
 
         .message__content {
-            background-color: $primary;
+            background-color: $clr-primary;
         }
     }
 }
 
 .infinite-status-prompt {
     font-size: .9rem;
-    color: $gray;
+    color: $clr-gray;
 
     .infinite-status-prompt__content {
         padding-top: 1.5rem;
@@ -185,7 +185,7 @@
     width: 10px;
     float: left;
     margin: .3rem .1rem;
-    background-color: $lightgray;
+    background-color: $clr-lightgray;
     display: block;
     border-radius: 50%;
     opacity: .5;

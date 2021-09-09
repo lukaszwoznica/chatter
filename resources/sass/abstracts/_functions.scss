@@ -2,8 +2,8 @@
 
 @function text-color($bg-color) {
     @if (lightness($bg-color) > 50) {
-        @return $black;
+        @return $clr-black;
     } @else {
-        @return $white;
+        @return $clr-white;
     }
 }

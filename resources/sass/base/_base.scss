@@ -40,12 +40,12 @@ img {
     height: 100%;
 
     &--circle {
-        background-color: $white;
+        background-color: $clr-white;
         clip-path: circle(80% at 15% 58%);
     }
 
     &--eclipse {
-        background-color: $lightgray;
+        background-color: $clr-lightgray;
         display: none;
     }
 }
