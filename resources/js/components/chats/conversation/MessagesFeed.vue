@@ -4,9 +4,11 @@
             @infinite="infiniteLoadingHandler"
             direction="top"
             ref="infiniteLoading">
+
             <template #no-more>
                 <span></span>
             </template>
+
             <template #no-results>
                 <p class="infinite-status-prompt__content">
                     <template v-if="!isLoadingMessages && messages.length === 0">
@@ -21,6 +23,10 @@
             <li v-for="(message, index) in messages" :key="message.id"
                 class="message"
                 :class="`message--${message.sender.id === authUser?.id ? 'sent' : 'received'}`">
+
+                <div class="message__avatar" v-if="showUserAvatar(index)">
+                    <img src="https://via.placeholder.com/500" alt="User avatar">
+                </div>
                 <div class="message__content">
                     {{ message.text }}
                 </div>
@@ -28,7 +34,11 @@
                 <!--                    Read at {{ message.read_at }}-->
                 <!--                </span>-->
             </li>
+
             <li v-if="typingUser" class="message message--typing">
+                <div class="message__avatar">
+                    <img src="https://via.placeholder.com/500" alt="User avatar">
+                </div>
                 <div class="message__content">
                     <span class="typing-dot" v-for="index in 3" :key="index"></span>
                 </div>
@@ -82,7 +92,6 @@ export default {
                     this.typingUser = event.user
                     this.$nextTick(() => {
                         this.scrollToBottom()
-                        console.log('scroll')
                     })
 
                     if (this.typingClock) {
@@ -110,6 +119,12 @@ export default {
                     inline: "nearest"
                 })
             })
+        },
+
+        showUserAvatar(messageIndex) {
+            return this.messages[messageIndex].sender.id !== this.authUser.id &&
+                (this.messages[messageIndex + 1]?.sender.id === this.authUser.id ||
+                    (typeof this.messages[messageIndex + 1] === 'undefined' && !this.typingUser))
         }
     },
 

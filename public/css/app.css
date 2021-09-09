@@ -1061,9 +1061,9 @@ label {
 }
 
 .message {
+  position: relative;
   padding: 0.3rem 0.5rem;
   display: flex;
-  flex-direction: column;
 }
 .message__content {
   color: white;
@@ -1072,8 +1072,19 @@ label {
   word-break: break-word;
   border-radius: 20px;
 }
+.message__avatar {
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+}
+.message__avatar img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
 .message--received, .message--typing {
-  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 45px;
 }
 .message--received .message__content, .message--typing .message__content {
   background-color: #737373;
@@ -1083,7 +1094,7 @@ label {
           animation: 2s bulge infinite ease-out;
 }
 .message--sent {
-  align-items: flex-end;
+  justify-content: flex-end;
 }
 .message--sent .message__content {
   background-color: #b65fc4;

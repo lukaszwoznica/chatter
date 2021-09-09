@@ -27172,8 +27172,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this.$nextTick(function () {
           _this.scrollToBottom();
-
-          console.log('scroll');
         });
 
         if (_this.typingClock) {
@@ -27223,6 +27221,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           inline: "nearest"
         });
       });
+    },
+    showUserAvatar: function showUserAvatar(messageIndex) {
+      var _this$messages;
+
+      return this.messages[messageIndex].sender.id !== this.authUser.id && (((_this$messages = this.messages[messageIndex + 1]) === null || _this$messages === void 0 ? void 0 : _this$messages.sender.id) === this.authUser.id || typeof this.messages[messageIndex + 1] === 'undefined' && !this.typingUser);
     }
   }),
   mounted: function mounted() {
@@ -28342,13 +28345,35 @@ var _hoisted_4 = {
   ref: "messagesList"
 };
 var _hoisted_5 = {
+  key: 0,
+  "class": "message__avatar"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+  src: "https://via.placeholder.com/500",
+  alt: "User avatar"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_7 = {
   "class": "message__content"
 };
-var _hoisted_6 = {
+var _hoisted_8 = {
   key: 0,
   "class": "message message--typing"
 };
-var _hoisted_7 = {
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "message__avatar"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+  src: "https://via.placeholder.com/500",
+  alt: "User avatar"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
   "class": "message__content"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -28382,14 +28407,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
       key: message.id,
       "class": ["message", "message--".concat(message.sender.id === ((_ctx$authUser = _ctx.authUser) === null || _ctx$authUser === void 0 ? void 0 : _ctx$authUser.id) ? 'sent' : 'received')]
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
+    }, [$options.showUserAvatar(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_5, [_hoisted_6])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <span v-if=\"message.read_at && index === messages.length - 1\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                    Read at {{ message.read_at }}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                </span>")], 2
     /* CLASS */
     );
   }), 128
   /* KEYED_FRAGMENT */
-  )), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(3, function (index) {
+  )), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(3, function (index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
       "class": "typing-dot",
       key: index
