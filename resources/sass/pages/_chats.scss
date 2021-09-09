@@ -80,6 +80,7 @@
 
     &__feed {
         padding: 1rem 2rem;
+        scroll-padding: 1rem 2rem;
         overflow-y: scroll;
     }
 
@@ -134,7 +135,7 @@
         border-radius: 20px;
     }
 
-    &--received {
+    &--received, &--typing {
         align-items: flex-start;
 
         .message__content {
@@ -155,7 +156,7 @@
     font-size: .9rem;
     color: $gray;
 
-    p {
+    .infinite-status-prompt__content {
         padding-top: 1.5rem;
     }
 }

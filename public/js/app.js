@@ -26947,6 +26947,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }),
+  methods: {
+    scrollFeedToBottom: function scrollFeedToBottom() {
+      this.$refs.feed.scrollToBottom();
+    }
+  },
   watch: {
     selectedContact: function selectedContact() {
       if (this.previousConversationId !== null) {
@@ -27025,7 +27030,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapMutations)({
     updateContact: 'contacts/UPDATE_CONTACT'
   })), {}, {
-    submit: function submit() {
+    onSubmit: function onSubmit() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -27034,39 +27039,44 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!_this.message.text) {
-                  _context.next = 13;
+                if (!(_this.message.text === '')) {
+                  _context.next = 2;
                   break;
                 }
 
-                _context.prev = 1;
+                return _context.abrupt("return");
+
+              case 2:
+                _context.prev = 2;
                 _this.message.recipient_id = _this.selectedContact.id;
-                _context.next = 5;
+                _context.next = 6;
                 return _this.sendMessage(_this.message);
 
-              case 5:
+              case 6:
                 message = _context.sent;
 
                 _this.updateContact(_objectSpread(_objectSpread({}, _this.selectedContact), {}, {
                   last_message: message.created_at
                 }));
 
+                _this.$emit('messageSent');
+
                 _this.resetMessageData();
 
-                _context.next = 13;
+                _context.next = 15;
                 break;
 
-              case 10:
-                _context.prev = 10;
-                _context.t0 = _context["catch"](1);
+              case 12:
+                _context.prev = 12;
+                _context.t0 = _context["catch"](2);
                 alert('Something went wrong while sending a message.');
 
-              case 13:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 10]]);
+        }, _callee, null, [[2, 12]]);
       }))();
     },
     onInput: function onInput(event) {
@@ -27160,6 +27170,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       Echo["private"]("conversation.".concat(this.conversationId)).listenForWhisper('TypingEvent', function (event) {
         _this.typingUser = event.user;
 
+        _this.$nextTick(function () {
+          _this.scrollToBottom();
+
+          console.log('scroll');
+        });
+
         if (_this.typingClock) {
           clearTimeout(_this.typingClock);
         }
@@ -27196,6 +27212,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee);
       }))();
+    },
+    scrollToBottom: function scrollToBottom() {
+      var _this3 = this;
+
+      this.$nextTick(function () {
+        _this3.$refs.messagesList.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest"
+        });
+      });
     }
   }),
   mounted: function mounted() {
@@ -27402,7 +27429,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (message.sender.id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
         this.addMessage(message);
         this.markMessageAsRead(message.id);
-        this.$root.$emit('clearTyping');
+        this.$refs.conversationWrapper.scrollFeedToBottom();
       }
     },
     updateContactListAfterNewMessage: function updateContactListAfterNewMessage(message) {
@@ -28200,16 +28227,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["selected-contact"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessagesFeed, {
-    "conversation-id": $options.cantorPairConversationId
+    "conversation-id": $options.cantorPairConversationId,
+    ref: "feed"
   }, null, 8
   /* PROPS */
   , ["conversation-id"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MessageComposer, {
     "auth-user": _ctx.authUser,
     "selected-contact": _ctx.selectedContact,
-    "conversation-id": $options.cantorPairConversationId
+    "conversation-id": $options.cantorPairConversationId,
+    onMessageSent: $options.scrollFeedToBottom
   }, null, 8
   /* PROPS */
-  , ["auth-user", "selected-contact", "conversation-id"])], 64
+  , ["auth-user", "selected-contact", "conversation-id", "onMessageSent"])], 64
   /* STABLE_FRAGMENT */
   )) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
@@ -28243,7 +28272,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submit && $options.submit.apply($options, arguments);
+      return $options.onSubmit && $options.onSubmit.apply($options, arguments);
     }, ["prevent"])),
     "class": "form"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("textarea", {
@@ -28256,7 +28285,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.onInput && $options.onInput.apply($options, arguments);
     }),
     onKeydown: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submit && $options.submit.apply($options, arguments);
+      return $options.onSubmit && $options.onSubmit.apply($options, arguments);
     }, ["prevent"]), ["enter"])),
     placeholder: "Type a message"
   }, "\n            ", 544
@@ -28306,13 +28335,21 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_3 = {
-  "class": "messages"
+  "class": "infinite-status-prompt__content"
 };
 var _hoisted_4 = {
-  "class": "message__content"
+  "class": "messages",
+  ref: "messagesList"
 };
 var _hoisted_5 = {
-  key: 0
+  "class": "message__content"
+};
+var _hoisted_6 = {
+  key: 0,
+  "class": "message message--typing"
+};
+var _hoisted_7 = {
+  "class": "message__content"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_infinite_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("infinite-loading");
@@ -28326,7 +28363,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_2];
     }),
     "no-results": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [!$data.isLoadingMessages && _ctx.messages.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_3, [!$data.isLoadingMessages && _ctx.messages.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         key: 0
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" There are no messages in this conversation yet. Send your first message to " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedContact.first_name) + ". ", 1
       /* TEXT */
@@ -28339,22 +28376,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onInfinite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.messages, function (message, index) {
+  , ["onInfinite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.messages, function (message, index) {
     var _ctx$authUser;
 
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
       key: message.id,
       "class": ["message", "message--".concat(message.sender.id === ((_ctx$authUser = _ctx.authUser) === null || _ctx$authUser === void 0 ? void 0 : _ctx$authUser.id) ? 'sent' : 'received')]
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <span v-if=\"message.read_at && index === messages.length - 1\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                    Read at {{ message.read_at }}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                </span>")], 2
     /* CLASS */
     );
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.typingUser.first_name) + " is typing... ", 1
+  )), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.typingUser.first_name) + " is typing... ", 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512
+  /* NEED_PATCH */
+  )]);
 }
 
 /***/ }),
@@ -28543,7 +28582,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_ConversationWrapper = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ConversationWrapper");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ContactsList), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ConversationWrapper)]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ContactsList), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ConversationWrapper, {
+    ref: "conversationWrapper"
+  }, null, 512
+  /* NEED_PATCH */
+  )]);
 }
 
 /***/ }),

@@ -2,10 +2,11 @@
     <div class="conversation">
         <template v-if="selectedContact">
             <ConversationHeader :selected-contact="selectedContact"/>
-            <MessagesFeed :conversation-id="cantorPairConversationId"/>
+            <MessagesFeed :conversation-id="cantorPairConversationId" ref="feed"/>
             <MessageComposer :auth-user="authUser"
                              :selected-contact="selectedContact"
-                             :conversation-id="cantorPairConversationId"/>
+                             :conversation-id="cantorPairConversationId"
+                             @message-sent="scrollFeedToBottom"/>
         </template>
         <template v-else>
             Select contact to start conversation
@@ -54,6 +55,12 @@ export default {
 
                 return (0.5 * (x + y) * (x + y + 1)) + y
             }
+        }
+    },
+
+    methods: {
+        scrollFeedToBottom() {
+            this.$refs.feed.scrollToBottom()
         }
     },
 

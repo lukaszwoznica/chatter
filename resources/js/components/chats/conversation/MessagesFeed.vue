@@ -8,7 +8,7 @@
                 <span></span>
             </template>
             <template #no-results>
-                <p>
+                <p class="infinite-status-prompt__content">
                     <template v-if="!isLoadingMessages && messages.length === 0">
                         There are no messages in this conversation yet.
                         Send your first message to {{ selectedContact.first_name }}.
@@ -17,7 +17,7 @@
             </template>
         </infinite-loading>
 
-        <ul class="messages">
+        <ul class="messages" ref="messagesList">
             <li v-for="(message, index) in messages" :key="message.id"
                 class="message"
                 :class="`message--${message.sender.id === authUser?.id ? 'sent' : 'received'}`">
@@ -28,11 +28,12 @@
                 <!--                    Read at {{ message.read_at }}-->
                 <!--                </span>-->
             </li>
+            <li v-if="typingUser" class="message message--typing">
+                <div class="message__content">
+                    {{ typingUser.first_name }} is typing...
+                </div>
+            </li>
         </ul>
-
-        <span v-if="typingUser">
-            {{ typingUser.first_name }} is typing...
-        </span>
     </div>
 </template>
 
@@ -79,10 +80,15 @@ export default {
             Echo.private(`conversation.${this.conversationId}`)
                 .listenForWhisper('TypingEvent', event => {
                     this.typingUser = event.user
+                    this.$nextTick(() => {
+                        this.scrollToBottom()
+                        console.log('scroll')
+                    })
 
                     if (this.typingClock) {
                         clearTimeout(this.typingClock)
                     }
+
                     this.typingClock = setTimeout(() => this.typingUser = null, 1000)
                 })
         },
@@ -95,6 +101,16 @@ export default {
             })
             this.isLoadingMessages = false
         },
+
+        scrollToBottom() {
+            this.$nextTick(() => {
+                this.$refs.messagesList.scrollIntoView({
+                    behavior: "smooth",
+                    block: "end",
+                    inline: "nearest"
+                })
+            })
+        }
     },
 
     mounted() {

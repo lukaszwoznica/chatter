@@ -1003,6 +1003,7 @@ label {
 }
 .conversation__feed {
   padding: 1rem 2rem;
+  scroll-padding: 1rem 2rem;
   overflow-y: scroll;
 }
 .conversation__composer {
@@ -1051,10 +1052,10 @@ label {
   word-break: break-word;
   border-radius: 20px;
 }
-.message--received {
+.message--received, .message--typing {
   align-items: flex-start;
 }
-.message--received .message__content {
+.message--received .message__content, .message--typing .message__content {
   background-color: #737373;
 }
 .message--sent {
@@ -1068,6 +1069,6 @@ label {
   font-size: 0.9rem;
   color: #666666;
 }
-.infinite-status-prompt p {
+.infinite-status-prompt .infinite-status-prompt__content {
   padding-top: 1.5rem;
 }

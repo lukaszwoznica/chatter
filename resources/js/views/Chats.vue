@@ -1,7 +1,7 @@
 <template>
     <div class="chats-container">
         <ContactsList/>
-        <ConversationWrapper/>
+        <ConversationWrapper ref="conversationWrapper"/>
     </div>
 </template>
 
@@ -64,7 +64,7 @@ export default {
             if (message.sender.id === this.selectedContact?.id) {
                 this.addMessage(message)
                 this.markMessageAsRead(message.id)
-                this.$root.$emit('clearTyping')
+                this.$refs.conversationWrapper.scrollFeedToBottom()
             }
         },
 

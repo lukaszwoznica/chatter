@@ -1,11 +1,11 @@
 <template>
     <div class="conversation__composer">
-        <form @submit.prevent="submit" class="form">
+        <form @submit.prevent="onSubmit" class="form">
             <textarea v-model.trim="message.text"
                       rows="1"
                       class="form__textarea form__textarea--message"
                       @input="onInput"
-                      @keydown.enter.prevent="submit"
+                      @keydown.enter.prevent="onSubmit"
                       placeholder="Type a message">
             </textarea>
             <AppButton type="submit" v-show="this.message.text" :class-list="['send-message-button']">
@@ -60,21 +60,24 @@ export default {
             updateContact: 'contacts/UPDATE_CONTACT'
         }),
 
-        async submit() {
-            if (this.message.text) {
-                try {
-                    this.message.recipient_id = this.selectedContact.id
-                    const message = await this.sendMessage(this.message)
+        async onSubmit() {
+            if (this.message.text === '') {
+                return
+            }
 
-                    this.updateContact({
-                        ...this.selectedContact,
-                        last_message: message.created_at
-                    })
+            try {
+                this.message.recipient_id = this.selectedContact.id
+                const message = await this.sendMessage(this.message)
 
-                    this.resetMessageData()
-                } catch (error) {
-                    alert('Something went wrong while sending a message.')
-                }
+                this.updateContact({
+                    ...this.selectedContact,
+                    last_message: message.created_at
+                })
+
+                this.$emit('messageSent')
+                this.resetMessageData()
+            } catch (error) {
+                alert('Something went wrong while sending a message.')
             }
         },
 
