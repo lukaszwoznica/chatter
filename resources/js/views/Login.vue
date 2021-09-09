@@ -62,7 +62,7 @@ export default {
                 password: '',
             },
 
-            validationErrors: null,
+            validationErrors: [],
         }
     },
 
@@ -83,7 +83,7 @@ export default {
 
         onInputChange(event) {
             if (this.validationErrors[event.target.id]) {
-                this.validationErrors[event.target.id] = null
+                this.validationErrors[event.target.id] = []
             }
         }
     },

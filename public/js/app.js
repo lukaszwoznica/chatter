@@ -27522,7 +27522,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         email: '',
         password: ''
       },
-      validationErrors: null
+      validationErrors: []
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
@@ -27566,7 +27566,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     onInputChange: function onInputChange(event) {
       if (this.validationErrors[event.target.id]) {
-        this.validationErrors[event.target.id] = null;
+        this.validationErrors[event.target.id] = [];
       }
     }
   })
