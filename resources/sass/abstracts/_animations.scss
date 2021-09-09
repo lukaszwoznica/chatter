@@ -6,3 +6,15 @@
         background-position: bottom;
     }
 }
+
+@keyframes typing-dots-blink {
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes bulge {
+    50% {
+        transform: scale(1.05);
+    }
+}

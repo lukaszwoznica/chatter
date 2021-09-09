@@ -143,6 +143,12 @@
         }
     }
 
+    &--typing {
+        .message__content {
+            animation: 2s bulge infinite ease-out;
+        }
+    }
+
     &--sent {
         align-items: flex-end;
 
@@ -158,5 +164,21 @@
 
     .infinite-status-prompt__content {
         padding-top: 1.5rem;
+    }
+}
+
+.typing-dot {
+    height: 10px;
+    width: 10px;
+    float: left;
+    margin: .3rem .1rem;
+    background-color: $lightgray;
+    display: block;
+    border-radius: 50%;
+    opacity: .5;
+    @for $i from 1 through 3 {
+        &:nth-of-type(#{$i}) {
+            animation: 1s typing-dots-blink infinite ($i * .3333s);
+        }
     }
 }

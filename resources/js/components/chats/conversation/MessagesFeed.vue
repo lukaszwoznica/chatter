@@ -30,7 +30,7 @@
             </li>
             <li v-if="typingUser" class="message message--typing">
                 <div class="message__content">
-                    {{ typingUser.first_name }} is typing...
+                    <span class="typing-dot" v-for="index in 3" :key="index"></span>
                 </div>
             </li>
         </ul>
@@ -89,7 +89,7 @@ export default {
                         clearTimeout(this.typingClock)
                     }
 
-                    this.typingClock = setTimeout(() => this.typingUser = null, 1000)
+                    this.typingClock = setTimeout(() => this.typingUser = null, 800)
                 })
         },
 
