@@ -1,0 +1,18 @@
+@use "../abstracts" as *;
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba($clr-black, 0);
+    pointer-events: none;
+    transition: background-color .5s ease-in-out;
+
+    &--active {
+        pointer-events: auto;
+        background-color: rgba($clr-black, 0.8);
+    }
+}

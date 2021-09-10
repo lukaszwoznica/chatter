@@ -58,3 +58,59 @@
         padding: 1rem 3.5rem;
     }
 }
+
+.hamburger {
+    padding: .1rem;
+    display: inline-block;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+
+    &__box {
+        width: 35px;
+        height: 24px;
+        display: inline-block;
+        position: relative;
+    }
+
+    &__inner {
+        @include hamburger-line;
+
+        top: 50%;
+        transform: translateY(50%);
+        transition: background-color .1s .2s ease-in-out;
+
+        &:before, &:after {
+            @include hamburger-line;
+
+            content: '';
+            transition: all .3s .3s ease-in-out;
+        }
+
+        &:before {
+            top: -10px
+        }
+
+        &:after {
+            top: 10px
+        }
+    }
+
+    &--active {
+        .hamburger__inner {
+            background-color: transparent;
+
+            &:before, &:after {
+                background-color: $clr-white;
+            }
+
+            &:before {
+                transform: translateY(10px) rotate(45deg);
+            }
+
+            &:after {
+                transform: translateY(-10px) rotate(-45deg);
+            }
+        }
+    }
+}
