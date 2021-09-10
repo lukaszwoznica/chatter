@@ -964,26 +964,43 @@ label {
 
 .contacts {
   flex: 1;
-  background-color: #e6e6e6;
+  background-color: white;
+  border-right: 1px solid #e6e6e6;
 }
 .contacts__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1.2rem;
+}
+.contacts__search-icon {
+  font-size: 1.2rem;
+  color: #b65fc4;
+  cursor: pointer;
+}
+.contacts__search-icon:hover {
+  color: #d097d8;
 }
 .contacts__item {
+  position: relative;
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem 0.5rem 0.7rem;
-  margin-right: 0.5rem;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 0 0.2rem;
+}
+.contacts__item:hover {
+  background-color: #f7f7f7;
 }
 .contacts__item--active {
-  background-color: white;
-  border-radius: 0 30px 30px 0;
+  background-color: #ededed;
 }
 .contacts__item--active .contacts__name {
-  font-weight: bold;
+  color: #a041af;
+}
+.contacts__item--active:hover {
+  background-color: #ededed;
 }
 .contacts__avatar {
   margin-right: 1rem;
@@ -1004,6 +1021,23 @@ label {
 }
 .contacts__last-message {
   margin-left: auto;
+  align-self: flex-start;
+  font-size: 0.8rem;
+  color: #666666;
+}
+.contacts__unread-messages {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  background-color: #db6e4d;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 50%;
 }
 
 .conversation {

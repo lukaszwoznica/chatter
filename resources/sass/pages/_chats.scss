@@ -9,27 +9,48 @@
 
 .contacts {
     flex: 1;
-    background-color: $clr-lightgray;
+    background-color: $clr-white;
+    border-right: 1px solid $clr-lightgray;
 
     &__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem;
+        padding: 1.2rem;
+    }
+
+    &__search-icon {
+        font-size: 1.2rem;
+        color: $clr-primary;
+        cursor: pointer;
+
+        &:hover {
+            color: lighten($clr-primary, 15%);
+        }
     }
 
     &__item {
+        position: relative;
         display: flex;
         align-items: center;
         padding: .5rem 1rem .5rem .7rem;
-        margin-right: .5rem;
+        cursor: pointer;
+        border-radius: 20px;
+        margin: 0 .2rem;
+
+        &:hover {
+            background-color: lighten($clr-lightgray, 7%);
+        }
 
         &--active {
-            background-color: $clr-white;
-            border-radius: 0 30px 30px 0;
+            background-color: lighten($clr-lightgray, 3%);
 
             .contacts__name {
-                font-weight: bold;
+                color: darken($clr-primary, 10%);
+            }
+
+            &:hover {
+                background-color: lighten($clr-lightgray, 3%);
             }
         }
     }
@@ -57,8 +78,25 @@
 
     &__last-message {
         margin-left: auto;
+        align-self: flex-start;
+        font-size: .8rem;
+        color: $clr-gray;
     }
 
+    &__unread-messages {
+        position: absolute;
+        right: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 22px;
+        height: 22px;
+        background-color: $clr-secondary;
+        color: $clr-white;
+        font-size: .7rem;
+        font-weight: $font-bold;
+        border-radius: 50%;
+    }
 }
 
 .conversation {
