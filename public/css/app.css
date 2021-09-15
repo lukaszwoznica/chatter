@@ -948,6 +948,33 @@ label {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+.v-popper__popper {
+  z-index: 10000;
+}
+.v-popper__wrapper {
+  display: block !important;
+  font-size: 0.85rem;
+}
+.v-popper__inner {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 16px;
+  padding: 0.25rem 0.8rem;
+}
+.v-popper__arrow {
+  display: none;
+}
+.v-popper[aria-hidden=true] {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s, visibility 0.15s;
+}
+.v-popper[aria-hidden=false] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.15s;
+}
+
 .home {
   display: flex;
   padding: 1rem 2.5rem 3rem 2.5rem;
@@ -1175,6 +1202,7 @@ label {
   border-bottom: 1px solid #e6e6e6;
   padding: 1rem 2rem;
   text-align: center;
+  height: 85px;
 }
 @media screen and (min-width: 992px) {
   .conversation__header {
@@ -1187,9 +1215,14 @@ label {
   font-weight: 300;
 }
 .conversation__feed {
-  padding: 1rem 2rem;
+  padding: 1rem;
   scroll-padding: 1rem 2rem;
   overflow-y: scroll;
+}
+@media screen and (min-width: 768px) {
+  .conversation__feed {
+    padding: 1rem 2rem;
+  }
 }
 .conversation__composer {
   display: flex;
@@ -1233,9 +1266,14 @@ label {
 .message__content {
   color: white;
   padding: 0.6rem 1rem;
-  max-width: 70%;
+  max-width: 80%;
   word-break: break-word;
   border-radius: 20px;
+}
+@media screen and (min-width: 992px) {
+  .message__content {
+    max-width: 70%;
+  }
 }
 .message__avatar {
   position: absolute;
@@ -1247,12 +1285,18 @@ label {
   height: 35px;
   border-radius: 50%;
 }
+.message__read-indicator {
+  color: #666666;
+  position: absolute;
+  bottom: 3px;
+  right: -12px;
+}
 .message--received, .message--typing {
   justify-content: flex-start;
   padding-left: 45px;
 }
 .message--received .message__content, .message--typing .message__content {
-  background-color: #737373;
+  background-color: #949494;
 }
 .message--typing .message__content {
   -webkit-animation: 2s bulge infinite ease-out;

@@ -29,11 +29,13 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
+        "@fortawesome/free-regular-svg-icons": "^5.15.4",
         "@fortawesome/free-solid-svg-icons": "^5.15.4",
         "@fortawesome/vue-fontawesome": "^3.0.0-4",
         "dayjs": "^1.10.6",
         "luxon": "^1.26.0",
         "normalize-scss": "^7.0.1",
+        "v-tooltip": "^4.0.0-alpha.1",
         "vue-infinite-loading": "^3.0.0-alpha.0-0",
         "vue-lottie-player": "^0.1.9"
     }

@@ -22,17 +22,24 @@
         <ul class="messages" ref="messagesList">
             <li v-for="(message, index) in messages" :key="message.id"
                 class="message"
-                :class="`message--${message.sender.id === authUser?.id ? 'sent' : 'received'}`">
+                :class="`message--${message.sender.id === authUser.id ? 'sent' : 'received'}`">
 
                 <div class="message__avatar" v-if="showUserAvatar(index)">
                     <img src="https://via.placeholder.com/500" alt="User avatar">
                 </div>
-                <div class="message__content">
+
+                <div class="message__content" v-tooltip="getMessageTooltipOptions(message)">
                     {{ message.text }}
                 </div>
-                <!--                <span v-if="message.read_at && index === messages.length - 1">-->
-                <!--                    Read at {{ message.read_at }}-->
-                <!--                </span>-->
+
+                <div class="message__read-indicator" v-if="showMessageReadIndicator(index)">
+                    <span v-if="message.read_at" v-tooltip="`Read at ${formatDate(message.read_at)}`">
+                        <font-awesome-icon :icon="['far', 'check-circle']"></font-awesome-icon>
+                    </span>
+                    <span v-else v-tooltip="'Unread'">
+                        <font-awesome-icon :icon="['far', 'circle']"></font-awesome-icon>
+                    </span>
+                </div>
             </li>
 
             <li v-if="typingUser" class="message message--typing">
@@ -49,13 +56,17 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import {mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import dayjs from 'dayjs'
+import isToday from 'dayjs/plugin/isToday'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
     name: "MessagesFeed",
 
     components: {
-        InfiniteLoading
+        InfiniteLoading,
+        FontAwesomeIcon
     },
 
     props: {
@@ -70,6 +81,11 @@ export default {
             typingClock: null,
             isLoadingMessages: false
         }
+    },
+
+    mounted() {
+        this.listenForWhisperOnConversationChannel()
+        dayjs.extend(isToday)
     },
 
     computed: {
@@ -125,11 +141,42 @@ export default {
             return this.messages[messageIndex].sender.id !== this.authUser.id &&
                 (this.messages[messageIndex + 1]?.sender.id === this.authUser.id ||
                     (typeof this.messages[messageIndex + 1] === 'undefined' && !this.typingUser))
-        }
-    },
+        },
 
-    mounted() {
-        this.listenForWhisperOnConversationChannel()
+        showMessageReadIndicator(messageIndex) {
+            return this.messages[messageIndex].sender.id === this.authUser.id &&
+                ((this.messages[messageIndex].read_at && !this.messages[messageIndex + 1]?.read_at) ||
+                    (!this.messages[messageIndex].read_at &&
+                        !this.messages.slice(messageIndex, this.messages.length - 1)
+                            .some(message => message.sender.id !== this.authUser.id)))
+        },
+
+        formatDate(date) {
+            const dateToFormat = dayjs(date)
+            if (!dateToFormat.isValid()) {
+                return ''
+            }
+
+            let dateFormat = ''
+            if (dateToFormat.isToday()) {
+                dateFormat = 'HH:mm'
+            } else {
+                dateFormat = 'D MMMM YYYY HH:mm'
+            }
+
+            return dateToFormat.format(dateFormat)
+        },
+
+        getMessageTooltipOptions(message) {
+            return {
+                content: this.formatDate(message.created_at),
+                placement: 'auto',
+                delay: {
+                    show: 500,
+                    hide: 0
+                }
+            }
+        }
     },
 
     watch: {

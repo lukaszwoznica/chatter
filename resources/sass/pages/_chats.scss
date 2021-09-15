@@ -165,6 +165,7 @@
         border-bottom: 1px solid $clr-lightgray;
         padding: 1rem 2rem;
         text-align: center;
+        height: 85px;
 
         @include l-screen {
             text-align: left;
@@ -178,9 +179,13 @@
     }
 
     &__feed {
-        padding: 1rem 2rem;
+        padding: 1rem;
         scroll-padding: 1rem 2rem;
         overflow-y: scroll;
+
+        @include m-screen {
+            padding: 1rem 2rem;
+        }
     }
 
     &__composer {
@@ -229,9 +234,13 @@
     &__content {
         color: white;
         padding: .6rem 1rem;
-        max-width: 70%;
+        max-width: 80%;
         word-break: break-word;
         border-radius: 20px;
+
+        @include l-screen {
+            max-width: 70%;
+        }
     }
 
     &__avatar {
@@ -246,12 +255,19 @@
         }
     }
 
+    &__read-indicator {
+        color:$clr-gray;
+        position: absolute;
+        bottom: 3px;
+        right: -12px;
+    }
+
     &--received, &--typing {
         justify-content: flex-start;
         padding-left: 45px;
 
         .message__content {
-            background-color: lighten($clr-gray, 5%);
+            background-color: lighten($clr-gray, 18%);
         }
     }
 
