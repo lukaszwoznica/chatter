@@ -1,41 +1,54 @@
 <template>
     <div class="search-overlay" :class="{'search-overlay--visible': visible}">
         <span class="search-overlay__close-button" title="Close" @click="$emit('onClose')">
-            x
+            &#10005;
         </span>
         <div class="search-overlay__container">
-            <form @submit.prevent>
-                <input type="text" placeholder="Search..."
-                       ref="search"
-                       @input='onInput($event.target.value)'>
+            <form class="form" @submit.prevent>
+                <div class="form__group">
+                    <input type="search" class="form__input" placeholder="Search for user" ref="search" @input='onInput($event.target.value)'>
+                    <font-awesome-icon :icon="['fas', 'search']"></font-awesome-icon>
+                </div>
             </form>
+
             <p v-show="isSearching">
                 Searching...
             </p>
-            <ul class="results__list" v-if="results.length">
-                <li class="results__item" v-for="result in results" :key="result.id">
-                    {{ fullName(result) }}
-                    <AppButton @onClick="startConversation(result)">
-                        Start conversation
-                    </AppButton>
-                </li>
-            </ul>
+
+            <div class="search-overlay__results" v-if="results.length">
+                <ul class="search-results">
+                    <li class="search-results__item" v-for="result in results" :key="result.id">
+                        <div class="search-results__avatar">
+                            <img src="https://via.placeholder.com/500" alt="User Avatar">
+                        </div>
+                        <div class="search-results__name">
+                            {{ fullName(result) }}
+                        </div>
+                        <div class="search-results__action">
+                            <button @click="startConversationWithUser(result)">
+                                <font-awesome-icon :icon="['fas', 'comment-dots']"></font-awesome-icon>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
             <p v-else-if="searchQuery && !isSearching">No results</p>
         </div>
     </div>
 </template>
 
 <script>
-import AppButton from '../../ui/AppButton';
 import ApiRoutes from "../../../api/routes";
-import {debounce} from 'lodash'
-import {mapActions, mapGetters} from 'vuex'
+import { debounce } from 'lodash'
+import { mapActions, mapGetters } from 'vuex'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
     name: "ContactSearchOverlay",
 
     components: {
-        AppButton
+      FontAwesomeIcon
     },
 
     props: {
@@ -76,7 +89,7 @@ export default {
 
         fullName: (user) => `${user.first_name} ${user.last_name}`,
 
-        startConversation(user) {
+        startConversationWithUser(user) {
             if (!this.getContactById(user.id)) {
                 this.addNewContact(user)
             }
@@ -111,54 +124,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.search-overlay {
-    height: 100%;
-    width: 100%;
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.search-overlay--visible {
-    display: block;
-}
-
-.search-overlay__container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    top: 15%;
-    width: 100%;
-}
-
-form {
-    width: 100%;
-    text-align: center;
-}
-
-input {
-    height: 50px;
-    width: 50%;
-    opacity: 0.9;
-}
-
-.search-overlay__close-button {
-    position: absolute;
-    top: 20px;
-    right: 45px;
-    font-size: 60px;
-    cursor: pointer;
-    color: white;
-}
-
-p, li {
-    color: #ffffff;
-}
-</style>

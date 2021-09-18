@@ -1,0 +1,229 @@
+@use "../abstracts" as *;
+
+.overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba($clr-black, 0);
+    pointer-events: none;
+    transition: background-color .5s ease-in-out;
+
+    &--active {
+        pointer-events: auto;
+        background-color: rgba($clr-black, 0.8);
+    }
+}
+
+.search-overlay {
+    height: 100%;
+    width: 100%;
+    visibility: hidden;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: rgba($clr-black, 0);
+    transition: visibility 0s .8s, background-color .3s .5s ease-in-out;
+
+    &__container {
+        @include flex-center;
+
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        top: 25%;
+        width: 100%;
+        overflow: hidden;
+        transform: scaleX(0);
+        transition: transform .5s ease-in-out;
+
+        @media screen and (min-height: 700px) {
+            top: 15%;
+        }
+    }
+
+    &__close-button {
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        font-size: 40px;
+        cursor: pointer;
+        color: white;
+        transition: transform .2s ease-in-out;
+
+        @include m-screen {
+            top: 20px;
+            right: 45px;
+            font-size: 60px;
+        }
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &__results {
+        background-color: rgba($clr-white, .85);
+        width: 90%;
+        border-radius: 20px;
+        border: 1px solid darken($clr-lightgray, 10%);
+        border-top: none;
+        overflow-y: hidden;
+
+        @include m-screen {
+            width: 80%;
+        }
+
+        @include l-screen {
+            width: 60%;
+        }
+
+        @include xxl-screen {
+            width: 50%;
+        }
+    }
+
+    .search-results {
+        list-style-type: none;
+        max-height: 45vh;
+        overflow-y: auto;
+
+        @media screen and (min-height: 700px) {
+            max-height: 60vh;
+        }
+
+        &__item {
+            display: flex;
+            align-items: center;
+            color: $clr-black;
+            padding: 1rem;
+            border-bottom: 1px solid darken($clr-lightgray, 10%);
+
+            &:first-child {
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+            }
+
+            &:last-child {
+                border-bottom: none;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+
+            &:hover {
+                background-color: rgba($clr-white, .5);
+            }
+        }
+
+        &__avatar {
+            width: 50px;
+            height: 50px;
+
+            img {
+                border-radius: 50%;
+            }
+        }
+
+        &__name {
+            margin-left: 1rem;
+        }
+
+        &__action {
+            margin-left: auto;
+            padding-right: .4rem;
+
+            @include m-screen {
+                padding-right: 1rem;
+            }
+
+            button {
+                @include flex-center;
+
+                padding: .5rem;
+                border: none;
+                outline: none;
+                background-color: $clr-primary;
+                color: $clr-white;
+                border-radius: 50%;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: lighten($clr-primary, 10%);
+                }
+            }
+        }
+    }
+
+    &--visible {
+        visibility: visible;
+        background-color: rgba($clr-black, .7);
+        transition: background-color .3s ease-in-out;
+
+        .search-overlay__container {
+            transform: scaleX(1);
+            transition: transform .5s .5s  ease-in-out;
+        }
+    }
+
+    .form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+
+        &__group {
+            position: relative;
+            width: 90%;
+            margin: 0;
+            padding: 0;
+
+            @include m-screen {
+                width: 80%;
+            }
+
+            @include l-screen {
+                width: 60%;
+            }
+
+            @include xxl-screen {
+                width: 50%;
+            }
+        }
+
+        &__input[type="search"] {
+            height: 70px;
+            font-size: 1.2rem;
+            background-color: rgba($clr-white, .85);
+            border-radius: 20px;
+            padding-right: 80px;
+
+            @include m-screen {
+                font-size: 1.4rem;
+            }
+
+            &:focus {
+                background-color: rgba($clr-white, .95);
+
+                + .fa-search {
+                    color: $clr-primary;
+                }
+            }
+        }
+
+        .fa-search {
+            position: absolute;
+            font-size: 1.8rem;
+            color: $clr-gray;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+
+            @include m-screen {
+                right: 40px;
+            }
+        }
+    }
+}

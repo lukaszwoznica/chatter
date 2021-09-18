@@ -37,6 +37,7 @@
         "normalize-scss": "^7.0.1",
         "v-tooltip": "^4.0.0-alpha.1",
         "vue-infinite-loading": "^3.0.0-alpha.0-0",
+        "vue-loaders": "^4.1.4",
         "vue-lottie-player": "^0.1.9"
     }
 }

@@ -11,12 +11,12 @@
 
         <ul class="contacts__list">
             <li class="contacts__item"
-                 :class="selectedContact?.id === contact.id ? 'contacts__item--active' : ''"
-                 v-for="contact in sortedContacts" :key="contact.id"
-                 @click="selectContact(contact.id)">
+                :class="selectedContact?.id === contact.id ? 'contacts__item--active' : ''"
+                v-for="contact in sortedContacts" :key="contact.id"
+                @click="selectContact(contact.id)">
 
                 <div class="contacts__avatar">
-                    <img src="https://via.placeholder.com/500" alt="" class="contacts__avatar__image">
+                    <img src="https://via.placeholder.com/500" alt="User avatar">
                     <div class="contacts__online-indicator" v-show="contact.is_online">
                         &#9679;
                     </div>
@@ -36,17 +36,18 @@
             </li>
         </ul>
 
-        <ContactSearchOverlay :visible="searchVisible" @onClose="searchVisible = false"/>
-        <HamburgerButton @onHamburgerClick="toggleActive"></HamburgerButton>
+        <HamburgerButton @onHamburgerClick="toggleContactsActive"></HamburgerButton>
     </div>
+
+    <ContactSearchOverlay :visible="searchVisible" @onClose="searchVisible = false"/>
     <div class="overlay" ref="overlay"></div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ContactSearchOverlay from './ContactSearchOverlay'
-import {orderBy} from 'lodash'
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import { orderBy } from 'lodash'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
@@ -107,9 +108,21 @@ export default {
             return lastMessage.format(dateFormat)
         },
 
-        toggleActive() {
+        toggleContactsActive() {
             this.$refs.contacts.classList.toggle('contacts--active')
             this.$refs.overlay.classList.toggle('overlay--active')
+        },
+
+        toggleContactsActiveOnWindowResize() {
+            if (!this.$refs.contacts.classList.contains('contacts--active')) {
+                return
+            }
+
+            if (window.innerWidth > 992) {
+                this.$refs.overlay.classList.remove('overlay--active')
+            } else {
+                this.$refs.overlay.classList.add('overlay--active')
+            }
         }
     },
 
@@ -121,17 +134,7 @@ export default {
         dayjs.extend(isToday)
         dayjs.extend(weekOfYear)
 
-        window.addEventListener('resize', () => {
-            if (!this.$refs.contacts.classList.contains('contacts--active')) {
-                return
-            }
-
-            if (window.innerWidth > 992) {
-                this.$refs.overlay.classList.remove('overlay--active')
-            } else {
-                this.$refs.overlay.classList.add('overlay--active')
-            }
-        })
+        window.addEventListener('resize', this.toggleContactsActiveOnWindowResize)
     }
 }
 </script>
