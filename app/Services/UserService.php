@@ -7,16 +7,17 @@ namespace App\Services;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserService
 {
-    public function getAll(string $nameFilter = null): Collection
+    public function getAll(int $perPage, string $nameFilter = null): LengthAwarePaginator
     {
         return User::when($nameFilter, function ($query) use ($nameFilter) {
             $pattern = "%$nameFilter%";
             $query->whereRaw($this->concatenateStrings('first_name', "' '", 'last_name') . ' like ?', [$pattern])
                 ->orWhereRaw($this->concatenateStrings('last_name', "' '", 'first_name') . ' like ?', [$pattern]);
-        })->get();
+        })->paginate($perPage);
     }
 
     public function getUserContacts(User $user): Collection

@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = $this->userService->getAll($request->query('search'));
+        $users = $this->userService->getAll($request->query('per_page') ?? 10, $request->query('search'));
 
         return UserResource::collection($users);
     }
