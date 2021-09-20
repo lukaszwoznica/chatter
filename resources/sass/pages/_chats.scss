@@ -58,9 +58,11 @@
         font-size: 1.2rem;
         color: $clr-primary;
         cursor: pointer;
+        transition: all .2s ease-in-out;
 
         &:hover {
             color: lighten($clr-primary, 15%);
+            transform: scale(1.2);
         }
     }
 
@@ -114,7 +116,6 @@
         text-shadow: -2px 0 $clr-lightgray, 0 2px $clr-lightgray, 2px 0 $clr-lightgray, 0 -2px $clr-lightgray;
         color: hsl(120, 100%, 35%);
     }
-
 
     &__last-message {
         margin-left: auto;

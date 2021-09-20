@@ -13,7 +13,7 @@ const ApiRoutes = {
     },
     Users: {
         Contacts: (userId) => `${baseUrl}/contacts/${userId}`,
-        Search: (name) =>`${baseUrl}/users?search=${name}`,
+        Search: (name, page) =>`${baseUrl}/users?search=${name}&page=${page}`,
     },
     Messages: {
         GetConversationMessages: (userId, page) => `${baseUrl}/messages/${userId}?page=${page}`,

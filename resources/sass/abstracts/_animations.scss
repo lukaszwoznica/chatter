@@ -18,3 +18,12 @@
         transform: scale(1.05);
     }
 }
+
+@keyframes loader-rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(1turn);
+    }
+}
