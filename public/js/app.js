@@ -32291,7 +32291,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AppFooter = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AppFooter");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AppHeader, {
-    classList: $options.isChatsRoute ? ['header--chats'] : ''
+    classList: $options.isChatsRoute ? ['header--chats'] : []
   }, null, 8
   /* PROPS */
   , ["classList"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("main", {

@@ -1,6 +1,6 @@
 <template>
     <div class="app-wrapper">
-        <AppHeader :classList="isChatsRoute ? ['header--chats'] : ''"/>
+        <AppHeader :classList="isChatsRoute ? ['header--chats'] : []"/>
         <main class="main" :class="isChatsRoute ? 'main--p0' : ''">
             <router-view/>
         </main>
