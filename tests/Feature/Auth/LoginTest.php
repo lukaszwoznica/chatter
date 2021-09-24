@@ -5,7 +5,6 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -13,8 +12,8 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    private string $loginRoute = '/api/v1/login';
     private User $user;
+    private string $loginRoute = '/api/v1/login';
 
     public function setUp(): void
     {
@@ -25,7 +24,7 @@ class LoginTest extends TestCase
 
     public function testUserCanLoginWithCorrectCredentials()
     {
-        $response = $this->postJson($this->loginRoute, $this->userCredentials());
+        $response = $this->postJson($this->loginRoute, $this->getUserCredentials());
 
         $response->assertOk();
         $this->assertAuthenticatedAs($this->user);
@@ -33,7 +32,7 @@ class LoginTest extends TestCase
 
     public function testRememberCookieIsSetWhenUserLogsInWithRememberOption()
     {
-        $response = $this->postJson($this->loginRoute, array_merge($this->userCredentials(), [
+        $response = $this->postJson($this->loginRoute, array_merge($this->getUserCredentials(), [
             'remember' => 'on'
         ]));
 
@@ -44,7 +43,7 @@ class LoginTest extends TestCase
 
     public function testUserCannotLoginWhenAuthenticated()
     {
-        $response = $this->actingAs($this->user)->postJson($this->loginRoute, $this->userCredentials());
+        $response = $this->actingAs($this->user)->postJson($this->loginRoute, $this->getUserCredentials());
 
         $response->assertOk()
             ->assertJson([
@@ -54,53 +53,27 @@ class LoginTest extends TestCase
 
     public function testUserCannotLoginWithoutProvidingEmail()
     {
-        $response = $this->postJson($this->loginRoute, array_replace($this->userCredentials(), [
-            'email' => ''
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
-        $this->assertGuest();
+        $this->testLoginWithInvalidData('email', '');
     }
 
     public function testUserCannotLoginWithIncorrectEmail()
     {
-        $response = $this->postJson($this->loginRoute, array_replace($this->userCredentials(), [
-            'email' => 'nonexist@email.com'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
-        $this->assertGuest();
+        $this->testLoginWithInvalidData('email', 'nonexist@email.com');
     }
 
     public function testUserCannotLoginWithoutProvidingPassword()
     {
-        $response = $this->postJson($this->loginRoute, array_replace($this->userCredentials(), [
-            'password' => ''
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
-        $this->assertGuest();
+        $this->testLoginWithInvalidData('password', '');
     }
 
     public function testUserCannotLoginWithIncorrectPassword()
     {
-        $response = $this->postJson($this->loginRoute, array_replace($this->userCredentials(), [
-            'password' => 'incorrect_password'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
-        $this->assertGuest();
+        $this->testLoginWithInvalidData('password', 'incorrect_password', 'email');
     }
 
     public function testUserCanLogout()
     {
-        $this->be($this->user);
-
-        $response = $this->postJson(route('logout'));
+        $response = $this->actingAs($this->user)->postJson(route('logout'));
 
         $response->assertNoContent();
         $this->assertGuest();
@@ -109,7 +82,7 @@ class LoginTest extends TestCase
     public function testUserCannotMakeMoreThanFiveLoginAttemptsDuringOneMinute()
     {
         for ($i = 0; $i < 6; $i++) {
-            $response = $this->postJson($this->loginRoute, array_replace($this->userCredentials(), [
+            $response = $this->postJson($this->loginRoute, array_replace($this->getUserCredentials(), [
                 'password' => 'incorrect_password'
             ]));
         }
@@ -121,7 +94,20 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    private function userCredentials(): array
+    private function testLoginWithInvalidData(string $invalidFieldName,
+                                              string $invalidValue,
+                                              string $fieldValidationError = null)
+    {
+        $response = $this->postJson($this->loginRoute, array_replace($this->getUserCredentials(), [
+            $invalidFieldName => $invalidValue
+        ]));
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonValidationErrors($fieldValidationError ?? $invalidFieldName);
+        $this->assertGuest();
+    }
+
+    private function getUserCredentials(): array
     {
         return [
             'email' => $this->user->email,

@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -26,11 +25,11 @@ class PasswordResetTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    public function testUserCanResetPasswordWithValidToken()
+    public function testUserCanResetPasswordWithCorrectData()
     {
         Event::fake();
 
-        $response = $this->postJson(route('password.update'), $this->passwordResetData());
+        $response = $this->postJson(route('password.update'), $this->getPasswordResetData());
 
         $response->assertOk();
         $this->assertTrue(Hash::check('newPassword', $this->user->fresh()->password));
@@ -39,75 +38,57 @@ class PasswordResetTest extends TestCase
 
     public function testUserCannotResetPasswordWithInvalidToken()
     {
-        $response = $this->postJson(route('password.update'), array_replace($this->passwordResetData(), [
-            'token' => 'invalid-token'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
+        $this->testPasswordResetWithInvalidData('token', 'invalid-token', 'email');
     }
 
     public function testUserCannotResetPasswordWithoutProvidingEmail()
     {
-        $response = $this->postJson(route('password.update'), array_replace($this->passwordResetData(), [
-            'email' => ''
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
+        $this->testPasswordResetWithInvalidData('email', '');
     }
 
     public function testUserCannotResetPasswordWithInvalidEmail()
     {
-        $response = $this->postJson(route('password.update'), array_replace($this->passwordResetData(), [
-            'email' => 'invalid-email'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
+        $this->testPasswordResetWithInvalidData('email', 'invalid-email');
     }
 
     public function testUserCannotResetPasswordWithEmailThatNotExists()
     {
-        $response = $this->postJson(route('password.update'), array_replace($this->passwordResetData(), [
-            'email' => 'nonexist@email.com'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
+        $this->testPasswordResetWithInvalidData('email', 'nonexist@email.com');
     }
 
     public function testUserCannotResetPasswordWithoutProvidingNewPassword()
     {
-        $response = $this->postJson(route('password.update'), array_replace($this->passwordResetData(), [
-            'password' => ''
-        ]));
+        $this->testPasswordResetWithInvalidData('password', '');
+    }
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
+    public function testUserCannotResetPasswordWithoutPasswordConfirmation()
+    {
+        $this->testPasswordResetWithInvalidData('password_confirmation', '', 'password');
     }
 
     public function testUserCannotResetPasswordWhenPasswordConfirmationNotMatch()
     {
-        $response = $this->postJson(route('password.update'), array_replace($this->passwordResetData(), [
-            'password_confirmation' => 'invalid'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
+        $this->testPasswordResetWithInvalidData('password_confirmation', 'invalid', 'password');
     }
 
     public function testUserCannotResetPasswordWhenNewPasswordIsShorterThanEightCharacters()
     {
-        $response = $this->postJson(route('password.update'), array_replace($this->passwordResetData(), [
-            'password' => 'pass'
+        $this->testPasswordResetWithInvalidData('password', 'pass');
+    }
+
+    private function testPasswordResetWithInvalidData(string $invalidFieldName,
+                                                      string $invalidValue,
+                                                      string $fieldValidationError = null)
+    {
+        $response = $this->postJson(route('password.update'), array_replace($this->getPasswordResetData(), [
+            $invalidFieldName => $invalidValue
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
+            ->assertJsonValidationErrors($fieldValidationError ?? $invalidFieldName);
     }
 
-    private function passwordResetData(): array
+    private function getPasswordResetData(): array
     {
         return [
             'token' => Password::createToken($this->user),

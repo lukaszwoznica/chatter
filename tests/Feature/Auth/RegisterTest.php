@@ -7,7 +7,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -21,7 +20,7 @@ class RegisterTest extends TestCase
     {
         Event::fake();
 
-        $response = $this->postJson($this->registerRoute, $this->userData());
+        $response = $this->postJson($this->registerRoute, $this->getUserData());
 
         $response->assertCreated();
         $this->assertCount(1, $users = User::all());
@@ -35,7 +34,7 @@ class RegisterTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->actingAs($user)->postJson($this->registerRoute, $this->userData());
+        $response = $this->actingAs($user)->postJson($this->registerRoute, $this->getUserData());
 
         $response->assertOk()
             ->assertJson([
@@ -45,87 +44,66 @@ class RegisterTest extends TestCase
 
     public function testUserCannotRegisterWithoutFirstName()
     {
-        $response = $this->postJson($this->registerRoute, array_replace($this->userData(), [
-            'first_name' => ''
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.first_name')->etc());
+        $this->testRegisterWithInvalidData('first_name', '');
     }
 
     public function testUserCannotRegisterWithoutLastName()
     {
-        $response = $this->postJson($this->registerRoute, array_replace($this->userData(), [
-            'last_name' => ''
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.last_name')->etc());
+        $this->testRegisterWithInvalidData('last_name', '');
     }
 
     public function testUserCannotRegisterWithoutEmail()
     {
-        $response = $this->postJson($this->registerRoute, array_replace($this->userData(), [
-            'email' => ''
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
+        $this->testRegisterWithInvalidData('email', '');
     }
 
     public function testUserCannotRegisterWithInvalidEmail()
     {
-        $response = $this->postJson($this->registerRoute, array_replace($this->userData(), [
-            'email' => 'invalid_email'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
+        $this->testRegisterWithInvalidData('email', 'invalid_email');
     }
 
     public function testUserCannotRegisterWithTakenEmail()
     {
         User::factory()->create([
-            'email' => 'johndoe@example.com'
+            'email' => 'takenemail@example.com'
         ]);
 
-        $response = $this->postJson($this->registerRoute, $this->userData());
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.email')->etc());
+        $this->testRegisterWithInvalidData('email', 'takenemail@example.com');
     }
 
     public function testUserCannotRegisterWithoutPassword()
     {
-        $response = $this->postJson($this->registerRoute, array_replace($this->userData(), [
-            'password' => ''
-        ]));
+        $this->testRegisterWithInvalidData('password', '');
+    }
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
+    public function testUserCannotRegisterWithoutPasswordConfirmation()
+    {
+        $this->testRegisterWithInvalidData('password_confirmation', '', 'password');
     }
 
     public function testUserCannotRegisterWhenPasswordConfirmationNotMatch()
     {
-        $response = $this->postJson($this->registerRoute, array_replace($this->userData(), [
-            'password_confirmation' => 'Password'
-        ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
+        $this->testRegisterWithInvalidData('password_confirmation', 'Password', 'password');
     }
 
     public function testUserCannotRegisterWhenPasswordIsShorterThanEightCharacters()
     {
-        $response = $this->postJson($this->registerRoute, array_replace($this->userData(), [
-            'password' => 'pass'
+        $this->testRegisterWithInvalidData('password', 'pass');
+    }
+
+    private function testRegisterWithInvalidData(string $invalidFieldName,
+                                                 string $invalidValue,
+                                                 string $fieldValidationError = null)
+    {
+        $response = $this->postJson($this->registerRoute, array_replace($this->getUserData(), [
+            $invalidFieldName => $invalidValue
         ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
+            ->assertJsonValidationErrors($fieldValidationError ?? $invalidFieldName);
     }
 
-    private function userData(): array
+    private function getUserData(): array
     {
         return [
             'first_name' => 'John',

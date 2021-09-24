@@ -13,8 +13,8 @@ class ConfirmPasswordTest extends TestCase
 {
     use RefreshDatabase;
 
-    private string $passwordConfirmRoute = '/api/v1/user/confirm-password';
     private User $user;
+    private string $passwordConfirmRoute = '/api/v1/user/confirm-password';
 
     protected function setUp(): void
     {
@@ -40,26 +40,6 @@ class ConfirmPasswordTest extends TestCase
         $response->assertCreated();
     }
 
-    public function testUserCannotConfirmPasswordWithoutProvidingPassword()
-    {
-        $response = $this->actingAs($this->user)->postJson($this->passwordConfirmRoute, [
-            'password' => ''
-        ]);
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
-    }
-
-    public function testUserCannotConfirmPasswordWithInvalidPassword()
-    {
-        $response = $this->actingAs($this->user)->postJson($this->passwordConfirmRoute, [
-            'password' => 'invalid'
-        ]);
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJson(fn(AssertableJson $json) => $json->has('errors.password')->etc());
-    }
-
     public function testUserCannotCheckPasswordConfirmationStatusWhenUnauthenticated()
     {
         $response = $this->getJson(route('password.confirmation'));
@@ -74,5 +54,25 @@ class ConfirmPasswordTest extends TestCase
         ]);
 
         $response->assertUnauthorized();
+    }
+
+    public function testUserCannotConfirmPasswordWithoutProvidingPassword()
+    {
+        $this->testPasswordConfirmWithInvalidData('password', '');
+    }
+
+    public function testUserCannotConfirmPasswordWithInvalidPassword()
+    {
+        $this->testPasswordConfirmWithInvalidData('password', 'invalid_password');
+    }
+
+    private function testPasswordConfirmWithInvalidData(string $invalidFieldName, string $invalidValue)
+    {
+        $response = $this->actingAs($this->user)->postJson($this->passwordConfirmRoute, [
+            $invalidFieldName => $invalidValue
+        ]);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonValidationErrors($invalidFieldName);
     }
 }

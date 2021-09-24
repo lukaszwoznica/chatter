@@ -17,14 +17,14 @@ class MessagesTest extends TestCase
     use RefreshDatabase;
 
     private User $currentUser;
-    private User $otherUser;
+    private User $differentUser;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->currentUser = User::factory()->create();
-        $this->otherUser = User::factory()->create();
+        $this->differentUser = User::factory()->create();
     }
 
     public function testUserCanGetAllMessagesFromConversationWithOtherUser()
@@ -32,7 +32,7 @@ class MessagesTest extends TestCase
         Message::factory()->count(10)->create();
 
         $response = $this->actingAs($this->currentUser)
-            ->getJson(route('messages.conversation', $this->otherUser));
+            ->getJson(route('messages.conversation', $this->differentUser));
 
         $response->assertOk()
             ->assertJsonCount(10, 'data')
@@ -52,7 +52,7 @@ class MessagesTest extends TestCase
 
     public function testUserCannotGetMessagesFromConversationWithOtherUserWhenUnauthenticated()
     {
-        $response = $this->getJson(route('messages.conversation', $this->otherUser));
+        $response = $this->getJson(route('messages.conversation', $this->differentUser));
 
         $response->assertUnauthorized();
     }
@@ -69,16 +69,16 @@ class MessagesTest extends TestCase
     {
         $thirdUser = User::factory()->create();
 
-        // currentUser has 10 messages with otherUser and 8 messages with thirdUser
+        // currentUser has 10 messages with differentUser and 8 messages with thirdUser
         Message::factory()->count(18)->state(new Sequence(
-            ['sender_id' => $this->currentUser->id, 'recipient_id' => $this->otherUser->id],
-            ['sender_id' => $this->otherUser->id, 'recipient_id' => $this->currentUser->id],
+            ['sender_id' => $this->currentUser->id, 'recipient_id' => $this->differentUser->id],
+            ['sender_id' => $this->differentUser->id, 'recipient_id' => $this->currentUser->id],
             ['sender_id' => $this->currentUser->id, 'recipient_id' => $thirdUser->id],
             ['sender_id' => $thirdUser->id, 'recipient_id' => $this->currentUser->id],
         ))->create();
 
         $response = $this->actingAs($this->currentUser)
-            ->getJson(route('messages.conversation', $this->otherUser));
+            ->getJson(route('messages.conversation', $this->differentUser));
 
         $response->assertOk()->assertJsonCount(10, 'data');
     }
@@ -87,19 +87,19 @@ class MessagesTest extends TestCase
     {
         Event::fake();
 
-        $response = $this->actingAs($this->currentUser)->postJson(route('messages.send'), $this->messageData());
+        $response = $this->actingAs($this->currentUser)->postJson(route('messages.send'), $this->getMessageData());
 
         $response->assertCreated()
             ->assertJsonFragment(['text' => 'Test message'])
             ->assertJsonPath('data.sender.id', $this->currentUser->id)
-            ->assertJsonPath('data.recipient.id', $this->otherUser->id);
+            ->assertJsonPath('data.recipient.id', $this->differentUser->id);
         $this->assertCount(1, $messages = Message::all());
         Event::assertDispatched(fn(NewMessageEvent $event) => $event->message->id === $messages->first()->id);
     }
 
     public function testUserCannotSendMessageToOtherUserWhenUnauthenticated()
     {
-        $response = $this->postJson(route('messages.send'), $this->messageData());
+        $response = $this->postJson(route('messages.send'), $this->getMessageData());
 
         $response->assertUnauthorized();
         $this->assertEquals(0, Message::count());
@@ -107,52 +107,39 @@ class MessagesTest extends TestCase
 
     public function testUserCannotSendMessageWithoutText()
     {
-        $response = $this->actingAs($this->currentUser)
-            ->postJson(route('messages.send'), array_replace($this->messageData(), [
-                'text' => ''
-            ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['text']);
+        $this->testSendMessageWithInvalidData('text', '');
     }
 
     public function testUserCannotSendMessageWithoutRecipientId()
     {
-        $response = $this->actingAs($this->currentUser)
-            ->postJson(route('messages.send'), array_replace($this->messageData(), [
-                'recipient_id' => ''
-            ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['recipient_id']);
+        $this->testSendMessageWithInvalidData('recipient_id', '');
     }
 
     public function testUserCannotSendMessageWithInvalidRecipientId()
     {
-        $response = $this->actingAs($this->currentUser)
-            ->postJson(route('messages.send'), array_replace($this->messageData(), [
-                'recipient_id' => 'not-integer'
-            ]));
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['recipient_id']);
+        $this->testSendMessageWithInvalidData('recipient_id', 'not-integer');
     }
 
     public function testUserCannotSendMessageToUserThatNotExists()
     {
+        $this->testSendMessageWithInvalidData('recipient_id', 10);
+    }
+
+    private function testSendMessageWithInvalidData(string $invalidFieldName, mixed $invalidValue)
+    {
         $response = $this->actingAs($this->currentUser)
-            ->postJson(route('messages.send'), array_replace($this->messageData(), [
-                'recipient_id' => 10
+            ->postJson(route('messages.send'), array_replace($this->getMessageData(), [
+                $invalidFieldName => $invalidValue
             ]));
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-            ->assertJsonValidationErrors(['recipient_id']);
+            ->assertJsonValidationErrors($invalidFieldName);
     }
 
-    private function messageData(): array
+    private function getMessageData(): array
     {
         return [
-            'recipient_id' => $this->otherUser->id,
+            'recipient_id' => $this->differentUser->id,
             'text' => 'Test message'
         ];
     }
