@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class UsersTest extends TestCase
@@ -53,7 +52,8 @@ class UsersTest extends TestCase
                 'search' => $this->searchedUser->first_name
             ]));
 
-        $firstNameValues = array_fill(0, count($response->json()), $this->searchedUser->first_name);
+        $firstNameValues = array_fill(0, count($response->json('data')), $this->searchedUser->first_name);
+
         $response->assertOk()
             ->assertJsonPath('data.*.first_name', $firstNameValues);
     }
@@ -65,7 +65,8 @@ class UsersTest extends TestCase
                 'search' => $this->searchedUser->last_name
             ]));
 
-        $lastNameValues = array_fill(0, count($response->json()), $this->searchedUser->last_name);
+        $lastNameValues = array_fill(0, count($response->json('data')), $this->searchedUser->last_name);
+
         $response->assertOk()
             ->assertJsonPath('data.*.last_name', $lastNameValues);
     }
