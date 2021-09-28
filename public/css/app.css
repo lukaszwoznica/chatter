@@ -632,7 +632,7 @@ label {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  min-height: 100px;
+  height: 100px;
 }
 .header--chats {
   box-shadow: 0 2px 10px 0 rgba(156, 156, 156, 0.45);
@@ -656,12 +656,12 @@ label {
   display: inline;
   padding: 1rem;
 }
-.nav__item a {
+.nav__item .nav__link {
   color: rgba(255, 255, 255, 0.8);
   position: relative;
   transition: color 0.25s ease-out;
 }
-.nav__item a:before {
+.nav__item .nav__link:before {
   content: "";
   position: absolute;
   left: 0;
@@ -671,14 +671,86 @@ label {
   background-color: white;
   transition: right 0.25s ease-out;
 }
-.nav__item a:hover {
+.nav__item .nav__link:hover {
   color: white;
 }
-.nav__item a:hover:before {
+.nav__item .nav__link:hover:before {
   right: 0;
 }
-.nav__item a.router-link-active {
+.nav__item .nav__link.router-link-active {
   color: white;
+}
+
+.dropdown {
+  position: relative;
+}
+.dropdown__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 30px;
+  transition: all 0.15s ease-in-out;
+}
+.dropdown__toggle:hover {
+  background-color: #f7f7f7;
+}
+.dropdown__arrow {
+  transform: rotate(0);
+  transition: transform 0.25s ease-in-out;
+}
+.dropdown__arrow--rotated {
+  transform: rotate(180deg);
+}
+.dropdown__name {
+  margin-right: 0.5rem;
+}
+.dropdown__avatar {
+  margin-right: 0.5rem;
+  width: 35px;
+  height: 35px;
+}
+.dropdown__avatar img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+.dropdown__menu {
+  visibility: hidden;
+  position: absolute;
+  right: 0;
+  margin-top: 0.3rem;
+  background-color: white;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  box-shadow: 0 5px 12px -1px #bfbfbf;
+  border-radius: 20px;
+  border: 1px solid #ededed;
+  overflow: hidden;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: all 0.25s ease-in-out;
+}
+.dropdown__menu--active {
+  visibility: visible;
+  transform: scaleY(1);
+}
+.dropdown__item {
+  display: flex;
+  padding: 0.7rem 1.2rem;
+  transition: all 0.15s ease-in-out;
+}
+.dropdown__item:hover {
+  background-color: #f7f7f7;
+  color: #db6e4d !important;
+}
+.dropdown__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.6rem;
 }
 
 .main {

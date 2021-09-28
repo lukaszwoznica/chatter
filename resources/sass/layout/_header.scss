@@ -6,7 +6,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    min-height: 100px;
+    height: 100px;
 
     &--chats {
         box-shadow: 0 2px 10px 0 rgba(156, 156, 156, 0.45);
@@ -36,7 +36,7 @@
     display: inline;
     padding: 1rem;
 
-    a {
+    .nav__link {
         color: rgba($clr-white, 0.8);
         position: relative;
         transition: color .25s ease-out;
@@ -63,5 +63,85 @@
         &.router-link-active {
             color: rgba($clr-white, 1);
         }
+    }
+}
+
+.dropdown {
+    position: relative;
+
+    &__toggle {
+        @include flex-center;
+
+        cursor: pointer;
+        padding: .3rem .6rem;
+        border-radius: 30px;
+        transition: all .15s ease-in-out;
+
+        &:hover {
+            background-color: lighten($clr-lightgray, 7%);
+        }
+    }
+
+    &__arrow {
+        transform: rotate(0);
+        transition: transform .25s ease-in-out;
+
+        &--rotated {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__name {
+        margin-right: .5rem;
+    }
+
+    &__avatar {
+        margin-right: .5rem;
+        width: 35px;
+        height: 35px;
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+    }
+
+    &__menu {
+        visibility: hidden;
+        position: absolute;
+        right: 0;
+        margin-top: .3rem;
+        background-color: $clr-white;
+        width: max-content;
+        box-shadow: 0 5px 12px -1px rgba(191, 191, 191, 1);
+        border-radius: 20px;
+        border: 1px solid lighten($clr-lightgray, 3%);
+        overflow: hidden;
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: all .25s ease-in-out;
+
+        &--active {
+            visibility: visible;
+            transform: scaleY(1);
+        }
+    }
+
+    &__item {
+        display: flex;
+        padding: .7rem 1.2rem;
+        transition: all .15s ease-in-out;
+
+        &:hover {
+            background-color: lighten($clr-lightgray, 7%);
+            color: $clr-secondary !important;
+        }
+    }
+
+    &__icon {
+        @include flex-center;
+
+        margin-right: .6rem;
     }
 }
