@@ -56,7 +56,7 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -83,11 +83,6 @@ export default {
         }
     },
 
-    mounted() {
-        this.listenForWhisperOnConversationChannel()
-        dayjs.extend(isToday)
-    },
-
     computed: {
         ...mapGetters({
             messages: 'messages/allMessages',
@@ -96,10 +91,39 @@ export default {
         })
     },
 
+    watch: {
+        conversationId() {
+            this.listenForWhisperOnConversationChannel()
+        },
+
+        selectedContact() {
+            if (this.selectedContact !== null) {
+                this.resetMessagesState()
+                this.$refs.infiniteLoading.stateChanger.reset()
+            }
+        }
+    },
+
+    mounted() {
+        this.listenForWhisperOnConversationChannel()
+        dayjs.extend(isToday)
+    },
+
+    beforeUnmount() {
+        if (this.messages.length === 0) {
+            this.setSelectedContact(null)
+        }
+        this.resetMessagesState()
+    },
+
     methods: {
         ...mapActions({
             fetchMessages: 'messages/fetchMessages',
             resetMessagesState: 'messages/resetModuleState'
+        }),
+
+        ...mapMutations({
+            setSelectedContact: 'contacts/SET_SELECTED_CONTACT'
         }),
 
         listenForWhisperOnConversationChannel() {
@@ -175,19 +199,6 @@ export default {
                     show: 500,
                     hide: 0
                 }
-            }
-        }
-    },
-
-    watch: {
-        conversationId() {
-            this.listenForWhisperOnConversationChannel()
-        },
-
-        selectedContact() {
-            if (this.selectedContact !== null) {
-                this.resetMessagesState()
-                this.$refs.infiniteLoading.stateChanger.reset()
             }
         }
     }

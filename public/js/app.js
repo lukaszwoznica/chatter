@@ -31439,18 +31439,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isLoadingMessages: false
     };
   },
-  mounted: function mounted() {
-    this.listenForWhisperOnConversationChannel();
-    dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_2___default()));
-  },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)({
     messages: 'messages/allMessages',
     selectedContact: 'contacts/selectedContact',
     authUser: 'auth/user'
   })),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)({
+  watch: {
+    conversationId: function conversationId() {
+      this.listenForWhisperOnConversationChannel();
+    },
+    selectedContact: function selectedContact() {
+      if (this.selectedContact !== null) {
+        this.resetMessagesState();
+        this.$refs.infiniteLoading.stateChanger.reset();
+      }
+    }
+  },
+  mounted: function mounted() {
+    this.listenForWhisperOnConversationChannel();
+    dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_2___default()));
+  },
+  beforeUnmount: function beforeUnmount() {
+    if (this.messages.length === 0) {
+      this.setSelectedContact(null);
+    }
+
+    this.resetMessagesState();
+  },
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)({
     fetchMessages: 'messages/fetchMessages',
     resetMessagesState: 'messages/resetModuleState'
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapMutations)({
+    setSelectedContact: 'contacts/SET_SELECTED_CONTACT'
   })), {}, {
     listenForWhisperOnConversationChannel: function listenForWhisperOnConversationChannel() {
       var _this = this;
@@ -31550,18 +31570,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       };
     }
-  }),
-  watch: {
-    conversationId: function conversationId() {
-      this.listenForWhisperOnConversationChannel();
-    },
-    selectedContact: function selectedContact() {
-      if (this.selectedContact !== null) {
-        this.resetMessagesState();
-        this.$refs.infiniteLoading.stateChanger.reset();
-      }
-    }
-  }
+  })
 });
 
 /***/ }),
