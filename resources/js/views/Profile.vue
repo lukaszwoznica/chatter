@@ -72,7 +72,7 @@ export default {
         }),
 
         authUserFullName() {
-            return `${this.authUser.first_name} ${this.authUser.last_name}`
+            return `${this.authUser?.first_name} ${this.authUser?.last_name}`
         }
     },
 

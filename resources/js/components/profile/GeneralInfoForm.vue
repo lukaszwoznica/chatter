@@ -29,7 +29,7 @@
 <script>
 import AppButton from '../ui/AppButton'
 import { mapValues } from 'lodash'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: "GeneralInfoForm",
@@ -70,13 +70,21 @@ export default {
         })
     },
 
+    mounted() {
+        this.setFormFieldsValues()
+    },
+
     methods: {
+        ...mapActions({
+            updateProfile: 'auth/updateProfileInfo'
+        }),
+
         async submit() {
             try {
                 const userData = mapValues(this.formFields, 'value')
-                console.log(userData)
-                // await this.register(userData)
-                // await this.$router.push({name: 'chats'})
+                await this.updateProfile(userData)
+
+                alert('Profile successfully updated!')
             } catch (error) {
                 this.validationErrors = error.response.data.errors
             }
@@ -89,14 +97,10 @@ export default {
         },
 
         setFormFieldsValues() {
-            this.formFields.first_name.value = this.authUser.first_name
-            this.formFields.last_name.value = this.authUser.last_name
-            this.formFields.email.value = this.authUser.email
+            for (let field in this.formFields) {
+                this.formFields[field].value = this.authUser[field]
+            }
         }
-    },
-
-    mounted() {
-        this.setFormFieldsValues()
     }
 }
 </script>

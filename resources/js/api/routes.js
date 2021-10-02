@@ -9,7 +9,9 @@ const ApiRoutes = {
         Register: `${baseUrl}/register`,
         GetAuthenticatedUser: `${baseUrl}/user`,
         ForgotPassword: `${baseUrl}/forgot-password`,
-        ResetPassword: `${baseUrl}/reset-password`
+        ResetPassword: `${baseUrl}/reset-password`,
+        UpdateProfileInfo: `${baseUrl}/user/profile-information`,
+        UpdatePassword: `${baseUrl}/user/password`
     },
     Users: {
         Contacts: (userId) => `${baseUrl}/contacts/${userId}`,

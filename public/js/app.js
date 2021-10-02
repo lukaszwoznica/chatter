@@ -31692,11 +31692,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_AppButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ui/AppButton */ "./resources/js/components/ui/AppButton.vue");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _api_routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../api/routes */ "./resources/js/api/routes.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -31740,25 +31742,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                try {
-                  userData = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.mapValues)(_this.formFields, 'value');
-                  console.log(userData); // await this.register(userData)
-                  // await this.$router.push({name: 'chats'})
-                } catch (error) {
-                  _this.validationErrors = error.response.data.errors;
+                _context.prev = 0;
+                userData = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.mapValues)(_this.formFields, 'value');
+                _context.next = 4;
+                return axios.put(_api_routes__WEBPACK_IMPORTED_MODULE_3__.default.Auth.UpdatePassword, userData);
+
+              case 4:
+                alert('Password successfully updated!');
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+
+                if (_context.t0.response.status === 422) {
+                  _this.validationErrors = _context.t0.response.data.errors;
                 }
 
-              case 1:
+              case 10:
+                _this.resetInputValues();
+
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 7]]);
       }))();
     },
     resetValidationError: function resetValidationError(event) {
       if (this.validationErrors[event.target.id] !== '') {
         this.validationErrors[event.target.id] = '';
+      }
+    },
+    resetInputValues: function resetInputValues() {
+      for (var field in this.formFields) {
+        this.formFields[field].value = '';
       }
     }
   }
@@ -31831,7 +31851,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)({
     authUser: 'auth/user'
   })),
-  methods: {
+  mounted: function mounted() {
+    this.setFormFieldsValues();
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)({
+    updateProfile: 'auth/updateProfileInfo'
+  })), {}, {
     submit: function submit() {
       var _this = this;
 
@@ -31841,20 +31866,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                try {
-                  userData = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.mapValues)(_this.formFields, 'value');
-                  console.log(userData); // await this.register(userData)
-                  // await this.$router.push({name: 'chats'})
-                } catch (error) {
-                  _this.validationErrors = error.response.data.errors;
-                }
+                _context.prev = 0;
+                userData = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.mapValues)(_this.formFields, 'value');
+                _context.next = 4;
+                return _this.updateProfile(userData);
 
-              case 1:
+              case 4:
+                alert('Profile successfully updated!');
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                _this.validationErrors = _context.t0.response.data.errors;
+
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 7]]);
       }))();
     },
     resetValidationError: function resetValidationError(event) {
@@ -31863,14 +31895,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     setFormFieldsValues: function setFormFieldsValues() {
-      this.formFields.first_name.value = this.authUser.first_name;
-      this.formFields.last_name.value = this.authUser.last_name;
-      this.formFields.email.value = this.authUser.email;
+      for (var field in this.formFields) {
+        this.formFields[field].value = this.authUser[field];
+      }
     }
-  },
-  mounted: function mounted() {
-    this.setFormFieldsValues();
-  }
+  })
 });
 
 /***/ }),
@@ -32305,7 +32334,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     authUser: 'auth/user'
   })), {}, {
     authUserFullName: function authUserFullName() {
-      return "".concat(this.authUser.first_name, " ").concat(this.authUser.last_name);
+      var _this$authUser, _this$authUser2;
+
+      return "".concat((_this$authUser = this.authUser) === null || _this$authUser === void 0 ? void 0 : _this$authUser.first_name, " ").concat((_this$authUser2 = this.authUser) === null || _this$authUser2 === void 0 ? void 0 : _this$authUser2.last_name);
     }
   }),
   created: function created() {
@@ -34369,7 +34400,9 @@ var ApiRoutes = {
     Register: "".concat(baseUrl, "/register"),
     GetAuthenticatedUser: "".concat(baseUrl, "/user"),
     ForgotPassword: "".concat(baseUrl, "/forgot-password"),
-    ResetPassword: "".concat(baseUrl, "/reset-password")
+    ResetPassword: "".concat(baseUrl, "/reset-password"),
+    UpdateProfileInfo: "".concat(baseUrl, "/user/profile-information"),
+    UpdatePassword: "".concat(baseUrl, "/user/password")
   },
   Users: {
     Contacts: function Contacts(userId) {
@@ -34860,45 +34893,68 @@ var actions = {
       }, _callee3);
     }))();
   },
-  synchronizeAuthenticationState: function synchronizeAuthenticationState(_ref4) {
+  updateProfileInfo: function updateProfileInfo(_ref4, userData) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-      var commit, dispatch, response;
+      var dispatch;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              commit = _ref4.commit, dispatch = _ref4.dispatch;
-              _context4.prev = 1;
-              _context4.next = 4;
-              return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.GetAuthenticatedUser);
+              dispatch = _ref4.dispatch;
+              _context4.next = 3;
+              return axios.put(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.UpdateProfileInfo, userData);
 
-            case 4:
-              response = _context4.sent;
-              commit('SET_AUTHENTICATED', true);
-              commit('SET_USER', response.data.data);
-              _context4.next = 12;
-              break;
+            case 3:
+              _context4.next = 5;
+              return dispatch('synchronizeAuthenticationState');
 
-            case 9:
-              _context4.prev = 9;
-              _context4.t0 = _context4["catch"](1);
-              dispatch('resetModuleState');
-
-            case 12:
+            case 5:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4, null, [[1, 9]]);
+      }, _callee4);
     }))();
   },
-  resetModuleState: function resetModuleState(_ref5) {
-    var commit = _ref5.commit;
+  synchronizeAuthenticationState: function synchronizeAuthenticationState(_ref5) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      var commit, dispatch, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref5.commit, dispatch = _ref5.dispatch;
+              _context5.prev = 1;
+              _context5.next = 4;
+              return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_1__.default.Auth.GetAuthenticatedUser);
+
+            case 4:
+              response = _context5.sent;
+              commit('SET_AUTHENTICATED', true);
+              commit('SET_USER', response.data.data);
+              _context5.next = 12;
+              break;
+
+            case 9:
+              _context5.prev = 9;
+              _context5.t0 = _context5["catch"](1);
+              dispatch('resetModuleState');
+
+            case 12:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5, null, [[1, 9]]);
+    }))();
+  },
+  resetModuleState: function resetModuleState(_ref6) {
+    var commit = _ref6.commit;
     commit('SET_AUTHENTICATED', false);
     commit('SET_USER', null);
   },
-  clearUserState: function clearUserState(_ref6) {
-    var dispatch = _ref6.dispatch;
+  clearUserState: function clearUserState(_ref7) {
+    var dispatch = _ref7.dispatch;
     dispatch('resetModuleState');
     dispatch('contacts/resetModuleState', null, {
       root: true

@@ -29,6 +29,7 @@
 <script>
 import AppButton from '../ui/AppButton'
 import { mapValues } from "lodash";
+import ApiRoutes from "../../api/routes";
 
 export default {
     name: "ChangePasswordForm",
@@ -67,17 +68,27 @@ export default {
         async submit() {
             try {
                 const userData = mapValues(this.formFields, 'value')
-                console.log(userData)
-                // await this.register(userData)
-                // await this.$router.push({name: 'chats'})
+                await axios.put(ApiRoutes.Auth.UpdatePassword, userData)
+
+                alert('Password successfully updated!')
             } catch (error) {
-                this.validationErrors = error.response.data.errors
+                if (error.response.status === 422) {
+                    this.validationErrors = error.response.data.errors
+                }
             }
+
+            this.resetInputValues()
         },
 
         resetValidationError(event) {
             if (this.validationErrors[event.target.id] !== '') {
                 this.validationErrors[event.target.id] = ''
+            }
+        },
+
+        resetInputValues() {
+            for (let field in this.formFields) {
+                this.formFields[field].value = ''
             }
         }
     }

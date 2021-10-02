@@ -16,25 +16,29 @@ const mutations = {
 }
 
 const actions = {
-    async login({dispatch}, credentials) {
+    async login({ dispatch }, credentials) {
         await axios.get(ApiRoutes.GetCsrfCookie)
         await axios.post(ApiRoutes.Auth.Login, credentials)
         await dispatch('synchronizeAuthenticationState')
     },
 
-    async logout({dispatch}) {
+    async logout({ dispatch }) {
         await axios.post(ApiRoutes.Auth.Logout)
-
         dispatch('clearUserState')
     },
 
-    async register({dispatch}, userData) {
+    async register({ dispatch }, userData) {
         await axios.get(ApiRoutes.GetCsrfCookie)
         await axios.post(ApiRoutes.Auth.Register, userData)
         await dispatch('synchronizeAuthenticationState')
     },
 
-    async synchronizeAuthenticationState({commit, dispatch}) {
+    async updateProfileInfo({ dispatch }, userData) {
+        await axios.put(ApiRoutes.Auth.UpdateProfileInfo, userData)
+        await dispatch('synchronizeAuthenticationState')
+    },
+
+    async synchronizeAuthenticationState({ commit, dispatch }) {
         try {
             const response = await axios.get(ApiRoutes.Auth.GetAuthenticatedUser)
 
@@ -45,15 +49,15 @@ const actions = {
         }
     },
 
-    resetModuleState({commit}) {
+    resetModuleState({ commit }) {
         commit('SET_AUTHENTICATED', false)
         commit('SET_USER', null)
     },
 
-    clearUserState({dispatch}) {
+    clearUserState({ dispatch }) {
         dispatch('resetModuleState')
-        dispatch('contacts/resetModuleState', null, {root: true})
-        dispatch('messages/resetModuleState', null, {root: true})
+        dispatch('contacts/resetModuleState', null, { root: true })
+        dispatch('messages/resetModuleState', null, { root: true })
     }
 }
 
