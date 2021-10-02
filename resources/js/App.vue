@@ -1,10 +1,10 @@
 <template>
     <div class="app-wrapper">
-        <AppHeader :classList="isChatsRoute ? ['header--chats'] : []"/>
-        <main class="main" :class="isChatsRoute ? 'main--p0' : ''">
+        <AppHeader :classList="isAuthRoute ? ['header--chats'] : []"/>
+        <main class="main" :class="isAuthRoute ? 'main--p0' : ''">
             <router-view/>
         </main>
-        <template v-if="!isChatsRoute">
+        <template v-if="!isAuthRoute">
             <AppFooter/>
             <div class="bg-gradient"></div>
             <div class="bg-shape bg-shape--circle"></div>
@@ -26,8 +26,8 @@ export default {
     },
 
     computed: {
-        isChatsRoute() {
-            return this.$route.name === 'chats'
+        isAuthRoute() {
+            return ['chats', 'profile'].includes(this.$route.name)
         }
     }
 }

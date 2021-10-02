@@ -1,9 +1,10 @@
 import Home from '../views/Home'
 import Login from '../views/Login'
 import Register from '../views/Register'
-import Chats from '../views/Chats'
 import PasswordRecovery from '../views/PasswordRecovery'
 import ResetPassword from '../views/ResetPassword'
+import Chats from '../views/Chats'
+import Profile from '../views/Profile'
 import NotFound from '../views/NotFound'
 
 import auth from './guards/auth'
@@ -35,14 +36,6 @@ const routes = [
         }
     },
     {
-        path: '/chats',
-        name: 'chats',
-        component: Chats,
-        meta: {
-            guard: auth
-        }
-    },
-    {
         path: '/password-recovery',
         name: 'password-recovery',
         component: PasswordRecovery,
@@ -56,6 +49,22 @@ const routes = [
         component: ResetPassword,
         meta: {
             guard: guest
+        }
+    },
+    {
+        path: '/chats',
+        name: 'chats',
+        component: Chats,
+        meta: {
+            guard: auth
+        }
+    },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: Profile,
+        meta: {
+            guard: auth
         }
     },
     {

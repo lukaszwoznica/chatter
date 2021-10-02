@@ -17,7 +17,7 @@
                 </template>
                 <template v-else>
                     <li class="nav__item">
-                        <div class="dropdown" v-click-outside="onClickOutsideDropdown">
+                        <div class="dropdown" v-click-outside="closeDropdown">
                             <div class="dropdown__toggle" @click="toggleDropdown">
                                 <div class="dropdown__avatar">
                                     <img src="https://via.placeholder.com/500" alt="User avatar">
@@ -29,8 +29,8 @@
                                     &#9662;
                                 </div>
                             </div>
-                            <div class="dropdown__menu" ref="dropdownMenu">
-                                <router-link :to="{name: 'register'}" class="dropdown__item">
+                            <div class="dropdown__menu" ref="dropdownMenu" @click="closeDropdown">
+                                <router-link :to="{name: 'profile'}" class="dropdown__item">
                                     <div class="dropdown__icon">
                                         <font-awesome-icon :icon="['fas', 'user-edit']" fixed-width></font-awesome-icon>
                                     </div>
@@ -98,7 +98,7 @@ export default {
             this.$refs.dropdownArrow.classList.toggle('dropdown__arrow--rotated')
         },
 
-        onClickOutsideDropdown() {
+        closeDropdown() {
             this.$refs.dropdownMenu.classList.remove('dropdown__menu--active')
             this.$refs.dropdownArrow.classList.remove('dropdown__arrow--rotated')
         }

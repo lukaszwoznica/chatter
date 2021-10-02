@@ -13,6 +13,7 @@ html, body, #app {
 .app-wrapper {
     position: relative;
     min-height: 100%;
+    overflow: hidden;
 }
 
 img {
