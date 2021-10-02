@@ -52,6 +52,11 @@
         align-items: center;
         padding: 1.5rem 1.2rem;
         max-height: 85px;
+        border-bottom: 1px solid transparent;
+
+        &--border {
+            border-bottom: 1px solid $clr-lightgray;
+        }
     }
 
     &__search-icon {

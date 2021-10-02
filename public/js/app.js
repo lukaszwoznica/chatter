@@ -31066,6 +31066,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.orderBy)(this.contacts, ['last_message'], ['desc']);
     }
   }),
+  created: function created() {
+    this.fetchContacts();
+  },
+  mounted: function mounted() {
+    dayjs__WEBPACK_IMPORTED_MODULE_3___default().extend((dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_4___default()));
+    dayjs__WEBPACK_IMPORTED_MODULE_3___default().extend((dayjs_plugin_weekOfYear__WEBPACK_IMPORTED_MODULE_5___default()));
+    window.addEventListener('resize', this.toggleContactsActiveOnWindowResize);
+    this.$refs.contactsList.addEventListener('scroll', this.toggleContactsHeaderBorderBottomOnScroll);
+  },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)({
     fetchContacts: 'contacts/fetchContacts',
     selectContact: 'contacts/selectContact'
@@ -31108,16 +31117,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         this.$refs.overlay.classList.add('overlay--active');
       }
+    },
+    toggleContactsHeaderBorderBottomOnScroll: function toggleContactsHeaderBorderBottomOnScroll() {
+      if (this.$refs.contactsList.scrollTop !== 0) {
+        this.$refs.contactsHeader.classList.add('contacts__header--border');
+      } else {
+        this.$refs.contactsHeader.classList.remove('contacts__header--border');
+      }
     }
-  }),
-  created: function created() {
-    this.fetchContacts();
-  },
-  mounted: function mounted() {
-    dayjs__WEBPACK_IMPORTED_MODULE_3___default().extend((dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_4___default()));
-    dayjs__WEBPACK_IMPORTED_MODULE_3___default().extend((dayjs_plugin_weekOfYear__WEBPACK_IMPORTED_MODULE_5___default()));
-    window.addEventListener('resize', this.toggleContactsActiveOnWindowResize);
-  }
+  })
 });
 
 /***/ }),
@@ -32788,7 +32796,8 @@ var _hoisted_1 = {
   ref: "contacts"
 };
 var _hoisted_2 = {
-  "class": "contacts__header"
+  "class": "contacts__header",
+  ref: "contactsHeader"
 };
 
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", null, "Contacts", -1
@@ -32796,7 +32805,8 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_4 = {
-  "class": "contacts__list"
+  "class": "contacts__list",
+  ref: "contactsList"
 };
 var _hoisted_5 = {
   "class": "contacts__avatar"
@@ -32835,7 +32845,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.searchVisible = true;
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.sortedContacts, function (contact) {
+  })], 512
+  /* NEED_PATCH */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.sortedContacts, function (contact) {
     var _ctx$selectedContact;
 
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", {
@@ -32859,7 +32871,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["onClick"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HamburgerButton, {
+  ))], 512
+  /* NEED_PATCH */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HamburgerButton, {
     onOnHamburgerClick: $options.toggleContactsActive
   }, null, 8
   /* PROPS */

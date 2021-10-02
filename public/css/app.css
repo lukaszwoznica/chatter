@@ -1427,6 +1427,10 @@ label {
   align-items: center;
   padding: 1.5rem 1.2rem;
   max-height: 85px;
+  border-bottom: 1px solid transparent;
+}
+.contacts__header--border {
+  border-bottom: 1px solid #e6e6e6;
 }
 .contacts__search-icon {
   font-size: 1.2rem;

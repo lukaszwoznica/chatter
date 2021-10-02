@@ -1,6 +1,6 @@
 <template>
     <div class="contacts" ref="contacts">
-        <div class="contacts__header">
+        <div class="contacts__header" ref="contactsHeader">
             <h2>Contacts</h2>
 
             <font-awesome-icon :icon="['fas', 'search']"
@@ -9,7 +9,7 @@
             </font-awesome-icon>
         </div>
 
-        <ul class="contacts__list">
+        <ul class="contacts__list" ref="contactsList">
             <li class="contacts__item"
                 :class="selectedContact?.id === contact.id ? 'contacts__item--active' : ''"
                 v-for="contact in sortedContacts" :key="contact.id"
@@ -79,6 +79,18 @@ export default {
         }
     },
 
+    created() {
+        this.fetchContacts()
+    },
+
+    mounted() {
+        dayjs.extend(isToday)
+        dayjs.extend(weekOfYear)
+
+        window.addEventListener('resize', this.toggleContactsActiveOnWindowResize)
+        this.$refs.contactsList.addEventListener('scroll', this.toggleContactsHeaderBorderBottomOnScroll)
+    },
+
     methods: {
         ...mapActions({
             fetchContacts: 'contacts/fetchContacts',
@@ -123,18 +135,15 @@ export default {
             } else {
                 this.$refs.overlay.classList.add('overlay--active')
             }
+        },
+
+        toggleContactsHeaderBorderBottomOnScroll() {
+            if (this.$refs.contactsList.scrollTop !== 0) {
+                this.$refs.contactsHeader.classList.add('contacts__header--border')
+            } else {
+                this.$refs.contactsHeader.classList.remove('contacts__header--border')
+            }
         }
-    },
-
-    created() {
-        this.fetchContacts()
-    },
-
-    mounted() {
-        dayjs.extend(isToday)
-        dayjs.extend(weekOfYear)
-
-        window.addEventListener('resize', this.toggleContactsActiveOnWindowResize)
     }
 }
 </script>
