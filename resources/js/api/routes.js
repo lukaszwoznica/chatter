@@ -16,11 +16,15 @@ const ApiRoutes = {
     Users: {
         Contacts: (userId) => `${baseUrl}/contacts/${userId}`,
         Search: (name, page) =>`${baseUrl}/users?search=${name}&page=${page}`,
+        UploadAvatar: `${baseUrl}/user/avatar`
     },
     Messages: {
         GetConversationMessages: (userId, page) => `${baseUrl}/messages/${userId}?page=${page}`,
         SendMessage: `${baseUrl}/messages`,
         MarkMessageAsRead: (messageId) => `${baseUrl}/messages/${messageId}`
+    },
+    FilePond: {
+        ApiUrl: `/filepond/api`
     }
 }
 

@@ -34,11 +34,17 @@
         "@fortawesome/vue-fontawesome": "^3.0.0-4",
         "click-outside-vue3": "^4.0.1",
         "dayjs": "^1.10.6",
+        "filepond": "^4.30.3",
+        "filepond-plugin-file-validate-size": "^2.2.5",
+        "filepond-plugin-file-validate-type": "^1.2.6",
+        "filepond-plugin-image-preview": "^4.6.10",
         "luxon": "^1.26.0",
         "normalize-scss": "^7.0.1",
         "v-tooltip": "^4.0.0-alpha.1",
+        "vue-filepond": "^7.0.2",
         "vue-infinite-loading": "^3.0.0-alpha.0-0",
         "vue-loaders": "^4.1.4",
-        "vue-lottie-player": "^0.1.9"
+        "vue-lottie-player": "^0.1.9",
+        "vue3-cookies": "^1.0.1"
     }
 }
