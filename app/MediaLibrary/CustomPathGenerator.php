@@ -5,26 +5,11 @@ namespace App\MediaLibrary;
 
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
+use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
 
-class CustomPathGenerator implements PathGenerator
+class CustomPathGenerator extends DefaultPathGenerator
 {
-    public function getPath(Media $media): string
-    {
-        return $this->getBasePath($media) . '/';
-    }
-
-    public function getPathForConversions(Media $media): string
-    {
-        return $this->getBasePath($media) . '/conversions/';
-    }
-
-    public function getPathForResponsiveImages(Media $media): string
-    {
-        return $this->getBasePath($media) . '/responsive-images/';
-    }
-
-    private function getBasePath(Media $media): string
+    protected function getBasePath(Media $media): string
     {
         $prefix = config('media-library.prefix', '');
         $basePath = md5($media->getKey() . config('app.key'));
