@@ -19,7 +19,7 @@ return [
     | The prefix to add to all filepond controller routes
     |
     */
-    'route_prefix' => 'filepond',
+    'route_prefix' => 'api/v1/filepond',
 
     /*
     |--------------------------------------------------------------------------

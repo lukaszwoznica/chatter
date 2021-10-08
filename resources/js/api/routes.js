@@ -24,7 +24,7 @@ const ApiRoutes = {
         MarkMessageAsRead: (messageId) => `${baseUrl}/messages/${messageId}`
     },
     FilePond: {
-        ApiUrl: `/filepond/api`
+        ApiUrl: `${baseUrl}/filepond/api`
     }
 }
 

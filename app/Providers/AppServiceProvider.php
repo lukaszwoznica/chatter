@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Api\V1\FilepondController;
 use Illuminate\Support\ServiceProvider;
+use Sopamo\LaravelFilepond\Http\Controllers\FilepondController as BaseFilepondController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }
+
+        $this->app->bind(BaseFilepondController::class, FilepondController::class);
     }
 
     /**
