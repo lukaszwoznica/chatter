@@ -16,7 +16,10 @@
         "laravel/framework": "^8.12",
         "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.5",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "pusher/pusher-php-server": "^5.0",
+        "sopamo/laravel-filepond": "^0.6.2",
+        "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-webhook-client": "^2.7"
     },
     "require-dev": {

@@ -67,7 +67,7 @@ export default {
 
             try {
                 await axios.post(ApiRoutes.Users.UploadAvatar, {
-                    avatarServerId: this.uploadedAvatarServerId
+                    avatar_server_id: this.uploadedAvatarServerId
                 })
 
                 alert('Profile picture has been successfully updated!')

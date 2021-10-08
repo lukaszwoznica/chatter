@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AvatarUploadController;
 use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\MessageController;
 use App\Http\Controllers\Api\V1\UserController;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserController::class, 'authUser'])->name('users.authenticated');
+    Route::post('/user/avatar', AvatarUploadController::class)->name('users.avatar');
     Route::apiResource('users', UserController::class)->only('index', 'show');
     Route::get('/contacts/{user}', ContactController::class)->name('users.contacts');
 
