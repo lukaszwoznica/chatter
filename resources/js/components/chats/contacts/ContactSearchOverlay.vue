@@ -20,7 +20,7 @@
                     <ul class="search-results">
                         <li class="search-results__item" v-for="result in results" :key="result.id">
                             <div class="search-results__avatar">
-                                <img src="https://via.placeholder.com/500" alt="User Avatar">
+                                <user-avatar :username="fullName(result)" :size="50"/>
                             </div>
                             <div class="search-results__name">
                                 {{ fullName(result) }}
@@ -49,18 +49,20 @@
 </template>
 
 <script>
-import ApiRoutes from "../../../api/routes";
+import ApiRoutes from '../../../api/routes'
 import { debounce } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import InfiniteLoading from 'vue-infinite-loading'
+import UserAvatar from '../../ui/UserAvatar'
 
 export default {
     name: "ContactSearchOverlay",
 
     components: {
         FontAwesomeIcon,
-        InfiniteLoading
+        InfiniteLoading,
+        UserAvatar
     },
 
     props: {

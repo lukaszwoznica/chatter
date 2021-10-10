@@ -16,7 +16,7 @@
                 @click="selectContact(contact.id)">
 
                 <div class="contacts__avatar">
-                    <img src="https://via.placeholder.com/500" alt="User avatar">
+                    <user-avatar :username="contactFullName(contact)" :size="50"/>
                     <div class="contacts__online-indicator" v-show="contact.is_online">
                         &#9679;
                     </div>
@@ -51,7 +51,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
-import HamburgerButton from "../../ui/HamburgerButton";
+import HamburgerButton from '../../ui/HamburgerButton'
+import UserAvatar from '../../ui/UserAvatar'
 
 export default {
     name: "ContactsList",
@@ -59,7 +60,8 @@ export default {
     components: {
         ContactSearchOverlay,
         FontAwesomeIcon,
-        HamburgerButton
+        HamburgerButton,
+        UserAvatar
     },
 
     data() {

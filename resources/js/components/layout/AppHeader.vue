@@ -20,7 +20,7 @@
                         <div class="dropdown" v-click-outside="closeDropdown">
                             <div class="dropdown__toggle" @click="toggleDropdown">
                                 <div class="dropdown__avatar">
-                                    <img src="https://via.placeholder.com/500" alt="User avatar">
+                                    <user-avatar :username="authUserFullName" :size="35"/>
                                 </div>
                                 <div class="dropdown__name">
                                     {{ authUser.first_name }}
@@ -55,12 +55,14 @@
 import { mapGetters, mapActions } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import vClickOutside from 'click-outside-vue3'
+import UserAvatar from '../ui/UserAvatar'
 
 export default {
     name: "AppHeader",
 
     components: {
-        FontAwesomeIcon
+        FontAwesomeIcon,
+        UserAvatar
     },
 
     directives: {
@@ -78,7 +80,11 @@ export default {
         ...mapGetters({
             isAuthenticated: 'auth/isAuthenticated',
             authUser: 'auth/user'
-        })
+        }),
+
+        authUserFullName() {
+            return `${this.authUser?.first_name} ${this.authUser?.last_name}`
+        }
     },
 
     methods: {

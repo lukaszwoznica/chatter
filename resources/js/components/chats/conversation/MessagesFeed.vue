@@ -25,7 +25,7 @@
                 :class="`message--${message.sender.id === authUser.id ? 'sent' : 'received'}`">
 
                 <div class="message__avatar" v-if="showUserAvatar(index)">
-                    <img src="https://via.placeholder.com/500" alt="User avatar">
+                    <user-avatar :username="contactFullName" :size="35"/>
                 </div>
 
                 <div class="message__content" v-tooltip="getMessageTooltipOptions(message)">
@@ -44,7 +44,7 @@
 
             <li v-if="typingUser" class="message message--typing">
                 <div class="message__avatar">
-                    <img src="https://via.placeholder.com/500" alt="User avatar">
+                    <user-avatar :username="contactFullName" :size="35"/>
                 </div>
                 <div class="message__content">
                     <span class="typing-dot" v-for="index in 3" :key="index"></span>
@@ -60,13 +60,15 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import UserAvatar from '../../ui/UserAvatar'
 
 export default {
     name: "MessagesFeed",
 
     components: {
         InfiniteLoading,
-        FontAwesomeIcon
+        FontAwesomeIcon,
+        UserAvatar
     },
 
     props: {
@@ -88,7 +90,11 @@ export default {
             messages: 'messages/allMessages',
             selectedContact: 'contacts/selectedContact',
             authUser: 'auth/user'
-        })
+        }),
+
+        contactFullName() {
+            return `${this.selectedContact.first_name} ${this.selectedContact.last_name}`
+        }
     },
 
     watch: {

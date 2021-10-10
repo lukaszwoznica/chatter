@@ -4,7 +4,7 @@
             <div class="profile-card__menu">
                 <div class="profile-card__info">
                     <div class="profile-card__avatar">
-                        <img src="https://via.placeholder.com/500" alt="User avatar">
+                        <user-avatar :username="authUserFullName" :size="200"/>
                     </div>
                     <div class="profile-card__name">
                         <h2>{{ authUserFullName }}</h2>
@@ -49,6 +49,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faLock, faImage } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapGetters } from 'vuex'
+import UserAvatar from '../components/ui/UserAvatar'
 
 export default {
     name: "Profile",
@@ -57,7 +58,8 @@ export default {
         GeneralInfoForm,
         ChangePasswordForm,
         ProfilePictureForm,
-        FontAwesomeIcon
+        FontAwesomeIcon,
+        UserAvatar
     },
 
     data() {

@@ -105,12 +105,6 @@
     &__avatar {
         margin-right: 1rem;
         position: relative;
-
-        img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-        }
     }
 
     &__online-indicator {
@@ -253,12 +247,6 @@
         position: absolute;
         left: 0;
         bottom: 2px;
-
-        img {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-        }
     }
 
     &__read-indicator {
