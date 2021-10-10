@@ -91,6 +91,10 @@ export default {
         this.$refs.contactsList.addEventListener('scroll', this.toggleContactsHeaderBorderBottomOnScroll)
     },
 
+    beforeUnmount() {
+        window.removeEventListener('resize', this.toggleContactsActiveOnWindowResize)
+    },
+
     methods: {
         ...mapActions({
             fetchContacts: 'contacts/fetchContacts',
