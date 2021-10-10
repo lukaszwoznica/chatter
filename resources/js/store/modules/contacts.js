@@ -44,12 +44,7 @@ const actions = {
 
     addNewContact({commit}, newContact) {
         commit('ADD_CONTACT', {
-            id: newContact.id,
-            first_name: newContact.first_name,
-            last_name: newContact.last_name,
-            email: newContact.email,
-            is_online: newContact.is_online,
-            last_online_at: newContact.last_online_at,
+            ...newContact,
             last_message: newContact.last_message ?? null,
             unread_messages: newContact.unread_messages ?? 0
         })
