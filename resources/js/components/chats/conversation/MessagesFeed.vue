@@ -25,7 +25,9 @@
                 :class="`message--${message.sender.id === authUser.id ? 'sent' : 'received'}`">
 
                 <div class="message__avatar" v-if="showUserAvatar(index)">
-                    <user-avatar :username="selectedContact.full_name" :size="35"/>
+                    <user-avatar :username="selectedContact.full_name"
+                                 :img-src="selectedContact.avatar_url"
+                                 :size="35"/>
                 </div>
 
                 <div class="message__content" v-tooltip="getMessageTooltipOptions(message)">
@@ -44,7 +46,9 @@
 
             <li v-if="typingUser" class="message message--typing">
                 <div class="message__avatar">
-                    <user-avatar :username="selectedContact.full_name" :size="35"/>
+                    <user-avatar :username="selectedContact.full_name"
+                                 :img-src="selectedContact.avatar_url"
+                                 :size="35"/>
                 </div>
                 <div class="message__content">
                     <span class="typing-dot" v-for="index in 3" :key="index"></span>

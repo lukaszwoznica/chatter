@@ -20,7 +20,9 @@
                         <div class="dropdown" v-click-outside="closeDropdown">
                             <div class="dropdown__toggle" @click="toggleDropdown">
                                 <div class="dropdown__avatar">
-                                    <user-avatar :username="authUser.full_name" :size="35"/>
+                                    <user-avatar :username="authUser.full_name"
+                                                 :img-src="authUser.avatar_url"
+                                                 :size="35"/>
                                 </div>
                                 <div class="dropdown__name">
                                     {{ authUser.first_name }}

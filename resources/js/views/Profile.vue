@@ -4,10 +4,12 @@
             <div class="profile-card__menu">
                 <div class="profile-card__info">
                     <div class="profile-card__avatar">
-                        <user-avatar :username="authUserFullName" :size="200"/>
+                        <user-avatar :username="authUser.full_name"
+                                     :img-src="authUser.avatar_url"
+                                     :size="200"/>
                     </div>
                     <div class="profile-card__name">
-                        <h2>{{ authUserFullName }}</h2>
+                        <h2>{{ authUser.full_name }}</h2>
                     </div>
                 </div>
                 <nav class="profile-card__nav">
@@ -71,11 +73,7 @@ export default {
     computed: {
         ...mapGetters({
             authUser: 'auth/user'
-        }),
-
-        authUserFullName() {
-            return `${this.authUser?.first_name} ${this.authUser?.last_name}`
-        }
+        })
     },
 
     created() {

@@ -9,7 +9,7 @@
                 <div class="form__group">
                     <input type="search" class="form__input" placeholder="Search for user" ref="search"
                            @input='onInput($event.target.value)'>
-                    <font-awesome-icon :icon="['fas', 'search']"></font-awesome-icon>
+                    <font-awesome-icon :icon="['fas', 'search']"/>
                 </div>
             </form>
 
@@ -20,14 +20,16 @@
                     <ul class="search-results">
                         <li class="search-results__item" v-for="user in searchResults" :key="user.id">
                             <div class="search-results__avatar">
-                                <user-avatar :username="user.full_name" :size="50"/>
+                                <user-avatar :username="user.full_name"
+                                             :img-src="user.avatar_url"
+                                             :size="50"/>
                             </div>
                             <div class="search-results__name">
                                 {{ user.full_name }}
                             </div>
                             <div class="search-results__action">
                                 <button @click="startConversationWithUser(user)">
-                                    <font-awesome-icon :icon="['fas', 'comment-dots']"></font-awesome-icon>
+                                    <font-awesome-icon :icon="['fas', 'comment-dots']"/>
                                 </button>
                             </div>
                         </li>
@@ -39,7 +41,7 @@
                         </template>
                         <template #no-results>
                             No results found
-                            <font-awesome-icon :icon="['far', 'frown']"></font-awesome-icon>
+                            <font-awesome-icon :icon="['far', 'frown']"/>
                         </template>
                     </infinite-loading>
                 </div>

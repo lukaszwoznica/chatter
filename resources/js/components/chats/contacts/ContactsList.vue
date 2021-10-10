@@ -16,7 +16,9 @@
                 @click="selectContact(contact.id)">
 
                 <div class="contacts__avatar">
-                    <user-avatar :username="contact.full_name" :size="50"/>
+                    <user-avatar :username="contact.full_name"
+                                 :img-src="contact.avatar_url"
+                                 :size="50"/>
                     <div class="contacts__online-indicator" v-show="contact.is_online">
                         &#9679;
                     </div>
@@ -36,7 +38,7 @@
             </li>
         </ul>
 
-        <HamburgerButton @onHamburgerClick="toggleContactsActive"></HamburgerButton>
+        <HamburgerButton @onHamburgerClick="toggleContactsActive"/>
     </div>
 
     <ContactSearchOverlay :visible="searchVisible" @onClose="searchVisible = false"/>
