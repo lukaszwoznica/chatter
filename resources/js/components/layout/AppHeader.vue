@@ -20,7 +20,7 @@
                         <div class="dropdown" v-click-outside="closeDropdown">
                             <div class="dropdown__toggle" @click="toggleDropdown">
                                 <div class="dropdown__avatar">
-                                    <user-avatar :username="authUserFullName" :size="35"/>
+                                    <user-avatar :username="authUser.full_name" :size="35"/>
                                 </div>
                                 <div class="dropdown__name">
                                     {{ authUser.first_name }}
@@ -80,11 +80,7 @@ export default {
         ...mapGetters({
             isAuthenticated: 'auth/isAuthenticated',
             authUser: 'auth/user'
-        }),
-
-        authUserFullName() {
-            return `${this.authUser?.first_name} ${this.authUser?.last_name}`
-        }
+        })
     },
 
     methods: {

@@ -1,7 +1,7 @@
 <template>
     <div class="conversation__header">
         <div class="conversation__title">
-            <h3>{{ contactFullName }}</h3>
+            <h3>{{ selectedContact.full_name }}</h3>
         </div>
         <div class="conversation__online-status">
             <template v-if="selectedContact.is_online">
@@ -17,24 +17,19 @@
 <script>
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { mapGetters } from 'vuex'
 
 export default {
     name: "ConversationHeader",
 
-    props: {
-        selectedContact: {
-            required: true
-        }
+    computed: {
+        ...mapGetters({
+            selectedContact: 'contacts/selectedContact'
+        }),
     },
 
     created() {
         dayjs.extend(relativeTime)
-    },
-
-    computed: {
-        contactFullName() {
-            return `${this.selectedContact.first_name} ${this.selectedContact.last_name}`
-        }
     },
 
     methods: {

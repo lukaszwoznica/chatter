@@ -9,7 +9,7 @@
                       placeholder="Type a message">
             </textarea>
             <AppButton type="submit" v-show="this.message.text" :class-list="['send-message-button']">
-                <font-awesome-icon :icon="['fas', 'arrow-right']"></font-awesome-icon>
+                <font-awesome-icon :icon="['fas', 'arrow-right']"/>
             </AppButton>
         </form>
     </div>
@@ -18,8 +18,8 @@
 <script>
 import AppButton from '../../ui/AppButton'
 import mixinTextareaAutoResize from '../../../mixins/TextareaAutoResize'
-import {mapActions, mapMutations} from 'vuex'
-import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 export default {
     name: "ConversationComposer",
@@ -27,16 +27,11 @@ export default {
     mixins: [mixinTextareaAutoResize],
 
     components: {
-        AppButton, FontAwesomeIcon
+        AppButton,
+        FontAwesomeIcon
     },
 
     props: {
-        selectedContact: {
-            required: true
-        },
-        authUser: {
-            required: true
-        },
         conversationId: {
             required: true
         }
@@ -48,6 +43,19 @@ export default {
                 text: '',
                 recipient_id: null
             }
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            selectedContact: 'contacts/selectedContact',
+            authUser: 'auth/user'
+        }),
+    },
+
+    watch: {
+        selectedContact() {
+            this.resetMessageData()
         }
     },
 
@@ -101,12 +109,6 @@ export default {
                 text: '',
                 recipient_id: null
             }
-        }
-    },
-
-    watch: {
-        selectedContact() {
-            this.resetMessageData()
         }
     }
 }

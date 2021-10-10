@@ -16,14 +16,14 @@
                 @click="selectContact(contact.id)">
 
                 <div class="contacts__avatar">
-                    <user-avatar :username="contactFullName(contact)" :size="50"/>
+                    <user-avatar :username="contact.full_name" :size="50"/>
                     <div class="contacts__online-indicator" v-show="contact.is_online">
                         &#9679;
                     </div>
                 </div>
 
                 <div class="contacts__name">
-                    {{ contactFullName(contact) }}
+                    {{ contact.full_name }}
                 </div>
 
                 <div class="contacts__last-message">
@@ -102,8 +102,6 @@ export default {
             fetchContacts: 'contacts/fetchContacts',
             selectContact: 'contacts/selectContact'
         }),
-
-        contactFullName: (contact) => `${contact.first_name} ${contact.last_name}`,
 
         formatLastMessageDate(date) {
             const now = dayjs()

@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'full_name' => "$this->first_name $this->last_name",
             'email' => $this->email,
             'is_online' => $this->is_online,
             'last_online_at' => optional($this->last_online_at)->format('Y-m-d H:i:s'),

@@ -18,15 +18,15 @@
                     <i class="loader" v-if="isSearching"></i>
 
                     <ul class="search-results">
-                        <li class="search-results__item" v-for="result in results" :key="result.id">
+                        <li class="search-results__item" v-for="user in searchResults" :key="user.id">
                             <div class="search-results__avatar">
-                                <user-avatar :username="fullName(result)" :size="50"/>
+                                <user-avatar :username="user.full_name" :size="50"/>
                             </div>
                             <div class="search-results__name">
-                                {{ fullName(result) }}
+                                {{ user.full_name }}
                             </div>
                             <div class="search-results__action">
-                                <button @click="startConversationWithUser(result)">
+                                <button @click="startConversationWithUser(user)">
                                     <font-awesome-icon :icon="['fas', 'comment-dots']"></font-awesome-icon>
                                 </button>
                             </div>
@@ -75,7 +75,7 @@ export default {
     data() {
         return {
             searchQuery: '',
-            results: [],
+            searchResults: [],
             currentPage: 1,
             lastPage: null,
             isSearching: false
@@ -103,8 +103,6 @@ export default {
             this.searchQuery = searchQuery
         }, 600),
 
-        fullName: (user) => `${user.first_name} ${user.last_name}`,
-
         startConversationWithUser(user) {
             if (!this.getContactById(user.id)) {
                 this.addNewContact(user)
@@ -122,7 +120,7 @@ export default {
             const response = await axios.get(ApiRoutes.Users.Search(this.searchQuery.trim(), this.currentPage))
             if (response.data.data.length) {
                 this.currentPage++
-                this.results.push(...response.data.data)
+                this.searchResults.push(...response.data.data)
                 this.lastPage = response.data.meta.last_page
                 $state.loaded()
             } else {
@@ -133,7 +131,7 @@ export default {
 
     watch: {
         searchQuery() {
-            this.results = []
+            this.searchResults = []
             this.currentPage = 1
             this.isSearching = false
             this.$refs.infiniteLoading?.stateChanger.reset()
@@ -144,7 +142,7 @@ export default {
                 this.$nextTick(() => this.$refs.search.focus())
             } else {
                 this.searchQuery = null
-                this.results = []
+                this.searchResults = []
                 this.$refs.search.value = ''
             }
         }

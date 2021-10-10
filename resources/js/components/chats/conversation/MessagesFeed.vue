@@ -25,7 +25,7 @@
                 :class="`message--${message.sender.id === authUser.id ? 'sent' : 'received'}`">
 
                 <div class="message__avatar" v-if="showUserAvatar(index)">
-                    <user-avatar :username="contactFullName" :size="35"/>
+                    <user-avatar :username="selectedContact.full_name" :size="35"/>
                 </div>
 
                 <div class="message__content" v-tooltip="getMessageTooltipOptions(message)">
@@ -34,17 +34,17 @@
 
                 <div class="message__read-indicator" v-if="showMessageReadIndicator(index)">
                     <span v-if="message.read_at" v-tooltip="`Read at ${formatDate(message.read_at)}`">
-                        <font-awesome-icon :icon="['far', 'check-circle']"></font-awesome-icon>
+                        <font-awesome-icon :icon="['far', 'check-circle']"/>
                     </span>
                     <span v-else v-tooltip="'Unread'">
-                        <font-awesome-icon :icon="['far', 'circle']"></font-awesome-icon>
+                        <font-awesome-icon :icon="['far', 'circle']"/>
                     </span>
                 </div>
             </li>
 
             <li v-if="typingUser" class="message message--typing">
                 <div class="message__avatar">
-                    <user-avatar :username="contactFullName" :size="35"/>
+                    <user-avatar :username="selectedContact.full_name" :size="35"/>
                 </div>
                 <div class="message__content">
                     <span class="typing-dot" v-for="index in 3" :key="index"></span>
@@ -90,11 +90,7 @@ export default {
             messages: 'messages/allMessages',
             selectedContact: 'contacts/selectedContact',
             authUser: 'auth/user'
-        }),
-
-        contactFullName() {
-            return `${this.selectedContact.first_name} ${this.selectedContact.last_name}`
-        }
+        })
     },
 
     watch: {
@@ -160,9 +156,9 @@ export default {
         scrollToBottom() {
             this.$nextTick(() => {
                 this.$refs.messagesList.scrollIntoView({
-                    behavior: "smooth",
-                    block: "end",
-                    inline: "nearest"
+                    behavior: 'smooth',
+                    block: 'end',
+                    inline: 'nearest'
                 })
             })
         },

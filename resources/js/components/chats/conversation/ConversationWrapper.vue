@@ -1,12 +1,9 @@
 <template>
     <div class="conversation">
         <template v-if="selectedContact">
-            <ConversationHeader :selected-contact="selectedContact"/>
+            <ConversationHeader/>
             <MessagesFeed :conversation-id="cantorPairConversationId" ref="feed"/>
-            <MessageComposer :auth-user="authUser"
-                             :selected-contact="selectedContact"
-                             :conversation-id="cantorPairConversationId"
-                             @message-sent="scrollFeedToBottom"/>
+            <MessageComposer :conversation-id="cantorPairConversationId" @message-sent="scrollFeedToBottom"/>
         </template>
         <template v-else>
             Select contact to start conversation
@@ -15,10 +12,10 @@
 </template>
 
 <script>
-import ConversationHeader from "./ConversationHeader";
-import MessagesFeed from "./MessagesFeed";
-import MessageComposer from "./MessageComposer";
-import {mapGetters} from "vuex"
+import ConversationHeader from './ConversationHeader'
+import MessagesFeed from './MessagesFeed'
+import MessageComposer from './MessageComposer'
+import { mapGetters } from 'vuex'
 
 export default {
     name: "ConversationWrapper",
@@ -42,12 +39,6 @@ export default {
             authUser: 'auth/user'
         }),
 
-        selectedContactFullName() {
-            if (this.selectedContact !== null) {
-                return `${this.selectedContact.first_name} ${this.selectedContact.last_name}`
-            }
-        },
-
         cantorPairConversationId() {
             if (this.selectedContact !== null) {
                 const x = Math.min(this.authUser.id, this.selectedContact.id)
@@ -55,12 +46,6 @@ export default {
 
                 return (0.5 * (x + y) * (x + y + 1)) + y
             }
-        }
-    },
-
-    methods: {
-        scrollFeedToBottom() {
-            this.$refs.feed.scrollToBottom()
         }
     },
 
@@ -72,6 +57,12 @@ export default {
 
             Echo.private(`conversation.${this.cantorPairConversationId}`)
             this.previousConversationId = this.cantorPairConversationId
+        }
+    },
+
+    methods: {
+        scrollFeedToBottom() {
+            this.$refs.feed.scrollToBottom()
         }
     }
 }
