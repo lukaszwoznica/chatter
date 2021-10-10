@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ContactResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserService;
@@ -20,7 +19,11 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = $this->userService->getAll($request->query('per_page') ?? 10, $request->query('search'));
+        $users = $this->userService->getAll(
+            $request->query('per_page') ?? 10,
+            $request->query('search'),
+            [auth()->id()]
+        );
 
         return UserResource::collection($users);
     }

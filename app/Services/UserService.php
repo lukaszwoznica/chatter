@@ -12,12 +12,16 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UserService
 {
-    public function getAll(int $perPage, string $nameFilter = null): LengthAwarePaginator
+    public function getAll(int $perPage, string $nameFilter = null, array $exceptKeys = null): LengthAwarePaginator
     {
-        return User::when($nameFilter, function ($query) use ($nameFilter) {
-            $pattern = "%$nameFilter%";
-            $query->whereRaw($this->rawQueryConcat('first_name', "' '", 'last_name') . ' like ?', [$pattern])
-                ->orWhereRaw($this->rawQueryConcat('last_name', "' '", 'first_name') . ' like ?', [$pattern]);
+        return User::with('media')->when($exceptKeys, function ($query) use ($exceptKeys) {
+            $query->whereKeyNot($exceptKeys);
+        })->when($nameFilter, function ($query) use ($nameFilter) {
+            $query->where(function ($query) use ($nameFilter) {
+                $pattern = "%$nameFilter%";
+                $query->whereRaw($this->rawQueryConcat('first_name', "' '", 'last_name') . ' like ?', [$pattern])
+                    ->orWhereRaw($this->rawQueryConcat('last_name', "' '", 'first_name') . ' like ?', [$pattern]);
+            });
         })->paginate($perPage);
     }
 
