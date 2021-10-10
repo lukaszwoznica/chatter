@@ -19,10 +19,12 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $exceptIds = $request->query('search') ? [auth()->id()] : null;
+
         $users = $this->userService->getAll(
             $request->query('per_page') ?? 10,
             $request->query('search'),
-            [auth()->id()]
+            $exceptIds
         );
 
         return UserResource::collection($users);
