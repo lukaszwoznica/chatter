@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="contacts__unread-messages" v-show="contact.unread_messages > 0">
-                    {{ contact.unread_messages }}
+                    {{ contact.unread_messages < 99 ? contact.unread_messages : '99+' }}
                 </div>
             </li>
         </ul>

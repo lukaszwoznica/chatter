@@ -103,15 +103,15 @@
     }
 
     &__avatar {
-        margin-right: 1rem;
+        margin: .2rem 1rem .2rem 0;
         position: relative;
     }
 
     &__online-indicator {
         position: absolute;
         font-size: 1.1rem;
-        bottom: 4px;
-        right: 1px;
+        bottom: -2px;
+        right: -3px;
         text-shadow: -2px 0 $clr-lightgray, 0 2px $clr-lightgray, 2px 0 $clr-lightgray, 0 -2px $clr-lightgray;
         color: hsl(120, 100%, 35%);
     }
@@ -124,11 +124,10 @@
     }
 
     &__unread-messages {
+        @include flex-center;
+
         position: absolute;
         right: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         width: 22px;
         height: 22px;
         background-color: $clr-secondary;

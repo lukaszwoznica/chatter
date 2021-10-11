@@ -1499,14 +1499,14 @@ label {
   background-color: #ededed;
 }
 .contacts__avatar {
-  margin-right: 1rem;
+  margin: 0.2rem 1rem 0.2rem 0;
   position: relative;
 }
 .contacts__online-indicator {
   position: absolute;
   font-size: 1.1rem;
-  bottom: 4px;
-  right: 1px;
+  bottom: -2px;
+  right: -3px;
   text-shadow: -2px 0 #e6e6e6, 0 2px #e6e6e6, 2px 0 #e6e6e6, 0 -2px #e6e6e6;
   color: #00b300;
 }
@@ -1517,11 +1517,11 @@ label {
   color: #666666;
 }
 .contacts__unread-messages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 22px;
   height: 22px;
   background-color: #db6e4d;
