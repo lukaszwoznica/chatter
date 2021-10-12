@@ -21,7 +21,7 @@
                             <div class="dropdown__toggle" @click="toggleDropdown">
                                 <div class="dropdown__avatar">
                                     <user-avatar :username="authUser.full_name"
-                                                 :img-src="authUser.avatar_url"
+                                                 :img-src="authUser.avatar_thumb_url"
                                                  :size="35"/>
                                 </div>
                                 <div class="dropdown__name">

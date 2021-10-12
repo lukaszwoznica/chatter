@@ -17,7 +17,7 @@
 
                 <div class="contacts__avatar">
                     <user-avatar :username="contact.full_name"
-                                 :img-src="contact.avatar_url"
+                                 :img-src="contact.avatar_thumb_url"
                                  :size="50"/>
                     <div class="contacts__online-indicator" v-show="contact.is_online">
                         &#9679;

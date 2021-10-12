@@ -107,7 +107,7 @@ export default {
                 })
 
                 this.$refs.filepond.removeFiles()
-                this.updateAuthUserAvatarUrl(response.data.data.avatar_url)
+                this.updateAuthUserAvatarUrls(response.data.data.avatar_url, response.data.data.avatar_thumb_url)
                 alert('Profile picture has been successfully updated!')
             } catch (error) {
                 alert('Something went wrong.')
@@ -118,16 +118,17 @@ export default {
             try {
                 await axios.delete(ApiRoutes.Users.Avatar)
 
-                this.updateAuthUserAvatarUrl('')
+                this.updateAuthUserAvatarUrls('', '')
                 alert('Profile picture has been successfully removed!')
             } catch (error) {
                 alert('Something went wrong.')
             }
         },
 
-        updateAuthUserAvatarUrl(avatarUrl) {
+        updateAuthUserAvatarUrls(avatarUrl, avatarThumbUrl) {
             this.setAuthUser({...this.authUser,
-                'avatar_url': avatarUrl
+                'avatar_url': avatarUrl,
+                'avatar_thumb_url': avatarThumbUrl
             })
         },
 

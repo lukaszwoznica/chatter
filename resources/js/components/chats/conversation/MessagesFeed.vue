@@ -26,7 +26,7 @@
 
                 <div class="message__avatar" v-if="showUserAvatar(index)">
                     <user-avatar :username="selectedContact.full_name"
-                                 :img-src="selectedContact.avatar_url"
+                                 :img-src="selectedContact.avatar_thumb_url"
                                  :size="35"/>
                 </div>
 
@@ -47,7 +47,7 @@
             <li v-if="typingUser" class="message message--typing">
                 <div class="message__avatar">
                     <user-avatar :username="selectedContact.full_name"
-                                 :img-src="selectedContact.avatar_url"
+                                 :img-src="selectedContact.avatar_thumb_url"
                                  :size="35"/>
                 </div>
                 <div class="message__content">

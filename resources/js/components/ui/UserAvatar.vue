@@ -1,6 +1,6 @@
 <template>
     <div class="avatar" :style="style">
-        <img v-if="imgSrc" :src="imgSrc" class="avatar__img" alt="Avatar" @error="onImgError">
+        <img v-if="isImage" :src="imgSrc" class="avatar__img" alt="Avatar" @error="onImgError">
         <span v-else class="avatar__initials">{{ userInitials }}</span>
     </div>
 </template>

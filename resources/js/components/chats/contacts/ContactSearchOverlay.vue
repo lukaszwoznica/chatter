@@ -21,7 +21,7 @@
                         <li class="search-results__item" v-for="user in searchResults" :key="user.id">
                             <div class="search-results__avatar">
                                 <user-avatar :username="user.full_name"
-                                             :img-src="user.avatar_url"
+                                             :img-src="user.avatar_thumb_url"
                                              :size="50"/>
                             </div>
                             <div class="search-results__name">
