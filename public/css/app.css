@@ -1716,6 +1716,37 @@ label {
   justify-content: center;
   padding: 1.5rem 0;
 }
+.profile-card__form-header {
+  display: flex;
+  align-items: center;
+}
+.profile-card__form-title {
+  margin-top: 1.2rem;
+}
+.profile-card__remove-avatar-button {
+  background-color: transparent;
+  border: none;
+  margin: 1.2rem 0 2rem auto;
+  font-size: 1.25rem;
+  color: #cc0000;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+.profile-card__remove-avatar-button:hover {
+  color: #e60000;
+}
+.profile-card__remove-avatar-button:disabled {
+  color: #b3b3b3;
+  cursor: not-allowed;
+}
+.profile-card__remove-avatar-button:disabled:hover {
+  color: #b3b3b3;
+}
+@media screen and (min-width: 992px) {
+  .profile-card__remove-avatar-button {
+    margin: 1.2rem 0 0 auto;
+  }
+}
 .profile-card__nav {
   display: flex;
 }
@@ -1806,22 +1837,22 @@ label {
     margin-bottom: 2rem;
   }
 }
+.profile-card__form-title {
+  padding-left: 1rem;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+@media screen and (min-width: 992px) {
+  .profile-card__form-title {
+    margin-bottom: 0;
+  }
+}
 .profile-card__form-wrapper {
   background-color: #fafafa;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   text-align: center;
-}
-.profile-card__form-wrapper h1 {
-  padding-left: 1rem;
-  font-size: 1.8rem;
-  margin-bottom: 2rem;
-}
-@media screen and (min-width: 992px) {
-  .profile-card__form-wrapper h1 {
-    margin-bottom: 0;
-  }
 }
 .profile-card__form-wrapper .form {
   margin: auto 0;

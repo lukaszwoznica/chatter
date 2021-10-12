@@ -27,6 +27,42 @@
         padding: 1.5rem 0;
     }
 
+    &__form-header {
+        display: flex;
+        align-items: center;
+    }
+
+    &__form-title {
+        margin-top: 1.2rem;
+    }
+
+    &__remove-avatar-button {
+        background-color: transparent;
+        border: none;
+        margin: 1.2rem 0 2rem auto;
+        font-size: 1.25rem;
+        color: darken($clr-red, 20%);
+        cursor: pointer;
+        transition: color .2s ease-in-out;
+
+        &:hover {
+            color: darken($clr-red, 15%);
+        }
+
+        &:disabled {
+            color: darken($clr-lightgray, 20%);
+            cursor: not-allowed;
+
+            &:hover {
+                color: darken($clr-lightgray, 20%);
+            }
+        }
+
+        @include l-screen {
+            margin: 1.2rem 0 0 auto;
+        }
+    }
+
     &__nav {
         display: flex;
 
@@ -123,22 +159,22 @@
         }
     }
 
+    &__form-title {
+        padding-left: 1rem;
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+
+        @include l-screen {
+            margin-bottom: 0;
+        }
+    }
+
     &__form-wrapper {
         background-color: lighten($clr-lightgray, 8%);
         padding: 1rem;
         display: flex;
         flex-direction: column;
         text-align: center;
-
-        h1 {
-            padding-left: 1rem;
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-
-            @include l-screen {
-                margin-bottom: 0;
-            }
-        }
 
         .form {
             margin: auto 0;

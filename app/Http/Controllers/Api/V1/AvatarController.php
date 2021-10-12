@@ -12,9 +12,9 @@ use ReflectionClass;
 use Sopamo\LaravelFilepond\Filepond;
 use Symfony\Component\HttpFoundation\Response;
 
-class AvatarUploadController extends Controller
+class AvatarController extends Controller
 {
-    public function __invoke(UploadAvatarRequest $request, UserService $userService, Filepond $filepond): JsonResponse
+    public function store(UploadAvatarRequest $request, UserService $userService, Filepond $filepond)
     {
         try {
             $tempAvatarPath = $filepond->getPathFromServerId($request->avatar_server_id);
@@ -35,5 +35,12 @@ class AvatarUploadController extends Controller
                 'error' => (new ReflectionClass($exception))->getShortName()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function destroy()
+    {
+        Auth::user()->clearMediaCollection('avatar');
+
+        return response()->noContent();
     }
 }
