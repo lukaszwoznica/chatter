@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\V1\AvatarUploadController;
+use App\Http\Controllers\Api\V1\AvatarController;
 use App\Http\Controllers\Api\V1\ContactController;
 use App\Http\Controllers\Api\V1\MessageController;
 use App\Http\Controllers\Api\V1\UserController;
@@ -20,10 +20,16 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [UserController::class, 'authUser'])->name('users.authenticated');
-    Route::post('/user/avatar', AvatarUploadController::class)->name('users.avatar');
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('auth-user', [UserController::class, 'authUser'])->name('auth.show');
+        Route::get('{user}/contacts', ContactController::class)->name('contacts.index');
+
+        Route::prefix('avatar')->name('avatar.')->group(function () {
+            Route::post('', [AvatarController::class, 'store'])->name('store');
+            Route::delete('', [AvatarController::class, 'destroy'])->name('destroy');
+        });
+    });
     Route::apiResource('users', UserController::class)->only('index', 'show');
-    Route::get('/contacts/{user}', ContactController::class)->name('users.contacts');
 
     Route::prefix('messages')->name('messages.')->group(function () {
         Route::get('{user}', [MessageController::class, 'conversation'])->name('conversation');
