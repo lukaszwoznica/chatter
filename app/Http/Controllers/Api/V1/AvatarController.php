@@ -26,7 +26,8 @@ class AvatarController extends Controller
             return response()->json([
                 'message' => 'Avatar has been successfully uploaded.',
                 'data' => [
-                    'avatar_url' => $uploadedAvatar?->getUrl()
+                    'avatar_url' => $uploadedAvatar?->getUrl(),
+                    'avatar_thumb_url' => $uploadedAvatar?->getUrl('thumb')
                 ]
             ]);
         } catch (\Exception $exception) {

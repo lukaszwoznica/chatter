@@ -22,7 +22,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'is_online' => $this->is_online,
             'last_online_at' => $this->last_online_at?->format('Y-m-d H:i:s'),
-            'avatar_url' => $this->getFirstMediaUrl('avatar')
+            'avatar_url' => $this->getFirstMediaUrl('avatar'),
+            'avatar_thumb_url' => $this->getFirstMediaUrl('avatar', 'thumb')
         ];
     }
 }

@@ -127,8 +127,8 @@ class UsersTest extends TestCase
             'email',
             'is_online',
             'last_online_at',
-            'avatar_url'
+            'avatar_url',
+            'avatar_thumb_url'
         ];
     }
-
 }

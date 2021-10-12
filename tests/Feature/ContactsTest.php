@@ -82,7 +82,8 @@ class ContactsTest extends TestCase
                         'last_message',
                         'is_online',
                         'last_online_at',
-                        'avatar_url'
+                        'avatar_url',
+                        'avatar_thumb_url'
                     ]
                 ]
             ]);
