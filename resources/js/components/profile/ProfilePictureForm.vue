@@ -15,6 +15,9 @@
                 name="file"
                 label-idle="Drag & Drop your avatar here or <span class='filepond--label-action'>Browse</span>"
                 accepted-file-types="image/jpeg, image/png, image/gif"
+                image-crop-aspect-ratio="1:1"
+                image-resize-target-width="200"
+                image-resize-target-height="200"
                 max-file-size="1MB"
                 ref="filepond"
                 :server="serverOptions"
@@ -36,6 +39,9 @@ import vueFilePond from 'vue-filepond'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginImageCrop from 'filepond-plugin-image-crop'
+import FilePondPluginImageResize from 'filepond-plugin-image-resize'
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform'
 import ApiRoutes from '../../api/routes'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
@@ -45,7 +51,10 @@ import { mapGetters, mapMutations } from 'vuex'
 const FilePond = vueFilePond(
     FilePondPluginFileValidateType,
     FilePondPluginFileValidateSize,
-    FilePondPluginImagePreview
+    FilePondPluginImagePreview,
+    FilePondPluginImageCrop,
+    FilePondPluginImageResize,
+    FilePondPluginImageTransform
 )
 
 export default {
