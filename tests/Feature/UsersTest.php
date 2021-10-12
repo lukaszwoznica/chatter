@@ -101,7 +101,7 @@ class UsersTest extends TestCase
     public function testCurrentUserObjectIsReturned()
     {
         $response = $this->actingAs($this->authUser)
-            ->getJson(route('users.authenticated'));
+            ->getJson(route('users.auth.show'));
 
         $response->assertOk()
             ->assertJsonPath('data.id', $this->authUser->id)
@@ -112,7 +112,7 @@ class UsersTest extends TestCase
 
     public function testCurrentUserObjectIsNotReturnedIfUserIsUnauthenticated()
     {
-        $response = $this->getJson(route('users.authenticated'));
+        $response = $this->getJson(route('users.auth.show'));
 
         $response->assertUnauthorized();
     }
@@ -123,11 +123,11 @@ class UsersTest extends TestCase
             'id',
             'first_name',
             'last_name',
+            'full_name',
             'email',
             'is_online',
             'last_online_at',
-            'created_at',
-            'updated_at'
+            'avatar_url'
         ];
     }
 

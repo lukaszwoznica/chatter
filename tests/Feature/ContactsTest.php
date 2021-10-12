@@ -29,7 +29,7 @@ class ContactsTest extends TestCase
 
     public function testUserCannotGetContactsListWhenUnauthorized()
     {
-        $response = $this->getJson(route('users.contacts', $this->currentUser->id));
+        $response = $this->getJson(route('users.contacts.index', $this->currentUser->id));
 
         $response->assertUnauthorized();
     }
@@ -37,7 +37,7 @@ class ContactsTest extends TestCase
     public function testContactsListIsEmptyWhenUserHasNoConversations()
     {
         $response = $this->actingAs($this->currentUser)
-            ->getJson(route('users.contacts', $this->currentUser->id));
+            ->getJson(route('users.contacts.index', $this->currentUser->id));
 
         $response->assertOk()
             ->assertJsonCount(0, 'data');
@@ -51,7 +51,7 @@ class ContactsTest extends TestCase
         ))->create();
 
         $response = $this->actingAs($this->currentUser)
-            ->getJson(route('users.contacts', $this->currentUser));
+            ->getJson(route('users.contacts.index', $this->currentUser));
 
         $response->assertOk()
             ->assertJsonCount(2, 'data')
@@ -67,7 +67,7 @@ class ContactsTest extends TestCase
         ]);
 
         $response = $this->actingAs($this->currentUser)
-            ->getJson(route('users.contacts', $this->currentUser->id));
+            ->getJson(route('users.contacts.index', $this->currentUser->id));
 
         $response->assertOk()
             ->assertJsonStructure([
@@ -76,11 +76,13 @@ class ContactsTest extends TestCase
                         'id',
                         'first_name',
                         'last_name',
+                        'full_name',
                         'email',
                         'unread_messages',
                         'last_message',
                         'is_online',
-                        'last_online_at'
+                        'last_online_at',
+                        'avatar_url'
                     ]
                 ]
             ]);
@@ -89,7 +91,7 @@ class ContactsTest extends TestCase
     public function testUserCanGetOnlyOwnContactsList()
     {
         $response = $this->actingAs($this->currentUser)
-            ->getJson(route('users.contacts', $this->userContacts->last()));
+            ->getJson(route('users.contacts.index', $this->userContacts->last()));
 
         $response->assertForbidden();
     }
