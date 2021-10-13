@@ -29,7 +29,30 @@
 }
 
 .logo {
-    width: 250px;
+    &__link {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    &__img {
+        width: 60px;
+        margin-right: .6rem;
+    }
+
+    &__text {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 2rem;
+        text-transform: capitalize;
+        letter-spacing: .1rem;
+        transition: color .25s ease-in-out;
+    }
+
+    &:hover {
+        .logo__img {
+            animation: shake .7s ease-in-out .1s;
+        }
+    }
 }
 
 .nav__item {
