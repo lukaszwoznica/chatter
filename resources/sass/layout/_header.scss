@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1rem;
     height: 100px;
 
     &--chats {
@@ -26,9 +26,32 @@
             }
         }
     }
+
+    .hamburger {
+        position: relative;
+        z-index: 999;
+
+        &__inner {
+            background-color: $clr-white;
+
+            &:before, &:after {
+                background-color: $clr-white;
+            }
+        }
+
+        @include m-screen {
+            display: none;
+        }
+    }
+
+    @include s-screen {
+        padding: 1rem 2rem;
+    }
 }
 
 .logo {
+    z-index: 10;
+
     &__link {
         height: 100%;
         display: flex;
@@ -36,16 +59,29 @@
     }
 
     &__img {
-        width: 60px;
+        width: 50px;
         margin-right: .6rem;
+
+        @include s-screen {
+            width: 60px;
+        }
     }
 
     &__text {
+        display: none;
         font-family: 'Open Sans', sans-serif;
-        font-size: 2rem;
+        font-size: 1.8rem;
         text-transform: capitalize;
         letter-spacing: .1rem;
         transition: color .25s ease-in-out;
+
+        @media screen and (min-width: 360px){
+            display: block;
+        }
+
+        @include s-screen {
+            font-size: 2rem;
+        }
     }
 
     &:hover {
@@ -55,11 +91,25 @@
     }
 }
 
-.nav__item {
-    display: inline;
-    padding: 1rem;
+.nav {
+    &__item {
+        display: inline;
+        margin-left: 1.5rem;
 
-    .nav__link {
+        &--hamburger {
+            padding: 0;
+
+            @include m-screen {
+                display: none;
+            }
+        }
+
+        &--nested {
+            padding: 0;
+        }
+    }
+
+    &__link {
         color: rgba($clr-white, 0.8);
         position: relative;
         transition: color .25s ease-out;
@@ -85,6 +135,35 @@
 
         &.router-link-active {
             color: rgba($clr-white, 1);
+        }
+    }
+
+    &__guest-items {
+        display: none;
+        opacity: 0;
+
+        @include m-screen {
+            display: inline-block;
+            opacity: 1;
+        }
+
+        &--mobile {
+            transition: opacity 2s 10s ease-in-out;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            font-size: 1.5rem;
+            animation: fade-in .5s ease-in .4s forwards;
+
+            .nav__item {
+                margin: 1rem;
+            }
         }
     }
 }

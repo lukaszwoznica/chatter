@@ -10,6 +10,10 @@
         padding-bottom: 0;
     }
 
+    &--hidden {
+        display: none;
+    }
+
     .container {
         @include flex-center;
         width: 100%;

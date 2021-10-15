@@ -13,8 +13,12 @@ export default {
 
     methods: {
         onClick() {
-            this.$refs.hamburger.classList.toggle('hamburger--active')
+            this.toggleActiveClass()
             this.$emit('onHamburgerClick')
+        },
+
+        toggleActiveClass() {
+            this.$refs.hamburger.classList.toggle('hamburger--active')
         }
     }
 }
