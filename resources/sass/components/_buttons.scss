@@ -1,12 +1,27 @@
 @use "../abstracts" as *;
 
 .button {
+    position: relative;
     cursor: pointer;
     padding: .8rem 2.5rem;
     display: block;
     border: none;
     border-radius: 20px;
     font-weight: $font-bold;
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: .8;
+    }
+
+    &__loader {
+        @include flex-center;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 
     &--primary {
         background-color: $clr-primary;
@@ -16,7 +31,7 @@
         color: $clr-white;
         transition: all .3s ease-in-out;
 
-        &:hover {
+        &:hover:enabled {
             background-position: left;
             box-shadow: 0 5px 10px 0 rgba($clr-primary, 0.5);
         }

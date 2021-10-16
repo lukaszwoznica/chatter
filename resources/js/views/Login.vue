@@ -5,7 +5,7 @@
                 <h1>User Login</h1>
             </div>
             <div class="card__content">
-                <form class="form" @submit.prevent="submit">
+                <form class="form" @submit.prevent="submitForm">
                     <div class="form__group">
                         <div class="form__input-group">
                             <input class="form__input" type="email" id="email"
@@ -14,7 +14,7 @@
                             <label class="form__label" for="email">Email</label>
                         </div>
                         <small class="form__error" v-if="validationErrors?.email">
-                            {{ validationErrors?.email[0]}}
+                            {{ validationErrors?.email[0] }}
                         </small>
                     </div>
                     <div class="form__group">
@@ -25,14 +25,18 @@
                             <label class="form__label" for="password">Password</label>
                         </div>
                         <small class="form__error" v-if="validationErrors?.password">
-                            {{ validationErrors?.password[0]}}
+                            {{ validationErrors?.password[0] }}
                         </small>
                     </div>
 
                     <div class="form__button-wrapper">
-                        <AppButton type="submit" :classList="['button--primary']">
+                        <app-button
+                            type="submit"
+                            :classList="['button--primary']"
+                            :disabled="isSubmitting"
+                            :loading="isSubmitting">
                             Login
-                        </AppButton>
+                        </app-button>
                     </div>
 
                     <div class="forgot-password-link">
@@ -46,7 +50,7 @@
 
 <script>
 import AppButton from "../components/ui/AppButton"
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
     name: "Login",
@@ -61,8 +65,8 @@ export default {
                 email: '',
                 password: '',
             },
-
             validationErrors: [],
+            isSubmitting: false
         }
     },
 
@@ -71,13 +75,16 @@ export default {
             login: 'auth/login'
         }),
 
-        async submit() {
+        async submitForm() {
             try {
+                this.isSubmitting = true
                 await this.login(this.formFields)
-                await this.$router.push({name: 'chats'})
+
+                await this.$router.push({ name: 'chats' })
             } catch (e) {
                 this.validationErrors = e.response.data.errors
                 this.formFields.password = ''
+                this.isSubmitting = false
             }
         },
 

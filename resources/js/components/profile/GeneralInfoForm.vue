@@ -1,6 +1,6 @@
 <template>
     <h1 class="profile-card__form-title">General Information</h1>
-    <form class="form" @submit.prevent="submit">
+    <form class="form" @submit.prevent="submitForm">
         <div class="form__group" v-for="formField in formFields" :key="formField.id">
             <div class="form__input-group">
                 <input class="form__input"
@@ -19,9 +19,13 @@
             </small>
         </div>
         <div class="form__button-wrapper">
-            <AppButton type="submit" :classList="['button--primary']">
+            <app-button
+                type="submit"
+                :classList="['button--primary']"
+                :disabled="isSubmitting"
+                :loading="isSubmitting">
                 Update Profile
-            </AppButton>
+            </app-button>
         </div>
     </form>
 </template>
@@ -60,7 +64,8 @@ export default {
                     label: 'Email'
                 }
             },
-            validationErrors: []
+            validationErrors: [],
+            isSubmitting: false
         }
     },
 
@@ -79,8 +84,9 @@ export default {
             updateProfile: 'auth/updateProfileInfo'
         }),
 
-        async submit() {
+        async submitForm() {
             try {
+                this.isSubmitting = true
                 const userData = mapValues(this.formFields, 'value')
                 await this.updateProfile(userData)
 
@@ -88,6 +94,8 @@ export default {
             } catch (error) {
                 this.validationErrors = error.response.data.errors
             }
+
+            this.isSubmitting = false
         },
 
         resetValidationError(event) {

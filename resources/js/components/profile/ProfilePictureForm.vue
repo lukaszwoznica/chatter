@@ -1,12 +1,14 @@
 <template>
     <div class="profile-card__form-header">
         <h1 class="profile-card__form-title">Profile Picture</h1>
-        <button class="profile-card__remove-avatar-button"
-                :disabled="!authUser.avatar_url"
-                v-tooltip.auto="'Remove current avatar'"
-                @click="submitAvatarDelete">
+        <app-button
+            :classList="['profile-card__remove-avatar-button']"
+            :disabled="!authUser.avatar_url"
+            :loading="isRemovingAvatar"
+            loader-color="#cc0000"
+            @buttonClick="submitAvatarDelete">
             <font-awesome-icon :icon="['fas', 'trash-alt']" fixed-width/>
-        </button>
+        </app-button>
     </div>
 
     <form class="form" @submit.prevent="submitAvatarUpdate" enctype='multipart/form-data'>
@@ -26,9 +28,13 @@
             />
         </div>
         <div class="form__button-wrapper">
-            <AppButton type="submit" :classList="['button--primary']">
+            <app-button
+                type="submit"
+                :classList="['button--primary']"
+                :disabled="isSubmittingAvatar"
+                :loading="isSubmittingAvatar">
                 Update Avatar
-            </AppButton>
+            </app-button>
         </div>
     </form>
 </template>
@@ -74,6 +80,8 @@ export default {
 
     data() {
         return {
+            isSubmittingAvatar: false,
+            isRemovingAvatar: false,
             uploadedAvatarServerId: null,
             serverOptions: {
                 url: ApiRoutes.FilePond.ApiUrl,
@@ -102,6 +110,7 @@ export default {
             }
 
             try {
+                this.isSubmittingAvatar = true
                 const response = await axios.post(ApiRoutes.Users.Avatar, {
                     avatar_server_id: this.uploadedAvatarServerId
                 })
@@ -112,10 +121,13 @@ export default {
             } catch (error) {
                 alert('Something went wrong.')
             }
+
+            this.isSubmittingAvatar = false
         },
 
         async submitAvatarDelete() {
             try {
+                this.isRemovingAvatar = true
                 await axios.delete(ApiRoutes.Users.Avatar)
 
                 this.updateAuthUserAvatarUrls('', '')
@@ -123,6 +135,8 @@ export default {
             } catch (error) {
                 alert('Something went wrong.')
             }
+
+            this.isRemovingAvatar = false
         },
 
         updateAuthUserAvatarUrls(avatarUrl, avatarThumbUrl) {

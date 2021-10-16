@@ -1,6 +1,6 @@
 <template>
     <h1 class="profile-card__form-title">Password Change</h1>
-    <form class="form" @submit.prevent="submit">
+    <form class="form" @submit.prevent="submitForm">
         <div class="form__group" v-for="formField in formFields" :key="formField.id">
             <div class="form__input-group">
                 <input class="form__input"
@@ -19,9 +19,13 @@
             </small>
         </div>
         <div class="form__button-wrapper">
-            <AppButton type="submit" :classList="['button--primary']">
+            <app-button
+                type="submit"
+                :classList="['button--primary']"
+                :disabled="isSubmitting"
+                :loading="isSubmitting">
                 Update Password
-            </AppButton>
+            </app-button>
         </div>
     </form>
 </template>
@@ -60,13 +64,15 @@ export default {
                     label: 'Confirm Password',
                 }
             },
-            validationErrors: []
+            validationErrors: [],
+            isSubmitting: false
         }
     },
 
     methods: {
-        async submit() {
+        async submitForm() {
             try {
+                this.isSubmitting = true
                 const userData = mapValues(this.formFields, 'value')
                 await axios.put(ApiRoutes.Auth.UpdatePassword, userData)
 
@@ -78,6 +84,7 @@ export default {
             }
 
             this.resetInputValues()
+            this.isSubmitting = false
         },
 
         resetValidationError(event) {

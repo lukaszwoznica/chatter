@@ -5,7 +5,7 @@
                 <h1>Create Account</h1>
             </div>
             <div class="card__content">
-                <form class="form" @submit.prevent="submit">
+                <form class="form" @submit.prevent="submitForm">
                     <template v-for="formField in formFields">
                         <div class="form__group">
                             <div class="form__input-group">
@@ -26,9 +26,13 @@
                         </div>
                     </template>
                     <div class="form__button-wrapper">
-                        <AppButton type="submit" :classList="['button--primary']">
+                        <app-button
+                            type="submit"
+                            :classList="['button--primary']"
+                            :disabled="isSubmitting"
+                            :loading="isSubmitting">
                             Register
-                        </AppButton>
+                        </app-button>
                     </div>
                 </form>
             </div>
@@ -82,7 +86,8 @@ export default {
                     label: 'Confirm Password',
                 },
             },
-            validationErrors: []
+            validationErrors: [],
+            isSubmitting: false
         }
     },
 
@@ -91,16 +96,17 @@ export default {
             register: 'auth/register'
         }),
 
-        async submit() {
+        async submitForm() {
             try {
+                this.isSubmitting = true
                 const userData = mapValues(this.formFields, 'value')
-
                 await this.register(userData)
+
                 await this.$router.push({name: 'chats'})
             } catch (error) {
                 this.validationErrors = error.response.data.errors
-                this.formFields.password.value = ''
-                this.formFields.password_confirmation.value = ''
+                this.resetPasswordFields()
+                this.isSubmitting = false
             }
         },
 
@@ -108,6 +114,11 @@ export default {
             if (this.validationErrors[event.target.id] !== '') {
                 this.validationErrors[event.target.id] = ''
             }
+        },
+
+        resetPasswordFields() {
+            this.formFields.password.value = ''
+            this.formFields.password_confirmation.value = ''
         }
     }
 }

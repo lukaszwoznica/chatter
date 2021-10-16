@@ -6,6 +6,7 @@ import store from './store'
 import App from './App'
 import VTooltip from 'v-tooltip'
 import VueCookies from 'vue3-cookies'
+import VueLoaders from 'vue-loaders'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCircle, faCheckCircle, faFrown } from '@fortawesome/free-regular-svg-icons'
@@ -22,5 +23,6 @@ store.dispatch('auth/synchronizeAuthenticationState').then(() => {
         .use(store)
         .use(VTooltip, { disposeTimeout: 100 })
         .use(VueCookies)
+        .use(VueLoaders)
         .mount('#app')
 })

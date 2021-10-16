@@ -8,7 +8,7 @@
                 <p class="form-info">
                     Enter your e-mail address below and we'll send you a link to reset your password.
                 </p>
-                <form class="form" @submit.prevent="submit">
+                <form class="form" @submit.prevent="submitForm">
                     <div class="form__group">
                         <div class="form__input-group">
                             <input class="form__input" type="email" id="email" v-model="email"
@@ -22,9 +22,13 @@
                     </div>
 
                     <div class="form__button-wrapper">
-                        <AppButton type="submit" :classList="['button--primary']">
+                        <app-button
+                            type="submit"
+                            :classList="['button--primary']"
+                            :disabled="isSubmitting"
+                            :loading="isSubmitting">
                             Send
-                        </AppButton>
+                        </app-button>
                     </div>
                 </form>
             </div>
@@ -47,26 +51,26 @@ export default {
         return {
             email: '',
             validationError: '',
+            isSubmitting: false
         }
     },
 
     methods: {
-        async submit() {
+        async submitForm() {
             try {
-                const response = await axios.post(ApiRoutes.Auth.ForgotPassword, {
-                    email: this.email
-                })
+                this.isSubmitting = true
+                await axios.post(ApiRoutes.Auth.ForgotPassword, { email: this.email })
 
-                if (response.status === 200) {
-                    this.email = ''
-                    this.validationError = ''
-                    alert('We have sent you an e-mail containing your password reset link. Check your inbox.')
-                }
+                this.email = ''
+                this.validationError = ''
+                alert('We have sent you an e-mail containing your password reset link. Check your inbox.')
             } catch (error) {
                 if (error.response.status === 422) {
                     this.validationError = error.response.data.errors.email[0]
                 }
             }
+
+            this.isSubmitting = false
         },
 
         resetValidationError() {
