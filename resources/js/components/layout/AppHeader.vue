@@ -6,9 +6,9 @@
                 <div class="logo__text">Chatter</div>
             </router-link>
         </div>
+
         <nav class="nav">
             <ul class="nav__items">
-
                 <template v-if="!isAuthenticated">
                     <li class="nav__item nav__item--nested">
                         <ul class="nav__guest-items" ref="guestItemsList">
@@ -21,14 +21,14 @@
                         </ul>
                     </li>
                     <li class="nav__item nav__item--hamburger">
-                        <HamburgerButton @onHamburgerClick="toggleMobileNav" ref="hamburgerButton"/>
+                        <hamburger-button @onHamburgerClick="toggleMobileNav" ref="hamburgerButton"/>
                     </li>
                 </template>
 
                 <template v-else>
                     <li class="nav__item">
-                        <div class="dropdown" v-click-outside="closeDropdown">
-                            <div class="dropdown__toggle" @click="toggleDropdown">
+                        <dropdown-menu>
+                            <template #dropdown-toggler>
                                 <div class="dropdown__avatar">
                                     <user-avatar :username="authUser.full_name"
                                                  :img-src="authUser.avatar_thumb_url"
@@ -37,11 +37,9 @@
                                 <div class="dropdown__name">
                                     {{ authUser.first_name }}
                                 </div>
-                                <div class="dropdown__arrow" ref="dropdownArrow">
-                                    &#9662;
-                                </div>
-                            </div>
-                            <div class="dropdown__menu" ref="dropdownMenu" @click="closeDropdown">
+                            </template>
+
+                            <template #dropdown-items>
                                 <router-link :to="{name: 'profile'}" class="dropdown__item">
                                     <div class="dropdown__icon">
                                         <font-awesome-icon :icon="['fas', 'user-edit']" fixed-width></font-awesome-icon>
@@ -54,8 +52,8 @@
                                     </div>
                                     Logout
                                 </a>
-                            </div>
-                        </div>
+                            </template>
+                        </dropdown-menu>
                     </li>
                 </template>
             </ul>
@@ -66,7 +64,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import vClickOutside from 'click-outside-vue3'
+import DropdownMenu from '../ui/DropdownMenu'
 import UserAvatar from '../ui/UserAvatar'
 import HamburgerButton from '../ui/HamburgerButton'
 
@@ -74,13 +72,10 @@ export default {
     name: "AppHeader",
 
     components: {
+        DropdownMenu,
         HamburgerButton,
         FontAwesomeIcon,
         UserAvatar
-    },
-
-    directives: {
-        clickOutside: vClickOutside.directive
     },
 
     props: {
@@ -130,16 +125,6 @@ export default {
             await this.$router.push({ name: 'home' })
         },
 
-        toggleDropdown() {
-            this.$refs.dropdownMenu.classList.toggle('dropdown__menu--active')
-            this.$refs.dropdownArrow.classList.toggle('dropdown__arrow--rotated')
-        },
-
-        closeDropdown() {
-            this.$refs.dropdownMenu.classList.remove('dropdown__menu--active')
-            this.$refs.dropdownArrow.classList.remove('dropdown__arrow--rotated')
-        },
-
         toggleMobileNav() {
             this.$emit('toggleMobileNav')
             this.isMobileNavActive = !this.isMobileNavActive
@@ -162,5 +147,4 @@ export default {
         }
     }
 }
-
 </script>
