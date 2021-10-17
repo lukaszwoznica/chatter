@@ -48,6 +48,7 @@
         "vue-infinite-loading": "^3.0.0-alpha.0-0",
         "vue-loaders": "^4.1.4",
         "vue-lottie-player": "^0.1.9",
+        "vue-sweetalert2": "^5.0.2",
         "vue3-cookies": "^1.0.1"
     }
 }
