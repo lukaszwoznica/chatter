@@ -64,6 +64,11 @@ export default {
                     label: 'Confirm Password',
                 }
             },
+            successAlertOptions: {
+                icon: 'success',
+                titleText: 'Password changed!',
+                text: 'Your password has been successfully updated.',
+            },
             validationErrors: [],
             isSubmitting: false
         }
@@ -76,15 +81,15 @@ export default {
                 const userData = mapValues(this.formFields, 'value')
                 await axios.put(ApiRoutes.Auth.UpdatePassword, userData)
 
-                alert('Password successfully updated!')
+                this.$swal(this.successAlertOptions)
             } catch (error) {
                 if (error.response.status === 422) {
                     this.validationErrors = error.response.data.errors
                 }
+            } finally {
+                this.resetInputValues()
+                this.isSubmitting = false
             }
-
-            this.resetInputValues()
-            this.isSubmitting = false
         },
 
         resetValidationError(event) {

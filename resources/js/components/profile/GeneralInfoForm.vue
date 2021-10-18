@@ -64,6 +64,11 @@ export default {
                     label: 'Email'
                 }
             },
+            successAlertOptions: {
+                icon: 'success',
+                titleText: 'Profile Updated!',
+                text: 'Your profile information has been successfully updated.'
+            },
             validationErrors: [],
             isSubmitting: false
         }
@@ -90,12 +95,12 @@ export default {
                 const userData = mapValues(this.formFields, 'value')
                 await this.updateProfile(userData)
 
-                alert('Profile successfully updated!')
+                this.$swal(this.successAlertOptions)
             } catch (error) {
                 this.validationErrors = error.response.data.errors
+            } finally {
+                this.isSubmitting = false
             }
-
-            this.isSubmitting = false
         },
 
         resetValidationError(event) {

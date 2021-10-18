@@ -51,7 +51,15 @@ export default {
         return {
             email: '',
             validationError: '',
-            isSubmitting: false
+            isSubmitting: false,
+            successAlertOptions: {
+                icon: 'success',
+                timer: 8000,
+                timerProgressBar: true,
+                titleText: 'Check Your Email',
+                text: 'We have sent you an email containing your password reset link. Check your inbox.',
+                confirmButtonText: 'Back To Login'
+            }
         }
     },
 
@@ -62,21 +70,26 @@ export default {
                 await axios.post(ApiRoutes.Auth.ForgotPassword, { email: this.email })
 
                 this.email = ''
-                this.validationError = ''
-                alert('We have sent you an e-mail containing your password reset link. Check your inbox.')
+                this.resetValidationError()
+                await this.showSuccessAlertAndRedirectToLogin()
             } catch (error) {
                 if (error.response.status === 422) {
                     this.validationError = error.response.data.errors.email[0]
                 }
+            } finally {
+                this.isSubmitting = false
             }
-
-            this.isSubmitting = false
         },
 
         resetValidationError() {
             if (this.validationError !== '') {
                 this.validationError = ''
             }
+        },
+
+        async showSuccessAlertAndRedirectToLogin() {
+            await this.$swal(this.successAlertOptions)
+            await this.$router.push({ name: 'login' })
         }
     }
 }

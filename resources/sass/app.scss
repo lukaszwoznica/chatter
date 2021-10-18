@@ -17,5 +17,9 @@
 @import "~filepond/dist/filepond.min.css";
 @import "~filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
-//VueLoaders
+// VueLoaders
 @import "~vue-loaders/dist/vue-loaders.css";
+
+//// SweetAlert2
+@import "sweetalert2/custom";
+@import "~sweetalert2/src/sweetalert2";

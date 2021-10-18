@@ -5,8 +5,9 @@
             :classList="['profile-card__remove-avatar-button']"
             :disabled="!authUser.avatar_url"
             :loading="isRemovingAvatar"
+            v-tooltip.auto="'Remove current avatar'"
             loader-color="#cc0000"
-            @buttonClick="submitAvatarDelete">
+            @buttonClick="submitAvatarRemove">
             <font-awesome-icon :icon="['fas', 'trash-alt']" fixed-width/>
         </app-button>
     </div>
@@ -31,7 +32,7 @@
             <app-button
                 type="submit"
                 :classList="['button--primary']"
-                :disabled="isSubmittingAvatar"
+                :disabled="isSubmittingAvatar || !uploadedAvatarServerId"
                 :loading="isSubmittingAvatar">
                 Update Avatar
             </app-button>
@@ -90,6 +91,20 @@ export default {
                 headers: {
                     'X-XSRF-TOKEN': this.$cookies.get('XSRF-TOKEN'),
                 }
+            },
+            updateSuccessAlertOptions: {
+                icon: 'success',
+                titleText: 'Profile picture updated!',
+                text: 'Your profile picture has been successfully updated.',
+            },
+            removeSuccessAlertOptions: {
+                icon: 'success',
+                titleText: 'Profile picture removed!',
+                text: 'Your profile picture has been successfully removed.',
+            },
+            errorAlertOptions: {
+                icon: 'error',
+                titleText: 'Oops!',
             }
         }
     },
@@ -105,7 +120,6 @@ export default {
 
         async submitAvatarUpdate() {
             if (!this.uploadedAvatarServerId) {
-                alert('Avatar image is required')
                 return
             }
 
@@ -115,28 +129,32 @@ export default {
                     avatar_server_id: this.uploadedAvatarServerId
                 })
 
-                this.$refs.filepond.removeFiles()
                 this.updateAuthUserAvatarUrls(response.data.data.avatar_url, response.data.data.avatar_thumb_url)
-                alert('Profile picture has been successfully updated!')
+                this.$refs.filepond.removeFiles()
+                this.$swal(this.updateSuccessAlertOptions)
             } catch (error) {
-                alert('Something went wrong.')
+                this.$swal({...this.errorAlertOptions,
+                    text: 'Something went wrong while updating your profile picture.'
+                })
+            } finally {
+                this.isSubmittingAvatar = false
             }
-
-            this.isSubmittingAvatar = false
         },
 
-        async submitAvatarDelete() {
+        async submitAvatarRemove() {
             try {
                 this.isRemovingAvatar = true
                 await axios.delete(ApiRoutes.Users.Avatar)
 
                 this.updateAuthUserAvatarUrls('', '')
-                alert('Profile picture has been successfully removed!')
+                this.$swal(this.removeSuccessAlertOptions)
             } catch (error) {
-                alert('Something went wrong.')
+                this.$swal({...this.errorAlertOptions,
+                    text: 'Something went wrong while removing your profile picture.'
+                })
+            } finally {
+                this.isRemovingAvatar = false
             }
-
-            this.isRemovingAvatar = false
         },
 
         updateAuthUserAvatarUrls(avatarUrl, avatarThumbUrl) {
