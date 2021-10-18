@@ -3,7 +3,7 @@
 .chats-container {
     width: 100%;
     justify-content: center;
-    height: calc(100vh - 100px);
+    height: calc(100vh - #{$auth-header-height});
     position: relative;
 }
 

@@ -1,16 +1,17 @@
 <template>
     <div class="app-wrapper">
-        <AppHeader :classList="isAuthRoute ? ['header--chats'] : []"
+        <AppHeader :classList="isAuthRoute ? ['header--auth'] : []"
                    @toggleMobileNav="toggleMobileNav"
                    @openMobileNav="openMobileNav"
                    @closeMobileNav="closeMobileNav"/>
 
-        <main class="main" :class="isAuthRoute ? 'main--p0' : ''" ref="main">
+        <main class="main" :class="isAuthRoute ? 'main--auth' : ''" ref="main">
             <router-view/>
         </main>
 
+        <AppFooter v-if="!isChatsRoute"/>
+
         <template v-if="!isAuthRoute">
-            <AppFooter/>
             <div class="bg-gradient" ref="bgGradient"></div>
             <div class="bg-shape bg-shape--circle" ref="bgCircleShape"></div>
             <div class="bg-shape bg-shape--eclipse"></div>
@@ -33,6 +34,10 @@ export default {
     computed: {
         isAuthRoute() {
             return ['chats', 'profile'].includes(this.$route.name)
+        },
+
+        isChatsRoute() {
+            return this.$route.name === 'chats'
         }
     },
 
