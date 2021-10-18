@@ -9,11 +9,6 @@ import VueCookies from 'vue3-cookies'
 import VueLoaders from 'vue-loaders'
 import VueSweetalert2 from 'vue-sweetalert2'
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCircle, faCheckCircle, faFrown } from '@fortawesome/free-regular-svg-icons'
-import { faArrowRight, faSearch, faCommentDots, faSpinner, faUserEdit, faPowerOff } from '@fortawesome/free-solid-svg-icons'
-
-library.add(faArrowRight, faSearch, faCircle, faCheckCircle, faCommentDots, faSpinner, faFrown, faUserEdit, faPowerOff)
 
 store.dispatch('auth/synchronizeAuthenticationState').then(() => {
     const swalGlobalOptions = {

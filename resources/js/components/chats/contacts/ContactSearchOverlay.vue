@@ -55,6 +55,9 @@ import ApiRoutes from '../../../api/routes'
 import { debounce } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faFrown } from '@fortawesome/free-regular-svg-icons'
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import InfiniteLoading from 'vue-infinite-loading'
 import UserAvatar from '../../ui/UserAvatar'
 
@@ -88,6 +91,10 @@ export default {
         ...mapGetters({
             getContactById: 'contacts/contactById'
         })
+    },
+
+    created() {
+        library.add(faFrown, faCommentDots)
     },
 
     methods: {

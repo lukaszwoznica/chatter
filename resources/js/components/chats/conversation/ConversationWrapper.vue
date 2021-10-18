@@ -16,6 +16,9 @@ import ConversationHeader from './ConversationHeader'
 import MessagesFeed from './MessagesFeed'
 import MessageComposer from './MessageComposer'
 import { mapGetters } from 'vuex'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCircle, faCheckCircle } from '@fortawesome/free-regular-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 export default {
     name: "ConversationWrapper",
@@ -58,6 +61,10 @@ export default {
             Echo.private(`conversation.${this.cantorPairConversationId}`)
             this.previousConversationId = this.cantorPairConversationId
         }
+    },
+
+    created() {
+        library.add(faArrowRight, faCircle, faCheckCircle)
     },
 
     methods: {

@@ -64,6 +64,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserEdit, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import DropdownMenu from '../ui/DropdownMenu'
 import UserAvatar from '../ui/UserAvatar'
 import HamburgerButton from '../ui/HamburgerButton'
@@ -111,6 +113,10 @@ export default {
         if (this.$refs.guestItemsList) {
             window.addEventListener('resize', this.toggleMobileNavOnResize)
         }
+    },
+
+    created() {
+      library.add(faUserEdit, faPowerOff)
     },
 
     methods: {

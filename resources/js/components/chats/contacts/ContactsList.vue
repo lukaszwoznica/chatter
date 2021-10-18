@@ -50,6 +50,8 @@ import { mapGetters, mapActions } from 'vuex'
 import ContactSearchOverlay from './ContactSearchOverlay'
 import { orderBy } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
@@ -85,6 +87,7 @@ export default {
 
     created() {
         this.fetchContacts()
+        library.add(faSearch)
     },
 
     mounted() {
