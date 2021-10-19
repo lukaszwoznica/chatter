@@ -10,6 +10,10 @@ import ContactsList from '../components/chats/contacts/ContactsList'
 import ConversationWrapper from '../components/chats/conversation/ConversationWrapper'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
+const newMessageAudio = new Audio('/audio/new-message.mp3')
+const newMessageSelectedAudio = new Audio('/audio/new-message-selected.mp3')
+const messageReadAudio = new Audio('/audio/message-read.mp3')
+
 export default {
     name: "Chats",
 
@@ -34,6 +38,7 @@ export default {
             .listen('MessagesReadEvent', event => {
                 if (this.selectedContact.id === event.messages[0].recipient.id) {
                     event.messages.forEach(message => this.updateMessage(message))
+                    messageReadAudio.play()
                 }
             })
 
@@ -65,11 +70,14 @@ export default {
             this.updateContactListAfterNewMessage(message)
 
             if (message.sender.id === this.selectedContact?.id) {
+                newMessageSelectedAudio.play()
                 this.addMessage(message)
                 this.markMessageAsRead(message.id)
                 this.$nextTick(() => {
                     this.$refs.conversationWrapper?.scrollFeedToBottom()
                 })
+            } else {
+                newMessageAudio.play()
             }
         },
 

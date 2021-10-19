@@ -66,6 +66,9 @@ import isToday from 'dayjs/plugin/isToday'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import UserAvatar from '../../ui/UserAvatar'
 
+const userTypingAudio = new Audio('/audio/user-typing.mp3')
+userTypingAudio.volume = 0.5
+
 export default {
     name: "MessagesFeed",
 
@@ -102,7 +105,7 @@ export default {
             this.listenForWhisperOnConversationChannel()
         },
 
-        'selectedContact.id': function() {
+        'selectedContact.id': function () {
             if (this.selectedContact !== null) {
                 this.resetMessagesState()
                 this.$refs.infiniteLoading.stateChanger.reset()
@@ -137,14 +140,12 @@ export default {
             Echo.private(`conversation.${this.conversationId}`)
                 .listenForWhisper('TypingEvent', event => {
                     this.typingUser = event.user
-                    this.$nextTick(() => {
-                        this.scrollToBottom()
-                    })
+                    this.scrollToBottom()
+                    userTypingAudio.play()
 
                     if (this.typingClock) {
                         clearTimeout(this.typingClock)
                     }
-
                     this.typingClock = setTimeout(() => this.typingUser = null, 800)
                 })
         },
@@ -164,10 +165,12 @@ export default {
         },
 
         scrollToBottom() {
-            this.$refs.messagesList?.scrollIntoView({
-                behavior: 'smooth',
-                block: 'end',
-                inline: 'nearest'
+            this.$nextTick(() => {
+                this.$refs.messagesList?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'end',
+                    inline: 'nearest'
+                })
             })
         },
 
