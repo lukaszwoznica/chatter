@@ -125,7 +125,8 @@ export default {
     methods: {
         ...mapActions({
             fetchMessages: 'messages/fetchMessages',
-            resetMessagesState: 'messages/resetModuleState'
+            resetMessagesState: 'messages/resetModuleState',
+            updateContact: 'contacts/updateContact'
         }),
 
         ...mapMutations({
@@ -158,12 +159,10 @@ export default {
         },
 
         scrollToBottom() {
-            this.$nextTick(() => {
-                this.$refs.messagesList.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'end',
-                    inline: 'nearest'
-                })
+            this.$refs.messagesList?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+                inline: 'nearest'
             })
         },
 

@@ -8,7 +8,7 @@
 <script>
 import ContactsList from '../components/chats/contacts/ContactsList'
 import ConversationWrapper from '../components/chats/conversation/ConversationWrapper'
-import {mapGetters, mapMutations, mapActions} from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
     name: "Chats",
@@ -45,6 +45,10 @@ export default {
             })
     },
 
+    beforeUnmount() {
+        Echo.leave(`messages.${this.authUser.id}`)
+    },
+
     methods: {
         ...mapMutations({
             addMessage: 'messages/ADD_MESSAGE',
@@ -64,7 +68,9 @@ export default {
             if (message.sender.id === this.selectedContact?.id) {
                 this.addMessage(message)
                 this.markMessageAsRead(message.id)
-                this.$refs.conversationWrapper.scrollFeedToBottom()
+                this.$nextTick(() => {
+                    this.$refs.conversationWrapper?.scrollFeedToBottom()
+                })
             }
         },
 
