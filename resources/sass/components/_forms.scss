@@ -61,14 +61,6 @@
             border: 1px solid darken($clr-primary, 10%);
             outline: none;
         }
-
-        &--message {
-            resize: none;
-            width: 100%;
-            line-height: 1;
-            margin-right: .5rem;
-            overflow: hidden;
-        }
     }
 }
 

@@ -1,0 +1,17 @@
+@use "../abstracts" as *;
+
+.emoji-picker {
+    position: absolute;
+    top: -418px;
+    right: 2%;
+
+    emoji-picker {
+        --background: hsl(0, 0%, 98%);
+        --outline-color: hsl(292, 46%, 57%);
+
+        @include xs-screen {
+            --num-columns: 6;
+            --category-emoji-size: 1rem;
+        }
+    }
+}

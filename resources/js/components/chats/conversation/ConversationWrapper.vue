@@ -18,7 +18,7 @@ import MessageComposer from './MessageComposer'
 import { mapGetters } from 'vuex'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCircle, faCheckCircle } from '@fortawesome/free-regular-svg-icons'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faSmile } from '@fortawesome/free-solid-svg-icons'
 
 export default {
     name: "ConversationWrapper",
@@ -64,7 +64,7 @@ export default {
     },
 
     created() {
-        library.add(faArrowRight, faCircle, faCheckCircle)
+        library.add(faArrowRight, faCircle, faCheckCircle, faSmile)
     },
 
     methods: {
