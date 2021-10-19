@@ -40,7 +40,7 @@ export default {
         Echo.private(`user-notifications.${this.authUser.id}`)
             .notification(notification => {
                 if (notification.type === 'UserOnlineStatusChangedNotification') {
-                    this.updateContactOnlineStatus(notification.user)
+                    this.updateContact(notification.user)
                 }
             })
     },
@@ -52,14 +52,13 @@ export default {
     methods: {
         ...mapMutations({
             addMessage: 'messages/ADD_MESSAGE',
-            updateContact: 'contacts/UPDATE_CONTACT',
             updateMessage: 'messages/UPDATE_MESSAGE'
         }),
 
         ...mapActions({
             addNewContact: 'contacts/addNewContact',
             markMessageAsRead: 'messages/markMessageAsRead',
-            updateContactOnlineStatus: 'contacts/updateContactOnlineStatus'
+            updateContact: 'contacts/updateContact'
         }),
 
         handleIncomingMessage(message) {

@@ -26,7 +26,7 @@ const mutations = {
 }
 
 const actions = {
-    async fetchContacts({dispatch, commit, getters, rootGetters}) {
+    async fetchContacts({ dispatch, commit, getters, rootGetters }) {
         const authUser = rootGetters['auth/user']
 
         const response = await axios.get(ApiRoutes.Users.Contacts(authUser.id))
@@ -34,15 +34,14 @@ const actions = {
         commit('SET_CONTACTS', response.data.data)
     },
 
-    selectContact({getters, commit}, contactId) {
+    selectContact({ getters, commit }, contactId) {
         const contact = getters.contactById(contactId)
-        contact.unread_messages = 0
 
         commit('UPDATE_CONTACT', contact)
         commit('SET_SELECTED_CONTACT', contact)
     },
 
-    addNewContact({commit}, newContact) {
+    addNewContact({ commit }, newContact) {
         commit('ADD_CONTACT', {
             ...newContact,
             last_message: newContact.last_message ?? null,
@@ -50,15 +49,15 @@ const actions = {
         })
     },
 
-    updateContactOnlineStatus({getters, commit}, updatedContact) {
-        let contact = getters.contactById(updatedContact.id)
+    updateContact({ getters, commit }, contactData) {
+        let contact = getters.contactById(contactData.id)
         if (!contact) {
             return
         }
 
         contact = {
             ...contact,
-            ...updatedContact
+            ...contactData
         }
 
         if (contact.id === getters.selectedContact?.id) {
@@ -67,7 +66,7 @@ const actions = {
         commit('UPDATE_CONTACT', contact)
     },
 
-    resetModuleState({commit}) {
+    resetModuleState({ commit }) {
         commit('SET_CONTACTS', [])
         commit('SET_SELECTED_CONTACT', null)
     }

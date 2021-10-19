@@ -102,7 +102,7 @@ export default {
             this.listenForWhisperOnConversationChannel()
         },
 
-        selectedContact() {
+        'selectedContact.id': function() {
             if (this.selectedContact !== null) {
                 this.resetMessagesState()
                 this.$refs.infiniteLoading.stateChanger.reset()
@@ -156,6 +156,11 @@ export default {
                 infiniteLoaderContext: $state
             })
             this.isLoadingMessages = false
+
+            this.updateContact({
+                ...this.selectedContact,
+                unread_messages: 0
+            })
         },
 
         scrollToBottom() {

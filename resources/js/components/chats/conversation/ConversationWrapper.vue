@@ -53,7 +53,7 @@ export default {
     },
 
     watch: {
-        selectedContact() {
+        'selectedContact.id': function() {
             if (this.previousConversationId !== null) {
                 Echo.leave(`conversation.${this.previousConversationId}`)
             }

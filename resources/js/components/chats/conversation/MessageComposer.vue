@@ -89,10 +89,7 @@ export default {
     methods: {
         ...mapActions({
             sendMessage: 'messages/sendMessage',
-        }),
-
-        ...mapMutations({
-            updateContact: 'contacts/UPDATE_CONTACT'
+            updateContact: 'contacts/updateContact'
         }),
 
         async onSubmit() {
