@@ -10,7 +10,10 @@ import VueLoaders from 'vue-loaders'
 import VueSweetalert2 from 'vue-sweetalert2'
 
 
-store.dispatch('auth/synchronizeAuthenticationState').then(() => {
+const runApp = async () => {
+    await store.dispatch('sounds/synchronizeStateWithLocalStorage')
+    await store.dispatch('auth/synchronizeAuthenticationState')
+
     const swalGlobalOptions = {
         buttonsStyling: false,
         customClass: {
@@ -29,4 +32,6 @@ store.dispatch('auth/synchronizeAuthenticationState').then(() => {
         .use(VueLoaders)
         .use(VueSweetalert2, swalGlobalOptions)
         .mount('#app')
-})
+}
+
+runApp()

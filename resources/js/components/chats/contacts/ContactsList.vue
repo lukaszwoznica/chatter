@@ -3,10 +3,23 @@
         <div class="contacts__header" ref="contactsHeader">
             <h2>Contacts</h2>
 
-            <font-awesome-icon :icon="['fas', 'search']"
-                               class="contacts__search-icon"
-                               @click="searchVisible = true">
-            </font-awesome-icon>
+            <div class="contacts__icons">
+                <font-awesome-icon
+                    :icon="['fas', 'search']"
+                    class="contacts__search-icon"
+                    @click="searchVisible = true"
+                    v-tooltip="'Search'"
+                    fixed-width
+                />
+                <font-awesome-icon
+                    :icon="['fas', soundsMuted ? 'volume-mute' : 'volume-up']"
+                    class="contacts__sound-icon"
+                    :class="{'contacts__sound-icon--mute': soundsMuted}"
+                    @click="toggleSounds"
+                    v-tooltip="'Chat sounds'"
+                    fixed-width
+                />
+            </div>
         </div>
 
         <ul class="contacts__list" ref="contactsList">
@@ -51,7 +64,7 @@ import ContactSearchOverlay from './ContactSearchOverlay'
 import { orderBy } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faVolumeUp, faVolumeMute } from '@fortawesome/free-solid-svg-icons'
 import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import weekOfYear from 'dayjs/plugin/weekOfYear'
@@ -77,7 +90,8 @@ export default {
     computed: {
         ...mapGetters({
             contacts: 'contacts/allContacts',
-            selectedContact: 'contacts/selectedContact'
+            selectedContact: 'contacts/selectedContact',
+            soundsMuted: 'sounds/soundsMuted'
         }),
 
         sortedContacts() {
@@ -87,7 +101,7 @@ export default {
 
     created() {
         this.fetchContacts()
-        library.add(faSearch)
+        library.add(faSearch, faVolumeUp, faVolumeMute)
     },
 
     mounted() {
@@ -105,7 +119,8 @@ export default {
     methods: {
         ...mapActions({
             fetchContacts: 'contacts/fetchContacts',
-            selectContact: 'contacts/selectContact'
+            selectContact: 'contacts/selectContact',
+            toggleSounds: 'sounds/toggleSounds'
         }),
 
         formatLastMessageDate(date) {

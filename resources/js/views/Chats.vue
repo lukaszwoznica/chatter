@@ -10,10 +10,6 @@ import ContactsList from '../components/chats/contacts/ContactsList'
 import ConversationWrapper from '../components/chats/conversation/ConversationWrapper'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
-const newMessageAudio = new Audio('/audio/new-message.mp3')
-const newMessageSelectedAudio = new Audio('/audio/new-message-selected.mp3')
-const messageReadAudio = new Audio('/audio/message-read.mp3')
-
 export default {
     name: "Chats",
 
@@ -22,36 +18,44 @@ export default {
         ContactsList
     },
 
+    data() {
+        return {
+            sounds: {
+                newMessageAudio: new Audio('/audio/new-message.mp3'),
+                newMessageSelectedContactAudio: new Audio('/audio/new-message-selected.mp3'),
+                messageReadAudio: new Audio('/audio/message-read.mp3')
+            }
+        }
+    },
+
     computed: {
         ...mapGetters({
             authUser: 'auth/user',
             selectedContact: 'contacts/selectedContact',
-            getContactById: 'contacts/contactById'
+            getContactById: 'contacts/contactById',
+            soundsMuted: 'sounds/soundsMuted'
         })
     },
 
-    mounted() {
-        Echo.private(`messages.${this.authUser.id}`)
-            .listen('NewMessageEvent', event => {
-                this.handleIncomingMessage(event.message)
-            })
-            .listen('MessagesReadEvent', event => {
-                if (this.selectedContact.id === event.messages[0].recipient.id) {
-                    event.messages.forEach(message => this.updateMessage(message))
-                    messageReadAudio.play()
-                }
-            })
+    watch: {
+        soundsMuted() {
+            this.toggleAudioObjectsMute()
+        }
+    },
 
-        Echo.private(`user-notifications.${this.authUser.id}`)
-            .notification(notification => {
-                if (notification.type === 'UserOnlineStatusChangedNotification') {
-                    this.updateContact(notification.user)
-                }
-            })
+    created() {
+        if (this.soundsMuted) {
+            this.muteAudioObjects()
+        }
+    },
+
+    mounted() {
+        this.listenForMessageEvents()
+        this.listenForUserOnlineStatusNotifications()
     },
 
     beforeUnmount() {
-        Echo.leave(`messages.${this.authUser.id}`)
+        Echo.leave(`messages.${this.authUser?.id}`)
     },
 
     methods: {
@@ -66,18 +70,39 @@ export default {
             updateContact: 'contacts/updateContact'
         }),
 
+        listenForMessageEvents() {
+            Echo.private(`messages.${this.authUser.id}`)
+                .listen('NewMessageEvent', event => {
+                    this.handleIncomingMessage(event.message)
+                })
+                .listen('MessagesReadEvent', event => {
+                    if (this.selectedContact.id === event.messages[0].recipient.id) {
+                        event.messages.forEach(message => this.updateMessage(message))
+                        this.sounds.messageReadAudio.play()
+                    }
+                })
+        },
+
+        listenForUserOnlineStatusNotifications() {
+            Echo.private(`user-notifications.${this.authUser.id}`)
+                .notification(notification => {
+                    if (notification.type === 'UserOnlineStatusChangedNotification') {
+                        this.updateContact(notification.user)
+                    }
+                })
+        },
+
         handleIncomingMessage(message) {
             this.updateContactListAfterNewMessage(message)
 
             if (message.sender.id === this.selectedContact?.id) {
-                newMessageSelectedAudio.play()
                 this.addMessage(message)
                 this.markMessageAsRead(message.id)
-                this.$nextTick(() => {
-                    this.$refs.conversationWrapper?.scrollFeedToBottom()
-                })
+
+                this.sounds.newMessageSelectedContactAudio.play()
+                this.$refs.conversationWrapper?.scrollFeedToBottom()
             } else {
-                newMessageAudio.play()
+                this.sounds.newMessageAudio.play()
             }
         },
 
@@ -97,6 +122,18 @@ export default {
             }
             senderContact.last_message = message.created_at
             this.updateContact(senderContact)
+        },
+
+        muteAudioObjects() {
+            Object.entries(this.sounds).forEach(([soundName, audioObject]) => {
+                audioObject.muted = true
+            })
+        },
+
+        toggleAudioObjectsMute() {
+            Object.entries(this.sounds).forEach(([soundName, audioObject]) => {
+                audioObject.muted = !audioObject.muted
+            })
         }
     }
 }

@@ -59,15 +59,28 @@
         }
     }
 
-    &__search-icon {
+    .contacts__icons {
         font-size: 1.2rem;
         color: $clr-primary;
         cursor: pointer;
         transition: all .2s ease-in-out;
 
-        &:hover {
+        svg:hover {
             color: lighten($clr-primary, 15%);
             transform: scale(1.2);
+        }
+    }
+
+
+    &__search-icon {
+        margin-right: .6rem;
+    }
+
+    &__sound-icon--mute {
+        color: lighten($clr-gray, 15%);
+
+        &:hover {
+            color: lighten($clr-gray, 25%) !important;
         }
     }
 

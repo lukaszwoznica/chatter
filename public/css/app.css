@@ -1702,15 +1702,24 @@ label {
 .contacts__header--border {
   border-bottom: 1px solid #e6e6e6;
 }
-.contacts__search-icon {
+.contacts .contacts__icons {
   font-size: 1.2rem;
   color: #b65fc4;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
-.contacts__search-icon:hover {
+.contacts .contacts__icons svg:hover {
   color: #d097d8;
   transform: scale(1.2);
+}
+.contacts__search-icon {
+  margin-right: 0.6rem;
+}
+.contacts__sound-icon--mute {
+  color: #8c8c8c;
+}
+.contacts__sound-icon--mute:hover {
+  color: #a6a6a6 !important;
 }
 .contacts__list {
   max-height: calc(100% - 85px);

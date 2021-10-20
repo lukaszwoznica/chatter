@@ -66,9 +66,6 @@ import isToday from 'dayjs/plugin/isToday'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import UserAvatar from '../../ui/UserAvatar'
 
-const userTypingAudio = new Audio('/audio/user-typing.mp3')
-userTypingAudio.volume = 0.5
-
 export default {
     name: "MessagesFeed",
 
@@ -88,7 +85,8 @@ export default {
         return {
             typingUser: null,
             typingClock: null,
-            isLoadingMessages: false
+            isLoadingMessages: false,
+            userTypingAudio: new Audio('/audio/user-typing.mp3')
         }
     },
 
@@ -96,7 +94,8 @@ export default {
         ...mapGetters({
             messages: 'messages/allMessages',
             selectedContact: 'contacts/selectedContact',
-            authUser: 'auth/user'
+            authUser: 'auth/user',
+            soundsMuted: 'sounds/soundsMuted'
         })
     },
 
@@ -110,7 +109,15 @@ export default {
                 this.resetMessagesState()
                 this.$refs.infiniteLoading.stateChanger.reset()
             }
+        },
+
+        soundsMuted() {
+            this.toggleUserTypingAudioMute()
         }
+    },
+
+    created() {
+        this.prepareUserTypingAudio()
     },
 
     mounted() {
@@ -141,7 +148,7 @@ export default {
                 .listenForWhisper('TypingEvent', event => {
                     this.typingUser = event.user
                     this.scrollToBottom()
-                    userTypingAudio.play()
+                    this.userTypingAudio.play()
 
                     if (this.typingClock) {
                         clearTimeout(this.typingClock)
@@ -213,6 +220,17 @@ export default {
                     hide: 0
                 }
             }
+        },
+
+        prepareUserTypingAudio() {
+            this.userTypingAudio.volume = 0.5
+            if (this.soundsMuted) {
+                this.userTypingAudio.muted = true
+            }
+        },
+
+        toggleUserTypingAudioMute() {
+            this.userTypingAudio.muted = !this.userTypingAudio.muted
         }
     }
 }
