@@ -609,6 +609,7 @@ body {
 img {
   width: 100%;
   height: auto;
+  pointer-events: none;
 }
 
 .bg-gradient {
@@ -1890,6 +1891,27 @@ label {
 .conversation__composer .form .button--emoji-picker:hover {
   color: rgba(219, 110, 77, 0.8);
   font-size: 1.3rem;
+}
+.conversation__no-contact {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  padding: 4rem 1rem;
+  text-align: center;
+  font-size: 1.35rem;
+  color: #4d4d4d;
+}
+@media screen and (min-width: 992px) {
+  .conversation__no-contact {
+    padding: 6rem 2rem;
+  }
+}
+.conversation__no-contact img {
+  width: 20%;
+  min-width: 250px;
+  opacity: 0.2;
+  margin-bottom: 0.7rem;
 }
 
 .messages {

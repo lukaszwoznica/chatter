@@ -6,7 +6,10 @@
             <MessageComposer :conversation-id="cantorPairConversationId" @message-sent="scrollFeedToBottom"/>
         </template>
         <template v-else>
-            Select contact to start conversation
+            <div class="conversation__no-contact">
+                <img src="/img/user-chat.svg" alt="User chat">
+                <p>Select a contact or search for a user to start a conversation.</p>
+            </div>
         </template>
     </div>
 </template>

@@ -271,6 +271,28 @@
             }
         }
     }
+
+    &__no-contact {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+        padding: 4rem 1rem;
+        text-align: center;
+        font-size: 1.35rem;
+        color: darken($clr-gray, 10%);
+
+        @include l-screen {
+            padding: 6rem 2rem;
+        }
+
+        img {
+            width: 20%;
+            min-width: 250px;
+            opacity: .2;
+            margin-bottom: .7rem;
+        }
+    }
 }
 
 .messages {
