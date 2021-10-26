@@ -40,6 +40,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\SocialAccount
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $provider_name
+ * @property string $provider_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount whereProviderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount whereProviderName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SocialAccount whereUserId($value)
+ */
+	class SocialAccount extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
@@ -47,7 +71,7 @@ namespace App\Models{
  * @property string $last_name
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string $password
+ * @property string|null $password
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
@@ -55,12 +79,16 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $last_online_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messagesReceived
  * @property-read int|null $messages_received_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messagesSent
  * @property-read int|null $messages_sent_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SocialAccount[] $socialAccounts
+ * @property-read int|null $social_accounts_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -79,6 +107,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 

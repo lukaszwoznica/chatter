@@ -22,6 +22,11 @@ const actions = {
         await dispatch('synchronizeAuthenticationState')
     },
 
+    async loginOAuth({ dispatch }, { provider, callbackData }) {
+        await axios.get(ApiRoutes.OAuth.HandleCallback(provider), { params: callbackData })
+        await dispatch('synchronizeAuthenticationState')
+    },
+
     async logout({ dispatch }) {
         await axios.post(ApiRoutes.Auth.Logout)
         dispatch('clearUserState')

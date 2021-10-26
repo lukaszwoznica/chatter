@@ -69,6 +69,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Message::class, 'recipient_id');
     }
 
+    public function socialAccounts(): HasMany
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatar')

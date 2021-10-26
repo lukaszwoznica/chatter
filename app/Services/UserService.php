@@ -5,9 +5,12 @@ namespace App\Services;
 
 
 use App\Models\Message;
+use App\Models\SocialAccount;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Laravel\Socialite\Two\User as SocialUser;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UserService
@@ -61,6 +64,35 @@ class UserService
             ->toMediaCollection('avatar');
 
         return $user->getFirstMedia('avatar');
+    }
+
+    public function findSocialAccount(SocialUser $socialUser, string $providerName): ?SocialAccount
+    {
+        return SocialAccount::where([
+            'provider_name' => $providerName,
+            'provider_id' => $socialUser->getId()
+        ])->first();
+    }
+
+    public function createSocialAccountForUser(User $user, SocialUser $socialUser, string $providerName): Model
+    {
+        return $user->socialAccounts()->create([
+            'provider_name' => $providerName,
+            'provider_id' => $socialUser->getId()
+        ]);
+    }
+
+    public function getOrCreateUserFromOAuthProviderData(SocialUser $socialUser): User
+    {
+        $nameParts = explode(' ', $socialUser->getName());
+
+        return User::firstOrCreate(
+            ['email' => $socialUser->getEmail()],
+            [
+                'first_name' => head($nameParts),
+                'last_name' => last($nameParts)
+            ]
+        );
     }
 
     private function rawQueryConcat(...$strings): string

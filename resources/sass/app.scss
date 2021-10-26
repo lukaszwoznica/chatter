@@ -20,6 +20,9 @@
 // VueLoaders
 @import "~vue-loaders/dist/vue-loaders.css";
 
-//// SweetAlert2
+// SweetAlert2
 @import "sweetalert2/custom";
 @import "~sweetalert2/src/sweetalert2";
+
+// Vue Loading Overlay
+@import "~vue-loading-overlay/dist/vue-loading.css";

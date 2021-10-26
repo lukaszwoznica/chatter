@@ -13,6 +13,10 @@ const ApiRoutes = {
         UpdateProfileInfo: `${baseUrl}/user/profile-information`,
         UpdatePassword: `${baseUrl}/user/password`
     },
+    OAuth: {
+        GetProviderRedirectUrl: (provider) => `${baseUrl}/oauth/${provider}`,
+        HandleCallback: (provider) => `${baseUrl}/oauth/${provider}/callback`
+    },
     Users: {
         Contacts: (userId) => `${baseUrl}/users/${userId}/contacts`,
         Search: (name, page) =>`${baseUrl}/users?search=${name}&page=${page}`,

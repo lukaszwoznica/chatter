@@ -1,8 +1,9 @@
 @use "../abstracts" as *;
 
 .forgot-password-link {
-    @include flex-center;
-    padding: .5rem;
+    display: flex;
+    justify-content: flex-end;
+    padding: .5rem .5rem 0 .5rem;
 
     a {
         font-size: .85rem;
@@ -10,6 +11,81 @@
 
         &:hover {
             color: $clr-black;
+        }
+    }
+}
+
+.register-info {
+    margin-top: 1rem;
+    font-size: .9rem;
+    text-align: center;
+    color: $clr-gray;
+
+    a {
+        color: $clr-secondary;
+
+        &:hover {
+            opacity: .8;
+        }
+    }
+}
+
+.social-login {
+    margin-top: 1rem;
+    text-align: center;
+
+    &__info {
+        font-size: 0.9rem;
+        color: $clr-gray;
+        margin-top: 1rem;
+    }
+
+    &__buttons-wrapper {
+        @include flex-center;
+        margin: 2rem 0 1rem 0;
+    }
+
+    &__button {
+        position: relative;
+        color: $clr-white;
+        padding: 0.8rem 1em;
+        width: 50%;
+        max-width: 180px;
+        margin: 0 .4rem;
+
+        &:hover {
+            opacity: .85;
+        }
+
+        span {
+            @include flex-center;
+            flex-wrap: wrap;
+            width: 100%;
+
+            svg {
+                margin-right: auto;
+                font-size: 1rem;
+
+                @media screen and (max-width: 430px) {
+                    margin-right: 0;
+                }
+            }
+
+            p {
+                margin-right: auto;
+
+                @media screen and (max-width: 430px) {
+                    display: none;
+                }
+            }
+        }
+
+        &--google {
+            background-color: $clr-google-red;
+        }
+
+        &--facebook {
+            background-color: $clr-facebook-blue;
         }
     }
 }

@@ -2,7 +2,7 @@
     <header class="header" :class="classList">
         <div class="logo">
             <router-link :to="{name: 'home'}" class="logo__link">
-                <img class="logo__img" src="img/logo.png" alt="Logo placeholder">
+                <img class="logo__img" src="/img/logo.png" alt="Logo">
                 <div class="logo__text">Chatter</div>
             </router-link>
         </div>

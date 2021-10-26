@@ -42,6 +42,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->group(base_path('routes/api.php'));
 
+            Route::prefix('api/v1/oauth/{provider}')
+                ->middleware(['web', 'oauth.validated'])
+                ->name('oauth.')
+                ->group(base_path('routes/socialite.php'));
+
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));

@@ -28,6 +28,14 @@ const routes = [
         }
     },
     {
+        path: '/login/oauth/:provider',
+        name: 'login-oauth',
+        component: Login,
+        meta: {
+            guard: guest
+        }
+    },
+    {
         path: '/register',
         name: 'register',
         component: Register,
