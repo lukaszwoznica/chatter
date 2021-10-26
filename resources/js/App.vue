@@ -6,7 +6,11 @@
                    @closeMobileNav="closeMobileNav"/>
 
         <main class="main" :class="isAuthRoute ? 'main--auth' : ''" ref="main">
-            <router-view/>
+            <router-view v-slot="{ Component, route }">
+                <transition :name="route.meta.transitionName" mode="out-in">
+                    <component :is="Component"/>
+                </transition>
+            </router-view>
         </main>
 
         <AppFooter v-if="!isChatsRoute"/>

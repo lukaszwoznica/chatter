@@ -18,4 +18,13 @@ router.beforeEach((to, from, next) => {
     })
 })
 
+// Disable route transitions after login, logout and first load
+router.afterEach((to, from) => {
+    if (from.meta.guard?.name !== to.meta.guard?.name) {
+        to.meta.transitionName = 'none'
+    } else {
+        to.meta.transitionName = 'route-change'
+    }
+})
+
 export default router

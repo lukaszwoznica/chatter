@@ -70,17 +70,17 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <loading
-        v-model:active="loggingInWithOAuth"
-        background-color="#000"
-        color="#fff"
-        :opacity="0.4"
-        :height="120"
-        :width="120"
-        :lock-scroll="true"
-    />
+        <loading
+            v-model:active="loggingInWithOAuth"
+            background-color="#000"
+            color="#fff"
+            :opacity="0.4"
+            :height="120"
+            :width="120"
+            :lock-scroll="true"
+        />
+    </div>
 </template>
 
 <script>
