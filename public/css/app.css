@@ -977,7 +977,7 @@ label {
 }
 
 .main {
-  padding-bottom: 3rem;
+  padding-bottom: 6rem;
   display: flex;
   align-items: flex-start;
   min-height: calc(100vh - 100px);
@@ -2155,6 +2155,7 @@ label {
 .profile-card {
   width: 100%;
   overflow: hidden;
+  margin-bottom: 5rem;
 }
 .profile-card__menu {
   background-color: #e6e6e6;

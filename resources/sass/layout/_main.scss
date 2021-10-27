@@ -1,7 +1,7 @@
 @use "../abstracts" as *;
 
 .main {
-    padding-bottom: 3rem;
+    padding-bottom: 6rem;
     display: flex;
     align-items: flex-start;
     min-height: calc(100vh - #{$header-height});
