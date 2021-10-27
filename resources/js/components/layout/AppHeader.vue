@@ -7,57 +7,61 @@
             </router-link>
         </div>
 
-        <nav class="nav">
-            <ul class="nav__items">
-                <template v-if="!isAuthenticated">
-                    <li class="nav__item nav__item--nested">
-                        <ul class="nav__guest-items" ref="guestItemsList">
-                            <li class="nav__item">
-                                <router-link :to="{name: 'login'}" class="nav__link">Login</router-link>
-                            </li>
-                            <li class="nav__item">
-                                <router-link :to="{name: 'register'}" class="nav__link">Register</router-link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav__item nav__item--hamburger">
-                        <hamburger-button @onHamburgerClick="toggleMobileNav" ref="hamburgerButton"/>
-                    </li>
-                </template>
+        <template v-if="!isNotFoundRoute">
+            <nav class="nav">
+                <ul class="nav__items">
+                    <template v-if="!isAuthenticated">
+                        <li class="nav__item nav__item--nested">
+                            <ul class="nav__guest-items" ref="guestItemsList">
+                                <li class="nav__item">
+                                    <router-link :to="{name: 'login'}" class="nav__link">Login</router-link>
+                                </li>
+                                <li class="nav__item">
+                                    <router-link :to="{name: 'register'}" class="nav__link">Register</router-link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav__item nav__item--hamburger">
+                            <hamburger-button @onHamburgerClick="toggleMobileNav" ref="hamburgerButton"/>
+                        </li>
+                    </template>
 
-                <template v-else>
-                    <li class="nav__item">
-                        <dropdown-menu>
-                            <template #dropdown-toggler>
-                                <div class="dropdown__avatar">
-                                    <user-avatar :username="authUser.full_name"
-                                                 :img-src="authUser.avatar_thumb_url"
-                                                 :size="35"/>
-                                </div>
-                                <div class="dropdown__name">
-                                    {{ authUser.first_name }}
-                                </div>
-                            </template>
+                    <template v-else>
+                        <li class="nav__item">
+                            <dropdown-menu>
+                                <template #dropdown-toggler>
+                                    <div class="dropdown__avatar">
+                                        <user-avatar :username="authUser.full_name"
+                                                     :img-src="authUser.avatar_thumb_url"
+                                                     :size="35"/>
+                                    </div>
+                                    <div class="dropdown__name">
+                                        {{ authUser.first_name }}
+                                    </div>
+                                </template>
 
-                            <template #dropdown-items>
-                                <router-link :to="{name: 'profile'}" class="dropdown__item">
-                                    <div class="dropdown__icon">
-                                        <font-awesome-icon :icon="['fas', 'user-edit']" fixed-width></font-awesome-icon>
-                                    </div>
-                                    Edit Profile
-                                </router-link>
-                                <a href="#" @click.prevent="logout" class="dropdown__item">
-                                    <div class="dropdown__icon">
-                                        <font-awesome-icon :icon="['fas', 'power-off']" fixed-width></font-awesome-icon>
-                                    </div>
-                                    Logout
-                                </a>
-                            </template>
-                        </dropdown-menu>
-                    </li>
-                </template>
-            </ul>
-        </nav>
+                                <template #dropdown-items>
+                                    <router-link :to="{name: 'profile'}" class="dropdown__item">
+                                        <div class="dropdown__icon">
+                                            <font-awesome-icon :icon="['fas', 'user-edit']"
+                                                               fixed-width></font-awesome-icon>
+                                        </div>
+                                        Edit Profile
+                                    </router-link>
+                                    <a href="#" @click.prevent="logout" class="dropdown__item">
+                                        <div class="dropdown__icon">
+                                            <font-awesome-icon :icon="['fas', 'power-off']"
+                                                               fixed-width></font-awesome-icon>
+                                        </div>
+                                        Logout
+                                    </a>
+                                </template>
+                            </dropdown-menu>
+                        </li>
+                    </template>
+                </ul>
+            </nav>
+        </template>
     </header>
 </template>
 
@@ -97,7 +101,11 @@ export default {
         ...mapGetters({
             isAuthenticated: 'auth/isAuthenticated',
             authUser: 'auth/user'
-        })
+        }),
+
+        isNotFoundRoute() {
+            return this.$route.name === 'not-found'
+        }
     },
 
     watch: {
@@ -116,7 +124,7 @@ export default {
     },
 
     created() {
-      library.add(faUserEdit, faPowerOff)
+        library.add(faUserEdit, faPowerOff)
     },
 
     methods: {

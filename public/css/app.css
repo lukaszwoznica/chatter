@@ -2348,6 +2348,35 @@ label {
   }
 }
 
+.container--404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.container--404 h1 {
+  display: inline;
+  font-size: 7rem;
+  margin: 0.5rem;
+  background: linear-gradient(to left, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4) no-repeat center;
+  color: #b65fc4;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+.container--404 h2 {
+  font-size: 2.5rem;
+  font-weight: 500;
+}
+.container--404 h4 {
+  margin: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.container--404 .button {
+  margin-top: 1.5rem;
+}
+
 .swal2-popup {
   overflow: hidden;
 }
