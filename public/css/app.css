@@ -1227,7 +1227,7 @@ label {
   padding: 0.5rem 1rem 1rem 1rem;
 }
 .form__button-wrapper .button {
-  min-width: 50%;
+  min-width: 40%;
 }
 .form__label {
   position: absolute;
@@ -1737,7 +1737,6 @@ label {
   margin-top: 1rem;
   font-size: 0.9rem;
   text-align: center;
-  color: #666666;
 }
 .register-info a {
   color: #db6e4d;
@@ -1752,7 +1751,6 @@ label {
 }
 .social-login__info {
   font-size: 0.9rem;
-  color: #666666;
   margin-top: 1rem;
 }
 .social-login__buttons-wrapper {
@@ -2349,9 +2347,6 @@ label {
 }
 
 .container--404 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   text-align: center;
 }

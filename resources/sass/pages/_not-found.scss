@@ -1,7 +1,6 @@
 @use "../abstracts" as *;
 
 .container--404 {
-    @include flex-center;
     flex-direction: column;
     text-align: center;
 
