@@ -1,12 +1,3 @@
-import Home from '../views/Home'
-import Login from '../views/Login'
-import Register from '../views/Register'
-import PasswordRecovery from '../views/PasswordRecovery'
-import ResetPassword from '../views/ResetPassword'
-import Chats from '../views/Chats'
-import Profile from '../views/Profile'
-import NotFound from '../views/NotFound'
-
 import auth from './guards/auth'
 import guest from './guards/guest'
 
@@ -14,7 +5,7 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: Home,
+        component: () => import('../views/Home'),
         meta: {
             guard: guest
         }
@@ -22,7 +13,7 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        component: Login,
+        component: () => import('../views/Login'),
         meta: {
             guard: guest
         }
@@ -30,7 +21,7 @@ const routes = [
     {
         path: '/login/oauth/:provider',
         name: 'login-oauth',
-        component: Login,
+        component: () => import('../views/Login'),
         meta: {
             guard: guest
         }
@@ -38,7 +29,7 @@ const routes = [
     {
         path: '/register',
         name: 'register',
-        component: Register,
+        component: () => import('../views/Register'),
         meta: {
             guard: guest
         }
@@ -46,7 +37,7 @@ const routes = [
     {
         path: '/password-recovery',
         name: 'password-recovery',
-        component: PasswordRecovery,
+        component: () => import('../views/PasswordRecovery'),
         meta: {
             guard: guest
         }
@@ -54,7 +45,7 @@ const routes = [
     {
         path: '/reset-password/:email/:token',
         name: 'reset-password',
-        component: ResetPassword,
+        component: () => import('../views/ResetPassword'),
         meta: {
             guard: guest
         }
@@ -62,7 +53,7 @@ const routes = [
     {
         path: '/chats',
         name: 'chats',
-        component: Chats,
+        component: () => import('../views/Chats'),
         meta: {
             guard: auth
         }
@@ -70,7 +61,7 @@ const routes = [
     {
         path: '/profile',
         name: 'profile',
-        component: Profile,
+        component: () => import('../views/Profile'),
         meta: {
             guard: auth
         }
@@ -78,7 +69,7 @@ const routes = [
     {
         path: '/:catchAll(.*)',
         name: 'not-found',
-        component: NotFound
+        component: () => import('../views/NotFound')
     }
 ]
 
