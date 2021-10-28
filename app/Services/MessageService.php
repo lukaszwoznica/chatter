@@ -19,9 +19,7 @@ class MessageService
         })->orWhere(function ($query) use ($user) {
             $query->where('sender_id', $user->id)
                 ->where('recipient_id', auth()->id());
-        })->with('sender', 'recipient')
-            ->latest()
-            ->paginate($perPage);
+        })->latest()->paginate($perPage);
     }
 
     public function markAllAsReadFromUser(User $user): void

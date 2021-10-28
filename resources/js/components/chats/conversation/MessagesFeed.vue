@@ -22,7 +22,7 @@
         <ul class="messages" ref="messagesList">
             <li v-for="(message, index) in messages" :key="message.id"
                 class="message"
-                :class="`message--${message.sender.id === authUser.id ? 'sent' : 'received'}`">
+                :class="`message--${message.sender_id === authUser.id ? 'sent' : 'received'}`">
 
                 <div class="message__avatar" v-if="showUserAvatar(index)">
                     <user-avatar :username="selectedContact.full_name"
@@ -182,17 +182,17 @@ export default {
         },
 
         showUserAvatar(messageIndex) {
-            return this.messages[messageIndex].sender.id !== this.authUser.id &&
-                (this.messages[messageIndex + 1]?.sender.id === this.authUser.id ||
+            return this.messages[messageIndex].sender_id !== this.authUser.id &&
+                (this.messages[messageIndex + 1]?.sender_id === this.authUser.id ||
                     (typeof this.messages[messageIndex + 1] === 'undefined' && !this.typingUser))
         },
 
         showMessageReadIndicator(messageIndex) {
-            return this.messages[messageIndex].sender.id === this.authUser.id &&
+            return this.messages[messageIndex].sender_id === this.authUser.id &&
                 ((this.messages[messageIndex].read_at && !this.messages[messageIndex + 1]?.read_at) ||
                     (!this.messages[messageIndex].read_at &&
                         !this.messages.slice(messageIndex, this.messages.length - 1)
-                            .some(message => message.sender.id !== this.authUser.id)))
+                            .some(message => message.sender_id !== this.authUser.id)))
         },
 
         formatDate(date) {

@@ -1845,14 +1845,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     showUserAvatar: function showUserAvatar(messageIndex) {
       var _this$messages;
 
-      return this.messages[messageIndex].sender.id !== this.authUser.id && (((_this$messages = this.messages[messageIndex + 1]) === null || _this$messages === void 0 ? void 0 : _this$messages.sender.id) === this.authUser.id || typeof this.messages[messageIndex + 1] === 'undefined' && !this.typingUser);
+      return this.messages[messageIndex].sender_id !== this.authUser.id && (((_this$messages = this.messages[messageIndex + 1]) === null || _this$messages === void 0 ? void 0 : _this$messages.sender_id) === this.authUser.id || typeof this.messages[messageIndex + 1] === 'undefined' && !this.typingUser);
     },
     showMessageReadIndicator: function showMessageReadIndicator(messageIndex) {
       var _this$messages2,
           _this4 = this;
 
-      return this.messages[messageIndex].sender.id === this.authUser.id && (this.messages[messageIndex].read_at && !((_this$messages2 = this.messages[messageIndex + 1]) !== null && _this$messages2 !== void 0 && _this$messages2.read_at) || !this.messages[messageIndex].read_at && !this.messages.slice(messageIndex, this.messages.length - 1).some(function (message) {
-        return message.sender.id !== _this4.authUser.id;
+      return this.messages[messageIndex].sender_id === this.authUser.id && (this.messages[messageIndex].read_at && !((_this$messages2 = this.messages[messageIndex + 1]) !== null && _this$messages2 !== void 0 && _this$messages2.read_at) || !this.messages[messageIndex].read_at && !this.messages.slice(messageIndex, this.messages.length - 1).some(function (message) {
+        return message.sender_id !== _this4.authUser.id;
       }));
     },
     formatDate: function formatDate(date) {
@@ -2664,7 +2664,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   , ["onInfinite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.messages, function (message, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: message.id,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["message", "message--".concat(message.sender.id === _ctx.authUser.id ? 'sent' : 'received')])
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["message", "message--".concat(message.sender_id === _ctx.authUser.id ? 'sent' : 'received')])
     }, [$options.showUserAvatar(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_user_avatar, {
       username: _ctx.selectedContact.full_name,
       "img-src": _ctx.selectedContact.avatar_thumb_url,
