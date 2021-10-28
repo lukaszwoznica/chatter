@@ -20,6 +20,7 @@ const ApiRoutes = {
     Users: {
         Contacts: (userId) => `${baseUrl}/users/${userId}/contacts`,
         Search: (name, page) =>`${baseUrl}/users?search=${name}&page=${page}`,
+        GetById: (userId) => `${baseUrl}/users/${userId}`,
         Avatar: `${baseUrl}/users/avatar`
     },
     Messages: {

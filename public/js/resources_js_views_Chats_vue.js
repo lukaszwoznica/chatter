@@ -1946,9 +1946,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_chats_contacts_ContactsList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/chats/contacts/ContactsList */ "./resources/js/components/chats/contacts/ContactsList.vue");
-/* harmony import */ var _components_chats_conversation_ConversationWrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/chats/conversation/ConversationWrapper */ "./resources/js/components/chats/conversation/ConversationWrapper.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_chats_contacts_ContactsList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/chats/contacts/ContactsList */ "./resources/js/components/chats/contacts/ContactsList.vue");
+/* harmony import */ var _components_chats_conversation_ConversationWrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/chats/conversation/ConversationWrapper */ "./resources/js/components/chats/conversation/ConversationWrapper.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _api_routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/routes */ "./resources/js/api/routes.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1961,6 +1964,12 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -1970,11 +1979,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Chats",
   components: {
-    ConversationWrapper: _components_chats_conversation_ConversationWrapper__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ContactsList: _components_chats_contacts_ContactsList__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ConversationWrapper: _components_chats_conversation_ConversationWrapper__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ContactsList: _components_chats_contacts_ContactsList__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -1985,7 +1995,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)({
     authUser: 'auth/user',
     selectedContact: 'contacts/selectedContact',
     getContactById: 'contacts/contactById',
@@ -2010,10 +2020,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     Echo.leave("messages.".concat((_this$authUser = this.authUser) === null || _this$authUser === void 0 ? void 0 : _this$authUser.id));
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapMutations)({
     addMessage: 'messages/ADD_MESSAGE',
     updateMessage: 'messages/UPDATE_MESSAGE'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)({
     addNewContact: 'contacts/addNewContact',
     markMessageAsRead: 'messages/markMessageAsRead',
     updateContact: 'contacts/updateContact'
@@ -2047,7 +2057,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.updateContactListAfterNewMessage(message);
 
-      if (message.sender.id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
+      if (message.sender_id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
         var _this$$refs$conversat;
 
         this.addMessage(message);
@@ -2059,24 +2069,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     updateContactListAfterNewMessage: function updateContactListAfterNewMessage(message) {
-      var _this$selectedContact2;
+      var _this3 = this;
 
-      var senderContact = this.getContactById(message.sender.id);
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var senderContact, response, user, _this3$selectedContac;
 
-      if (!senderContact) {
-        this.addNewContact(_objectSpread(_objectSpread({}, message.sender), {}, {
-          last_message: message.created_at,
-          unread_messages: 1
-        }));
-        return;
-      }
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                senderContact = _this3.getContactById(message.sender_id);
 
-      if (((_this$selectedContact2 = this.selectedContact) === null || _this$selectedContact2 === void 0 ? void 0 : _this$selectedContact2.id) !== senderContact.id) {
-        senderContact.unread_messages++;
-      }
+                if (senderContact) {
+                  _context.next = 9;
+                  break;
+                }
 
-      senderContact.last_message = message.created_at;
-      this.updateContact(senderContact);
+                _context.next = 4;
+                return axios.get(_api_routes__WEBPACK_IMPORTED_MODULE_3__["default"].Users.GetById(message.sender_id));
+
+              case 4:
+                response = _context.sent;
+                user = response.data.data;
+
+                _this3.addNewContact(_objectSpread(_objectSpread({}, user), {}, {
+                  last_message: message.created_at,
+                  unread_messages: 1
+                }));
+
+                _context.next = 12;
+                break;
+
+              case 9:
+                senderContact.last_message = message.created_at;
+
+                if (((_this3$selectedContac = _this3.selectedContact) === null || _this3$selectedContac === void 0 ? void 0 : _this3$selectedContac.id) !== senderContact.id) {
+                  senderContact.unread_messages++;
+                }
+
+                _this3.updateContact(senderContact);
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     muteAudioObjects: function muteAudioObjects() {
       Object.entries(this.sounds).forEach(function (_ref) {

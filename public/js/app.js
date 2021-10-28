@@ -33422,6 +33422,9 @@ var ApiRoutes = {
     Search: function Search(name, page) {
       return "".concat(baseUrl, "/users?search=").concat(name, "&page=").concat(page);
     },
+    GetById: function GetById(userId) {
+      return "".concat(baseUrl, "/users/").concat(userId);
+    },
     Avatar: "".concat(baseUrl, "/users/avatar")
   },
   Messages: {

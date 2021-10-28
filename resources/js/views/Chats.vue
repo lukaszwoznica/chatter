@@ -9,6 +9,7 @@
 import ContactsList from '../components/chats/contacts/ContactsList'
 import ConversationWrapper from '../components/chats/conversation/ConversationWrapper'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import ApiRoutes from "../api/routes";
 
 export default {
     name: "Chats",
@@ -95,7 +96,7 @@ export default {
         handleIncomingMessage(message) {
             this.updateContactListAfterNewMessage(message)
 
-            if (message.sender.id === this.selectedContact?.id) {
+            if (message.sender_id === this.selectedContact?.id) {
                 this.addMessage(message)
                 this.markMessageAsRead(message.id)
 
@@ -106,22 +107,26 @@ export default {
             }
         },
 
-        updateContactListAfterNewMessage(message) {
-            const senderContact = this.getContactById(message.sender.id)
+        async updateContactListAfterNewMessage(message) {
+            const senderContact = this.getContactById(message.sender_id)
+
             if (!senderContact) {
+                const response = await axios.get(ApiRoutes.Users.GetById(message.sender_id))
+                const user = response.data.data
+
                 this.addNewContact({
-                    ...message.sender,
+                    ...user,
                     last_message: message.created_at,
                     unread_messages: 1
                 })
-                return
-            }
+            } else {
+                senderContact.last_message = message.created_at
+                if (this.selectedContact?.id !== senderContact.id) {
+                    senderContact.unread_messages++
+                }
 
-            if (this.selectedContact?.id !== senderContact.id) {
-                senderContact.unread_messages++
+                this.updateContact(senderContact)
             }
-            senderContact.last_message = message.created_at
-            this.updateContact(senderContact)
         },
 
         muteAudioObjects() {
