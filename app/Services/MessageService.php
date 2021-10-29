@@ -30,13 +30,12 @@ class MessageService
             ->update(['read_at' => now()]);
 
         if ($updatedMessagesCount > 0) {
-            $updatedMessages = Message::where('sender_id', $user->id)
+            $latestReadMessage = Message::where('sender_id', $user->id)
                 ->where('recipient_id', auth()->id())
-                ->orderByDesc('read_at')
-                ->limit($updatedMessagesCount)
-                ->get();
+                ->orderByDesc('created_at')
+                ->first();
 
-            MessagesReadEvent::dispatch($updatedMessages);
+            MessagesReadEvent::dispatch($latestReadMessage);
         }
     }
 

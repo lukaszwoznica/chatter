@@ -61,14 +61,14 @@ export default {
 
     methods: {
         ...mapMutations({
-            addMessage: 'messages/ADD_MESSAGE',
-            updateMessage: 'messages/UPDATE_MESSAGE'
+            addMessage: 'messages/ADD_MESSAGE'
         }),
 
         ...mapActions({
             addNewContact: 'contacts/addNewContact',
             markMessageAsRead: 'messages/markMessageAsRead',
-            updateContact: 'contacts/updateContact'
+            updateContact: 'contacts/updateContact',
+            setAllPreviousMessagesAsRead: 'messages/setAllPreviousMessagesAsRead'
         }),
 
         listenForMessageEvents() {
@@ -77,8 +77,8 @@ export default {
                     this.handleIncomingMessage(event.message)
                 })
                 .listen('MessagesReadEvent', event => {
-                    if (this.selectedContact.id === event.messages[0].recipient.id) {
-                        event.messages.forEach(message => this.updateMessage(message))
+                    if (this.selectedContact?.id === event.latest_read_message.recipient_id) {
+                        this.setAllPreviousMessagesAsRead(event.latest_read_message)
                         this.sounds.messageReadAudio.play()
                     }
                 })

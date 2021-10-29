@@ -27,7 +27,7 @@ const mutations = {
 }
 
 const actions = {
-    async fetchMessages({getters, commit}, {userId, infiniteLoaderContext}) {
+    async fetchMessages({ getters, commit }, { userId, infiniteLoaderContext }) {
         if (getters.lastPage !== null && getters.currentPage > getters.lastPage) {
             infiniteLoaderContext.complete()
             return
@@ -44,7 +44,7 @@ const actions = {
         }
     },
 
-    sendMessage({commit}, message) {
+    sendMessage({ commit }, message) {
         return new Promise(async (resolve) => {
             const response = await axios.post(ApiRoutes.Messages.SendMessage, message)
 
@@ -55,7 +55,7 @@ const actions = {
         })
     },
 
-    async markMessageAsRead({commit}, messageId) {
+    async markMessageAsRead({ commit }, messageId) {
         const response = await axios.patch(ApiRoutes.Messages.MarkMessageAsRead(messageId))
 
         if (response.status === 200) {
@@ -63,7 +63,20 @@ const actions = {
         }
     },
 
-    resetModuleState({commit}) {
+    setAllPreviousMessagesAsRead({ getters, commit }, latestReadMessage) {
+        getters.allMessages.filter(message => {
+            return !message.read_at &&
+                message.recipient_id === latestReadMessage.recipient_id &&
+                Date.parse(message.created_at) <= Date.parse(latestReadMessage.created_at)
+        }).map(message => {
+            return {
+                ...message,
+                read_at: latestReadMessage.read_at
+            }
+        }).forEach(message => commit('UPDATE_MESSAGE', message))
+    },
+
+    resetModuleState({ commit }) {
         commit('SET_MESSAGES', [])
         commit('SET_PAGE', 1)
         commit('SET_LAST_PAGE', null)

@@ -2021,12 +2021,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Echo.leave("messages.".concat((_this$authUser = this.authUser) === null || _this$authUser === void 0 ? void 0 : _this$authUser.id));
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapMutations)({
-    addMessage: 'messages/ADD_MESSAGE',
-    updateMessage: 'messages/UPDATE_MESSAGE'
+    addMessage: 'messages/ADD_MESSAGE'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)({
     addNewContact: 'contacts/addNewContact',
     markMessageAsRead: 'messages/markMessageAsRead',
-    updateContact: 'contacts/updateContact'
+    updateContact: 'contacts/updateContact',
+    setAllPreviousMessagesAsRead: 'messages/setAllPreviousMessagesAsRead'
   })), {}, {
     listenForMessageEvents: function listenForMessageEvents() {
       var _this = this;
@@ -2034,10 +2034,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       Echo["private"]("messages.".concat(this.authUser.id)).listen('NewMessageEvent', function (event) {
         _this.handleIncomingMessage(event.message);
       }).listen('MessagesReadEvent', function (event) {
-        if (_this.selectedContact.id === event.messages[0].recipient.id) {
-          event.messages.forEach(function (message) {
-            return _this.updateMessage(message);
-          });
+        var _this$selectedContact;
+
+        if (((_this$selectedContact = _this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id) === event.latest_read_message.recipient_id) {
+          _this.setAllPreviousMessagesAsRead(event.latest_read_message);
 
           _this.sounds.messageReadAudio.play();
         }
@@ -2053,11 +2053,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     handleIncomingMessage: function handleIncomingMessage(message) {
-      var _this$selectedContact;
+      var _this$selectedContact2;
 
       this.updateContactListAfterNewMessage(message);
 
-      if (message.sender_id === ((_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id)) {
+      if (message.sender_id === ((_this$selectedContact2 = this.selectedContact) === null || _this$selectedContact2 === void 0 ? void 0 : _this$selectedContact2.id)) {
         var _this$$refs$conversat;
 
         this.addMessage(message);

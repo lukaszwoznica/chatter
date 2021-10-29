@@ -42,7 +42,7 @@ class MessageController extends Controller
     {
         $updatedMessage = $this->messageService->markAsRead($message);
 
-        MessagesReadEvent::dispatch(collect([$updatedMessage]));
+        MessagesReadEvent::dispatch($updatedMessage);
 
         return new MessageResource($updatedMessage);
     }
