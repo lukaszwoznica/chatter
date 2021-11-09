@@ -15,6 +15,7 @@ class ContactController extends Controller
         $this->authorize('viewContactsList', $user);
 
         $contacts = $userService->getUserContacts($user);
+        $contacts->load('media');
 
         return ContactResource::collection($contacts);
     }
