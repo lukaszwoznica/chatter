@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadAvatarRequest;
 use App\Services\UserService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use ReflectionClass;
 use Sopamo\LaravelFilepond\Filepond;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +20,7 @@ class AvatarController extends Controller
 
             $uploadedAvatar = $userService->uploadUserAvatar(Auth::user(), $tempAvatarPath);
 
-            File::deleteDirectory(dirname($tempAvatarPath));
+            $this->deleteTempAvatarDirectory($tempAvatarPath);
 
             return response()->json([
                 'message' => 'Avatar has been successfully uploaded.',
@@ -43,5 +42,14 @@ class AvatarController extends Controller
         Auth::user()->clearMediaCollection('avatar');
 
         return response()->noContent();
+    }
+
+    private function deleteTempAvatarDirectory(string $tempAvatarPath)
+    {
+        $tmpFilesPath = config('filepond.temporary_files_path');
+        $tmpFilesDisk = config('filepond.temporary_files_disk');
+        $tmpDirectoryPath = $tmpFilesPath . '/' . basename(dirname($tempAvatarPath));
+
+        Storage::disk($tmpFilesDisk)->deleteDirectory($tmpDirectoryPath);
     }
 }
