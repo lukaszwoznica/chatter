@@ -41,8 +41,8 @@ class MessagesTest extends TestCase
                     '*' => [
                         'id',
                         'text',
-                        'sender',
-                        'recipient',
+                        'sender_id',
+                        'recipient_id',
                         'read_at',
                         'created_at'
                     ]
@@ -91,8 +91,8 @@ class MessagesTest extends TestCase
 
         $response->assertCreated()
             ->assertJsonFragment(['text' => 'Test message'])
-            ->assertJsonPath('data.sender.id', $this->currentUser->id)
-            ->assertJsonPath('data.recipient.id', $this->differentUser->id);
+            ->assertJsonPath('data.sender_id', $this->currentUser->id)
+            ->assertJsonPath('data.recipient_id', $this->differentUser->id);
         $this->assertCount(1, $messages = Message::all());
         Event::assertDispatched(fn(NewMessageEvent $event) => $event->message->id === $messages->first()->id);
     }
