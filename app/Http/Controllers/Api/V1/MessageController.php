@@ -40,9 +40,9 @@ class MessageController extends Controller
 
     public function markAsRead(Message $message)
     {
-        $updatedMessage = $this->messageService->markAsRead($message);
+        $this->authorize('markAsRead', $message);
 
-        MessagesReadEvent::dispatch($updatedMessage);
+        $updatedMessage = $this->messageService->markAsRead($message);
 
         return new MessageResource($updatedMessage);
     }

@@ -41,8 +41,12 @@ class MessageService
 
     public function markAsRead(Message $message): Message
     {
-        $message->read_at = now();
-        $message->save();
+        if (!$message->read_at) {
+            $message->read_at = now();
+            $message->save();
+
+            MessagesReadEvent::dispatch($message);
+        }
 
         return $message;
     }
