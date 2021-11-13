@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Events\MessagesReadEvent;
 use App\Events\NewMessageEvent;
 use App\Models\Message;
 use App\Models\User;
@@ -123,6 +124,75 @@ class MessagesTest extends TestCase
     public function testUserCannotSendMessageToUserThatNotExists()
     {
         $this->testSendMessageWithInvalidData('recipient_id', 10);
+    }
+
+    public function testUserCanMarkMessageAsRead()
+    {
+        Event::fake();
+
+        $message = Message::factory()->create(array_replace($this->getMessageData(), [
+            'recipient_id' => $this->currentUser->id,
+            'sender_id' => $this->differentUser->id
+        ]));
+
+        $response = $this->actingAs($this->currentUser)
+            ->patchJson(route('messages.read', $message));
+
+        $response->assertOk();
+        $this->assertNotNull($response->json('data.read_at'));
+        $this->assertDatabaseHas('messages', [
+            'id' => $message->id,
+            'read_at' => $response->json('data.read_at')
+        ]);
+        Event::assertDispatched(fn(MessagesReadEvent $event) => $event->latestReadMessage->id === $message->id);
+    }
+
+    public function testUserCannotMarkMessageAsReadWhenUnauthenticated()
+    {
+        $message = Message::factory()->create(array_replace($this->getMessageData(), [
+            'recipient_id' => $this->currentUser->id,
+            'sender_id' => $this->differentUser->id
+        ]));
+
+        $response = $this->patchJson(route('messages.read', $message));
+
+        $response->assertUnauthorized();
+    }
+
+    public function testMessageCannotBeMarkedAsReadSecondTime()
+    {
+        Event::fake();
+
+        $message = Message::factory()->create(array_replace($this->getMessageData(), [
+            'recipient_id' => $this->currentUser->id,
+            'sender_id' => $this->differentUser->id,
+            'read_at' => now()
+        ]));
+
+        $response = $this->actingAs($this->currentUser)
+            ->patchJson(route('messages.read', $message));
+
+        $response->assertOk()
+            ->assertJsonPath('data.read_at', $message->read_at->format('Y-m-d H:i:s'));
+        $this->assertDatabaseHas('messages', [
+            'id' => $message->id,
+            'read_at' => $message->read_at
+        ]);
+        Event::assertNotDispatched(MessagesReadEvent::class);
+    }
+
+    public function testUserCannotMarkMessageAsReadIfHeIsNotTheRecipient()
+    {
+        $message = Message::factory()->create($this->getMessageData());
+
+        $response = $this->actingAs($this->currentUser)
+            ->patchJson(route('messages.read', $message));
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $this->assertDatabaseHas('messages', [
+            'id' => $message->id,
+            'read_At' => null
+        ]);
     }
 
     private function testSendMessageWithInvalidData(string $invalidFieldName, mixed $invalidValue)
