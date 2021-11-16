@@ -78,7 +78,7 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection('avatar')
             ->singleFile()
-            ->useDisk('s3')
+            ->useDisk(config('media-library.disk_name'))
             ->acceptsFile(function (File $file) {
                 return $file->size <= 1048576 &&
                     in_array($file->mimeType, ['image/jpeg', 'image/png', 'image/gif']);
