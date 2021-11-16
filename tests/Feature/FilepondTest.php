@@ -18,7 +18,7 @@ class FilepondTest extends TestCase
     use RefreshDatabase;
 
     private User $currentUser;
-    private UploadedFile $file;
+    private UploadedFile $fileToUpload;
     private Filepond $filepond;
     private string $filepondDisk;
     private string $filepondPath;
@@ -29,10 +29,11 @@ class FilepondTest extends TestCase
         parent::setUp();
 
         $this->currentUser = User::factory()->create();
-        $this->file = UploadedFile::fake()->image('image.jpg');
+        $this->fileToUpload = UploadedFile::fake()->image('image.jpg');
         $this->filepond = App::make('Sopamo\LaravelFilepond\Filepond');
         $this->filepondDisk = config('filepond.temporary_files_disk');
         $this->filepondPath = config('filepond.temporary_files_path');
+        $this->filepondInput = config('filepond.input_name');
     }
 
     public function testUserCanUploadFile()
@@ -41,7 +42,7 @@ class FilepondTest extends TestCase
 
         $response = $this->actingAs($this->currentUser)
             ->postJson(route('filepond.upload'), [
-                'file' => $this->file
+                $this->filepondInput => $this->fileToUpload
             ]);
 
         $absoluteFilePath = $this->filepond->getPathFromServerId($response->content());
@@ -54,7 +55,7 @@ class FilepondTest extends TestCase
     public function testUserCannotUploadFileWhenUnauthenticated()
     {
         $response = $this->postJson(route('filepond.upload'), [
-            config('filepond.input_name') => $this->file
+            $this->filepondInput => $this->fileToUpload
         ]);
 
         $response->assertUnauthorized();
@@ -72,9 +73,9 @@ class FilepondTest extends TestCase
     {
         Storage::fake($this->filepondDisk);
 
-        $uploadedFile = $this->file->storeAs(
+        $uploadedFile = $this->fileToUpload->storeAs(
             $this->filepondPath . '/' . Str::random(),
-            $this->file->getClientOriginalName(),
+            $this->fileToUpload->getClientOriginalName(),
             $this->filepondDisk
         );
         $uploadedFilePath = Storage::disk($this->filepondDisk)->path($uploadedFile);
@@ -89,8 +90,16 @@ class FilepondTest extends TestCase
 
     public function testUserCannotDeleteUploadedFileWhenUnauthenticated()
     {
-        $response = $this->deleteJson(route('filepond.delete', [Str::random()]));
+        $response = $this->deleteJson(route('filepond.delete'));
 
         $response->assertUnauthorized();
+    }
+
+    public function testUserMustProvideValidServerIdToDeleteUploadedFile()
+    {
+        $response = $this->actingAs($this->currentUser)
+            ->call(method: 'DELETE', uri: route('filepond.delete'), content: Str::random());
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
