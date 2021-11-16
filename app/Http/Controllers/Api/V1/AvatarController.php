@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadAvatarRequest;
 use App\Services\UserService;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use ReflectionClass;
+use Sopamo\LaravelFilepond\Exceptions\InvalidPathException;
 use Sopamo\LaravelFilepond\Filepond;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,12 +25,17 @@ class AvatarController extends Controller
             $this->deleteTempAvatarDirectory($tempAvatarPath);
 
             return response()->json([
-                'message' => 'Avatar has been successfully uploaded.',
                 'data' => [
                     'avatar_url' => $uploadedAvatar?->getUrl(),
                     'avatar_thumb_url' => $uploadedAvatar?->getUrl('thumb')
                 ]
             ]);
+        } catch (InvalidPathException | DecryptException $exception) {
+            return response()->json([
+                'errors' => [
+                    'avatar_server_id' => 'Invalid avatar server id'
+                ]
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         } catch (\Exception $exception) {
             return response()->json([
                 'message' => 'Something went wrong while uploading the avatar file.',
