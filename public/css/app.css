@@ -2108,7 +2108,8 @@ label {
   padding-left: 45px;
 }
 .message--received .message__content, .message--typing .message__content {
-  background-color: #949494;
+  color: #262626;
+  background-color: #e6e6e6;
 }
 .message--typing .message__content {
   -webkit-animation: 2s bulge infinite ease-out;
@@ -2118,7 +2119,9 @@ label {
   justify-content: flex-end;
 }
 .message--sent .message__content {
-  background-color: #b65fc4;
+  background: linear-gradient(to top, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4) fixed no-repeat bottom;
+  background-size: 100% 85%;
+  overflow: hidden;
 }
 
 .infinite-status-prompt {
@@ -2134,7 +2137,7 @@ label {
   width: 10px;
   float: left;
   margin: 0.3rem 0.1rem;
-  background-color: #e6e6e6;
+  background-color: #262626;
   display: block;
   border-radius: 50%;
   opacity: 0.5;

@@ -194,6 +194,7 @@
         padding: 1rem;
         scroll-padding: 1rem 2rem;
         overflow-y: scroll;
+        //background: $top-gradient;
 
         @include m-screen {
             padding: 1rem 2rem;
@@ -323,7 +324,7 @@
     }
 
     &__read-indicator {
-        color:$clr-gray;
+        color: $clr-gray;
         position: absolute;
         bottom: 3px;
         right: -12px;
@@ -334,7 +335,8 @@
         padding-left: 45px;
 
         .message__content {
-            background-color: lighten($clr-gray, 18%);
+            color: lighten($clr-black, 15%);
+            background-color: $clr-lightgray;
         }
     }
 
@@ -348,7 +350,9 @@
         justify-content: flex-end;
 
         .message__content {
-            background-color: $clr-primary;
+            background: $top-gradient fixed no-repeat bottom;
+            background-size: 100% 85%;
+            overflow: hidden;
         }
     }
 }
@@ -367,7 +371,7 @@
     width: 10px;
     float: left;
     margin: .3rem .1rem;
-    background-color: $clr-lightgray;
+    background-color: lighten($clr-black, 15%);
     display: block;
     border-radius: 50%;
     opacity: .5;
