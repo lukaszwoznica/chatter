@@ -92,4 +92,9 @@ class User extends Authenticatable implements HasMedia
             ->height(50)
             ->performOnCollections('avatar');
     }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 }
