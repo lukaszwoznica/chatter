@@ -58820,7 +58820,6 @@ try {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "Dropdown": () => (/* binding */ Dropdown),
 /* harmony export */   "Menu": () => (/* binding */ Menu),
 /* harmony export */   "Popper": () => (/* binding */ Popper),
@@ -58833,6 +58832,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "VClosePopper": () => (/* binding */ VClosePopper),
 /* harmony export */   "VTooltip": () => (/* binding */ VTooltip),
 /* harmony export */   "createTooltip": () => (/* binding */ createTooltip),
+/* harmony export */   "default": () => (/* binding */ plugin),
 /* harmony export */   "destroyTooltip": () => (/* binding */ destroyTooltip),
 /* harmony export */   "install": () => (/* binding */ install),
 /* harmony export */   "options": () => (/* binding */ options)
@@ -58844,6 +58844,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
 
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -58912,40 +58950,6 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
@@ -58955,7 +58959,7 @@ function _arrayWithoutHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 function _unsupportedIterableToArray(o, minLen) {
@@ -58980,9 +58984,9 @@ function _nonIterableSpread() {
 }
 
 function _createForOfIteratorHelper(o, allowArrayLike) {
-  var it;
+  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
 
-  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+  if (!it) {
     if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
       if (it) o = it;
       var i = 0;
@@ -59015,7 +59019,7 @@ function _createForOfIteratorHelper(o, allowArrayLike) {
       err;
   return {
     s: function () {
-      it = o[Symbol.iterator]();
+      it = it.call(o);
     },
     n: function () {
       var step = it.next();
@@ -59197,6 +59201,8 @@ function applyModifier(modifiers, name, options) {
       options: {}
     };
     modifiers.push(modifier);
+  } else if (!modifier.options) {
+    modifier.options = {};
   }
 
   Object.assign(modifier.options, options);
@@ -60006,7 +60012,7 @@ var PrivateThemeClass = {
   }
 };
 
-var script = {
+var script$5 = {
   name: 'VPopperContent',
   components: {
     ResizeObserver: vue_resize__WEBPACK_IMPORTED_MODULE_0__.ResizeObserver
@@ -60025,31 +60031,33 @@ var script = {
   emits: ['hide', 'resize']
 };
 
-var _hoisted_1 = {
+var _hoisted_1$1 = ["id", "aria-hidden", "tabindex"];
+var _hoisted_2$1 = {
   class: "v-popper__wrapper"
 };
-var _hoisted_2 = {
+var _hoisted_3 = {
   ref: "inner",
   class: "v-popper__inner"
 };
-var _hoisted_3 = {
+var _hoisted_4 = {
   ref: "arrow",
   class: "v-popper__arrow-container"
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)("div", {
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", {
   class: "v-popper__arrow"
 }, null, -1
 /* HOISTED */
 );
 
-function render(_ctx, _cache, $props, $setup, $data, $options) {
+var _hoisted_6 = [_hoisted_5];
+function render$2(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ResizeObserver = (0,vue__WEBPACK_IMPORTED_MODULE_1__.resolveComponent)("ResizeObserver");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)("div", {
     id: $props.popperId,
     ref: "popover",
-    class: ["v-popper__popper", [_ctx.themeClass, {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_1__.normalizeClass)(["v-popper__popper", [_ctx.themeClass, {
       'v-popper__popper--shown': $props.shown,
       'v-popper__popper--hidden': !$props.shown,
       'v-popper__popper--show-from': $props.classes.showFrom,
@@ -60057,32 +60065,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'v-popper__popper--hide-from': $props.classes.hideFrom,
       'v-popper__popper--hide-to': $props.classes.hideTo,
       'v-popper__popper--skip-transition': $props.skipTransition
-    }]],
+    }]]),
     "aria-hidden": $props.shown ? 'false' : 'true',
     tabindex: $props.autoHide ? 0 : undefined,
-    onKeyup: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_1__.withKeys)(function ($event) {
+    onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_1__.withKeys)(function ($event) {
       return $props.autoHide && _ctx.$emit('hide');
     }, ["esc"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)("div", _hoisted_2, [$props.mounted ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", _hoisted_2$1, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", _hoisted_3, [$props.mounted ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
     key: 0
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.renderSlot)(_ctx.$slots, "default")]), $props.handleResize ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)(_component_ResizeObserver, {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.renderSlot)(_ctx.$slots, "default")]), $props.handleResize ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)(_component_ResizeObserver, {
     key: 0,
-    onNotify: _cache[1] || (_cache[1] = function ($event) {
+    onNotify: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.$emit('resize', $event);
     })
   })) : (0,vue__WEBPACK_IMPORTED_MODULE_1__.createCommentVNode)("v-if", true)], 64
   /* STABLE_FRAGMENT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_1__.createCommentVNode)("v-if", true)], 512
   /* NEED_PATCH */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)("div", _hoisted_3, [_hoisted_4], 512
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", _hoisted_4, _hoisted_6, 512
   /* NEED_PATCH */
   )])], 42
   /* CLASS, PROPS, HYDRATE_EVENTS */
-  , ["id", "aria-hidden", "tabindex"]);
+  , _hoisted_1$1);
 }
 
-script.render = render;
-script.__file = "src/components/PopperContent.vue";
+script$5.render = render$2;
+script$5.__file = "src/components/PopperContent.vue";
 
 // @vue/component
 var PrivatePopperMethods = {
@@ -60110,11 +60118,11 @@ var PrivatePopperMethods = {
   }
 };
 
-var script$1 = {
+var script$4 = {
   name: 'VPopperWrapper',
   components: {
     Popper: PrivatePopper(),
-    PopperContent: script
+    PopperContent: script$5
   },
   mixins: [PrivatePopperMethods, PrivateThemeClass],
   inheritAttrs: false,
@@ -60170,11 +60178,11 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
           handleResize = _ref.handleResize,
           onResize = _ref.onResize,
           classes = _ref.classes;
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)("div", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementVNode)("div", {
         ref: "reference",
-        class: ["v-popper", [_ctx.themeClass, {
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_1__.normalizeClass)(["v-popper", [_ctx.themeClass, {
           'v-popper--shown': isShown
-        }]]
+        }]])
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_1__.renderSlot)(_ctx.$slots, "default"), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)(_component_PopperContent, {
         ref: "popperContent",
         "popper-id": popperId,
@@ -60210,35 +60218,35 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
   , ["theme", "target-nodes", "reference-node", "popper-node", "arrow-node"]);
 }
 
-script$1.render = render$1;
-script$1.__file = "src/components/PopperWrapper.vue";
+script$4.render = render$1;
+script$4.__file = "src/components/PopperWrapper.vue";
 
-var script$2 = _objectSpread2(_objectSpread2({}, script$1), {}, {
+var script$3 = _objectSpread2(_objectSpread2({}, script$4), {}, {
   name: 'VDropdown',
   vPopperTheme: 'dropdown'
 });
 
-script$2.__file = "src/components/Dropdown.vue";
+script$3.__file = "src/components/Dropdown.vue";
 
-var script$3 = _objectSpread2(_objectSpread2({}, script$1), {}, {
+var script$2 = _objectSpread2(_objectSpread2({}, script$4), {}, {
   name: 'VMenu',
   vPopperTheme: 'menu'
 });
 
-script$3.__file = "src/components/Menu.vue";
+script$2.__file = "src/components/Menu.vue";
 
-var script$4 = _objectSpread2(_objectSpread2({}, script$1), {}, {
+var script$1 = _objectSpread2(_objectSpread2({}, script$4), {}, {
   name: 'VTooltip',
   vPopperTheme: 'tooltip'
 });
 
-script$4.__file = "src/components/Tooltip.vue";
+script$1.__file = "src/components/Tooltip.vue";
 
-var script$5 = {
+var script = {
   name: 'VTooltipDirective',
   components: {
     Popper: PrivatePopper(),
-    PopperContent: script
+    PopperContent: script$5
   },
   mixins: [PrivatePopperMethods],
   inheritAttrs: false,
@@ -60336,7 +60344,9 @@ var script$5 = {
   }
 };
 
-function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+var _hoisted_1 = ["innerHTML"];
+var _hoisted_2 = ["textContent"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_PopperContent = (0,vue__WEBPACK_IMPORTED_MODULE_1__.resolveComponent)("PopperContent");
 
   var _component_Popper = (0,vue__WEBPACK_IMPORTED_MODULE_1__.resolveComponent)("Popper");
@@ -60366,9 +60376,9 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
           classes = _ref.classes;
       return [(0,vue__WEBPACK_IMPORTED_MODULE_1__.createVNode)(_component_PopperContent, {
         ref: "popperContent",
-        class: {
+        class: (0,vue__WEBPACK_IMPORTED_MODULE_1__.normalizeClass)({
           'v-popper--tooltip-loading': $options.loading
-        },
+        }),
         "popper-id": popperId,
         theme: $props.theme,
         shown: isShown,
@@ -60381,17 +60391,17 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
         onResize: onResize
       }, {
         default: (0,vue__WEBPACK_IMPORTED_MODULE_1__.withCtx)(function () {
-          return [$props.html ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)("div", {
+          return [$props.html ? ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)("div", {
             key: 0,
             innerHTML: $options.finalContent
           }, null, 8
           /* PROPS */
-          , ["innerHTML"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createBlock)("div", {
+          , _hoisted_1)) : ((0,vue__WEBPACK_IMPORTED_MODULE_1__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_1__.createElementBlock)("div", {
             key: 1,
             textContent: (0,vue__WEBPACK_IMPORTED_MODULE_1__.toDisplayString)($options.finalContent)
           }, null, 8
           /* PROPS */
-          , ["textContent"]))];
+          , _hoisted_2))];
         }),
         _: 2
         /* DYNAMIC */
@@ -60408,8 +60418,8 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
   , ["theme", "popper-node", "arrow-node", "onApplyShow", "onApplyHide"]);
 }
 
-script$5.render = render$2;
-script$5.__file = "src/components/TooltipDirective.vue";
+script.render = render;
+script.__file = "src/components/TooltipDirective.vue";
 
 var TARGET_CLASS = 'v-popper--has-tooltip';
 /**
@@ -60474,35 +60484,58 @@ function getOptions(el, value, modifiers) {
   return options;
 }
 function createTooltip(el, value, modifiers) {
-  var options = getOptions(el, value, modifiers);
-  var tooltipApp = el.$_popper = (0,vue__WEBPACK_IMPORTED_MODULE_1__.createApp)({
+  var options = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(getOptions(el, value, modifiers));
+  var component = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)();
+  var tooltipApp = (0,vue__WEBPACK_IMPORTED_MODULE_1__.createApp)({
     name: 'VTooltipDirective',
-    data: function data() {
+    setup: function setup() {
       return {
-        options: options
+        options: options,
+        tooltip: component
       };
     },
     render: function render() {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_1__.h)(script$5, _objectSpread2(_objectSpread2({}, this.options), {}, {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_1__.h)(script, _objectSpread2(_objectSpread2({}, this.options), {}, {
         ref: 'tooltip'
       }));
+    },
+    devtools: {
+      hide: true
     }
   });
   var mountTarget = document.createElement('div');
   document.body.appendChild(mountTarget);
-  tooltipApp.mount(mountTarget); // Class on target
+  tooltipApp.mount(mountTarget);
+  el.$_popperMountTarget = mountTarget; // Class on target
 
   if (el.classList) {
     el.classList.add(TARGET_CLASS);
   }
 
-  return tooltipApp;
+  var result = el.$_popper = {
+    app: tooltipApp,
+    options: options,
+    component: component,
+    show: function show() {
+      component.value.show();
+    },
+    hide: function hide() {
+      component.value.hide();
+    }
+  };
+  return result;
 }
 function destroyTooltip(el) {
   if (el.$_popper) {
-    el.$_popper.unmount();
+    el.$_popper.app.unmount();
+
+    if (el.$_popperMountTarget.parentElement) {
+      el.$_popperMountTarget.parentElement.removeChild(el.$_popperMountTarget);
+    }
+
     delete el.$_popper;
     delete el.$_popperOldShown;
+    delete el.$_popperMountTarget;
   }
 
   if (el.classList) {
@@ -60521,7 +60554,7 @@ function bind(el, _ref) {
 
     if (el.$_popper) {
       tooltipApp = el.$_popper;
-      tooltipApp.options = options;
+      tooltipApp.options.value = options;
     } else {
       tooltipApp = createTooltip(el, value, modifiers);
     } // Manual show
@@ -60529,7 +60562,7 @@ function bind(el, _ref) {
 
     if (typeof value.shown !== 'undefined' && value.shown !== el.$_popperOldShown) {
       el.$_popperOldShown = value.shown;
-      value.shown ? tooltipApp.$refs.tooltip.show() : tooltipApp.$refs.tooltip.hide();
+      value.shown ? tooltipApp.show() : tooltipApp.hide();
     }
   }
 }
@@ -60625,44 +60658,43 @@ var options = config; // Directive
 var VTooltip = PrivateVTooltip;
 var VClosePopper = PrivateVClosePopper; // Components
 
-var Dropdown = script$2;
-var Menu = script$3;
+var Dropdown = script$3;
+var Menu = script$2;
 var Popper = PrivatePopper;
-var PopperContent = script;
+var PopperContent = script$5;
 var PopperMethods = PrivatePopperMethods;
-var PopperWrapper = script$1;
+var PopperWrapper = script$4;
 var ThemeClass = PrivateThemeClass;
-var Tooltip = script$4;
-var TooltipDirective = script$5;
+var Tooltip = script$1;
+var TooltipDirective = script;
 /* Vue plugin */
 
 function install(app) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  if (install.installed) return;
-  install.installed = true;
+  if (app.$_vTooltipInstalled) return;
+  app.$_vTooltipInstalled = true;
   assign(config, options); // Directive
 
   app.directive('tooltip', PrivateVTooltip);
   app.directive('close-popper', PrivateVClosePopper); // Components
   // eslint-disable-next-line vue/component-definition-name-casing
 
-  app.component('v-tooltip', script$4);
-  app.component('VTooltip', script$4); // eslint-disable-next-line vue/component-definition-name-casing
+  app.component('v-tooltip', script$1);
+  app.component('VTooltip', script$1); // eslint-disable-next-line vue/component-definition-name-casing
 
-  app.component('v-dropdown', script$2);
-  app.component('VDropdown', script$2); // eslint-disable-next-line vue/component-definition-name-casing
+  app.component('v-dropdown', script$3);
+  app.component('VDropdown', script$3); // eslint-disable-next-line vue/component-definition-name-casing
 
-  app.component('v-menu', script$3);
-  app.component('VMenu', script$3);
+  app.component('v-menu', script$2);
+  app.component('VMenu', script$2);
 }
 var plugin = {
   // eslint-disable-next-line no-undef
-  version: "4.0.0-alpha.1",
+  version: "4.0.0-beta.2",
   install: install,
   options: config
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (plugin);
 
 //# sourceMappingURL=v-tooltip.esm.js.map
 
