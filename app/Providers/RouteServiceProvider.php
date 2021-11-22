@@ -43,7 +43,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api.php'));
 
             Route::prefix('api/v1/oauth/{provider}')
-                ->middleware(['web', 'oauth.validated'])
+                ->middleware(['web', 'oauth.validated', 'guest'])
                 ->name('oauth.')
                 ->group(base_path('routes/socialite.php'));
 
