@@ -31,7 +31,7 @@ class MessageFactory extends Factory
         return [
             'sender_id' => $sender,
             'recipient_id' => $recipient,
-            'text' => $this->faker->text()
+            'text' => $this->faker->text(rand(5, 200))
         ];
     }
 
