@@ -33687,9 +33687,9 @@ router.beforeEach(function (to, from, next) {
   });
 });
 router.afterEach(function (to, from) {
-  var _from$meta$guard, _to$meta$guard;
+  var _from$meta$guard, _to$meta$guard, _to$meta$guard2;
 
-  if (((_from$meta$guard = from.meta.guard) === null || _from$meta$guard === void 0 ? void 0 : _from$meta$guard.name) !== ((_to$meta$guard = to.meta.guard) === null || _to$meta$guard === void 0 ? void 0 : _to$meta$guard.name)) {
+  if (((_from$meta$guard = from.meta.guard) === null || _from$meta$guard === void 0 ? void 0 : _from$meta$guard.name) !== ((_to$meta$guard = to.meta.guard) === null || _to$meta$guard === void 0 ? void 0 : _to$meta$guard.name) || ((_to$meta$guard2 = to.meta.guard) === null || _to$meta$guard2 === void 0 ? void 0 : _to$meta$guard2.name) === 'auth') {
     to.meta.transitionName = 'none';
   } else {
     to.meta.transitionName = 'route-change';

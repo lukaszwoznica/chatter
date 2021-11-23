@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
-    if (from.meta.guard?.name !== to.meta.guard?.name) {
+    if (from.meta.guard?.name !== to.meta.guard?.name ||  to.meta.guard?.name === 'auth') {
         to.meta.transitionName = 'none'
     } else {
         to.meta.transitionName = 'route-change'
