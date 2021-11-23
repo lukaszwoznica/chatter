@@ -1,33 +1,36 @@
 <template>
-    <h1 class="profile-card__form-title">Password Change</h1>
-    <form class="form" @submit.prevent="submitForm">
-        <div class="form__group" v-for="formField in formFields" :key="formField.id">
-            <div class="form__input-group">
-                <input class="form__input"
-                       :type="formField.type"
-                       :id="formField.id"
-                       v-model="formField.value"
-                       :class="{ 'form__input--invalid': validationErrors[formField.id] }"
-                       @input="resetValidationError"
-                       placeholder=" " required>
-                <label class="form__label" :for="formField.id">
-                    {{ formField.label }}
-                </label>
+    <div class="profile-card__form-wrapper">
+        <h1 class="profile-card__form-title">Password Change</h1>
+
+        <form class="form" @submit.prevent="submitForm">
+            <div class="form__group" v-for="formField in formFields" :key="formField.id">
+                <div class="form__input-group">
+                    <input class="form__input"
+                           :type="formField.type"
+                           :id="formField.id"
+                           v-model="formField.value"
+                           :class="{ 'form__input--invalid': validationErrors[formField.id] }"
+                           @input="resetValidationError"
+                           placeholder=" " required>
+                    <label class="form__label" :for="formField.id">
+                        {{ formField.label }}
+                    </label>
+                </div>
+                <small class="form__error" v-if="validationErrors[formField.id]">
+                    {{ validationErrors[formField.id][0] }}
+                </small>
             </div>
-            <small class="form__error" v-if="validationErrors[formField.id]">
-                {{ validationErrors[formField.id][0] }}
-            </small>
-        </div>
-        <div class="form__button-wrapper">
-            <app-button
-                type="submit"
-                :classList="['button--primary']"
-                :disabled="isSubmitting"
-                :loading="isSubmitting">
-                Update Password
-            </app-button>
-        </div>
-    </form>
+            <div class="form__button-wrapper">
+                <app-button
+                    type="submit"
+                    :classList="['button--primary']"
+                    :disabled="isSubmitting"
+                    :loading="isSubmitting">
+                    Update Password
+                </app-button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>

@@ -644,6 +644,25 @@ template {
   transition: all 0.3s ease-in;
 }
 
+@media screen and (min-width: 992px) {
+  .profile-tab-change-enter-from {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+
+  .profile-tab-change-enter-active {
+    transition: all 0.3s ease-out;
+  }
+
+  .profile-tab-change-leave-to {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+
+  .profile-tab-change-leave-active {
+    transition: all 0.3s ease-in;
+  }
+}
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
@@ -2159,6 +2178,7 @@ label {
   width: 100%;
   overflow: hidden;
   margin-bottom: 5rem;
+  background: linear-gradient(#fafafa, #fafafa) padding-box, linear-gradient(to left, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4) border-box;
 }
 .profile-card__menu {
   background-color: #e6e6e6;
@@ -2314,7 +2334,6 @@ label {
   }
 }
 .profile-card__form-wrapper {
-  background-color: #fafafa;
   padding: 1rem;
   display: flex;
   flex-direction: column;

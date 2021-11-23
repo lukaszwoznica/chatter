@@ -1,43 +1,45 @@
 <template>
-    <div class="profile-card__form-header">
-        <h1 class="profile-card__form-title">Profile Picture</h1>
-        <app-button
-            :classList="['profile-card__remove-avatar-button']"
-            :disabled="!authUser.avatar_url"
-            :loading="isRemovingAvatar"
-            v-tooltip.auto="'Remove current avatar'"
-            loader-color="#cc0000"
-            @buttonClick="submitAvatarRemove">
-            <font-awesome-icon :icon="['fas', 'trash-alt']" fixed-width/>
-        </app-button>
-    </div>
-
-    <form class="form" @submit.prevent="submitAvatarUpdate" enctype='multipart/form-data'>
-        <div class="form__group">
-            <file-pond
-                name="file"
-                label-idle="Drag & Drop your avatar here or <span class='filepond--label-action'>Browse</span>"
-                accepted-file-types="image/jpeg, image/png, image/gif"
-                image-crop-aspect-ratio="1:1"
-                image-resize-target-width="200"
-                image-resize-target-height="200"
-                max-file-size="1MB"
-                ref="filepond"
-                :server="serverOptions"
-                :allow-multiple="false"
-                @processfile="setUploadedAvatar"
-            />
-        </div>
-        <div class="form__button-wrapper">
+    <div class="profile-card__form-wrapper">
+        <div class="profile-card__form-header">
+            <h1 class="profile-card__form-title">Profile Picture</h1>
             <app-button
-                type="submit"
-                :classList="['button--primary']"
-                :disabled="isSubmittingAvatar || !uploadedAvatarServerId"
-                :loading="isSubmittingAvatar">
-                Update Avatar
+                :classList="['profile-card__remove-avatar-button']"
+                :disabled="!authUser.avatar_url"
+                :loading="isRemovingAvatar"
+                v-tooltip.auto="'Remove current avatar'"
+                loader-color="#cc0000"
+                @buttonClick="submitAvatarRemove">
+                <font-awesome-icon :icon="['fas', 'trash-alt']" fixed-width/>
             </app-button>
         </div>
-    </form>
+
+        <form class="form" @submit.prevent="submitAvatarUpdate" enctype='multipart/form-data'>
+            <div class="form__group">
+                <file-pond
+                    name="file"
+                    label-idle="Drag & Drop your avatar here or <span class='filepond--label-action'>Browse</span>"
+                    accepted-file-types="image/jpeg, image/png, image/gif"
+                    image-crop-aspect-ratio="1:1"
+                    image-resize-target-width="200"
+                    image-resize-target-height="200"
+                    max-file-size="1MB"
+                    ref="filepond"
+                    :server="serverOptions"
+                    :allow-multiple="false"
+                    @processfile="setUploadedAvatar"
+                />
+            </div>
+            <div class="form__button-wrapper">
+                <app-button
+                    type="submit"
+                    :classList="['button--primary']"
+                    :disabled="isSubmittingAvatar || !uploadedAvatarServerId"
+                    :loading="isSubmittingAvatar">
+                    Update Avatar
+                </app-button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>

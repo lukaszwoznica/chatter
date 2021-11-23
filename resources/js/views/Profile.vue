@@ -36,9 +36,10 @@
                     </div>
                 </nav>
             </div>
-            <div class="profile-card__form-wrapper">
+
+            <transition name="profile-tab-change" mode="out-in">
                 <component :is="activeTab"/>
-            </div>
+            </transition>
         </div>
     </div>
 </template>
