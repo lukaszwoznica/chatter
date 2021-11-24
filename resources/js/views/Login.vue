@@ -17,7 +17,7 @@
                             {{ validationErrors?.email[0] }}
                         </small>
                     </div>
-                    <div class="form__group">
+                    <div class="form__group form__group--password">
                         <div class="form__input-group">
                             <input class="form__input" type="password" id="password"
                                    :class="{ 'form__input--invalid': validationErrors?.password }"
@@ -32,6 +32,12 @@
                             <router-link :to="{name: 'password-recovery'}">Forgot Password?</router-link>
                         </div>
                     </div>
+                    <div class="form__group form__group--remember-me">
+                        <div class="form__checkbox-group">
+                            <input class="form__checkbox" type="checkbox" id="remember" v-model="formFields.remember">
+                            <label for="remember">Remember Me</label>
+                        </div>
+                    </div>
 
                     <div class="form__button-wrapper">
                         <app-button
@@ -44,7 +50,7 @@
                     </div>
                 </form>
 
-                <div class="register-info">
+                <div class="form-info form-info--register">
                     Don't have account?
                     <router-link :to="{name: 'register'}">Register Now!</router-link>
                 </div>
@@ -106,6 +112,7 @@ export default {
             formFields: {
                 email: '',
                 password: '',
+                remember: ''
             },
             validationErrors: [],
             isSubmitting: false,

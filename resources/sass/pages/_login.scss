@@ -15,10 +15,10 @@
     }
 }
 
-.register-info {
+.form-info--register {
+    padding: 0;
     margin-top: 1rem;
     font-size: .9rem;
-    text-align: center;
 
     a {
         color: $clr-secondary;
@@ -85,5 +85,15 @@
         &--facebook {
             background-color: $clr-facebook-blue;
         }
+    }
+}
+
+.form__group {
+    &--password {
+        margin-bottom: 0;
+    }
+
+    &--remember-me {
+        margin: 0 0 .5rem .2rem;
     }
 }

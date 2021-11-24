@@ -3313,7 +3313,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       formFields: {
         email: '',
-        password: ''
+        password: '',
+        remember: ''
       },
       validationErrors: [],
       isSubmitting: false,
@@ -3564,7 +3565,7 @@ var _hoisted_8 = {
   "class": "form__error"
 };
 var _hoisted_9 = {
-  "class": "form__group"
+  "class": "form__group form__group--password"
 };
 var _hoisted_10 = {
   "class": "form__input-group"
@@ -3588,45 +3589,58 @@ var _hoisted_13 = {
 var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Forgot Password?");
 
 var _hoisted_15 = {
+  "class": "form__group form__group--remember-me"
+};
+var _hoisted_16 = {
+  "class": "form__checkbox-group"
+};
+
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "remember"
+}, "Remember Me", -1
+/* HOISTED */
+);
+
+var _hoisted_18 = {
   "class": "form__button-wrapper"
 };
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Login ");
-
-var _hoisted_17 = {
-  "class": "register-info"
-};
-
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Don't have account? ");
-
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Register Now!");
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Login ");
 
 var _hoisted_20 = {
+  "class": "form-info form-info--register"
+};
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Don't have account? ");
+
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Register Now!");
+
+var _hoisted_23 = {
   "class": "social-login"
 };
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
   "class": "hr-text",
   "data-text": "OR"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "social-login__info"
 }, "Login with your social account", -1
 /* HOISTED */
 );
 
-var _hoisted_23 = {
+var _hoisted_26 = {
   "class": "social-login__buttons-wrapper"
 };
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Google", -1
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Google", -1
 /* HOISTED */
 );
 
-var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Facebook", -1
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Facebook", -1
 /* HOISTED */
 );
 
@@ -3643,7 +3657,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "form",
-    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -3693,14 +3707,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form__checkbox",
+    type: "checkbox",
+    id: "remember",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.formFields.remember = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.formFields.remember]]), _hoisted_17])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     type: "submit",
     classList: ['button--primary'],
     disabled: $data.isSubmitting,
     loading: $data.isSubmitting
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_16];
+      return [_hoisted_19];
     }),
     _: 1
     /* STABLE */
@@ -3709,19 +3732,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["disabled", "loading"])])], 32
   /* HYDRATE_EVENTS */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'register'
     }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_19];
+      return [_hoisted_22];
     }),
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
-    onClick: _cache[5] || (_cache[5] = function ($event) {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+    onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.redirectToOAuthProvider('google');
     }),
     classList: ['social-login__button', 'social-login__button--google']
@@ -3730,13 +3753,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
         icon: ['fab', 'google'],
         "fixed-width": ""
-      }), _hoisted_24];
+      }), _hoisted_27];
     }),
     _: 1
     /* STABLE */
 
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
       return $options.redirectToOAuthProvider('facebook');
     }),
     classList: ['social-login__button', 'social-login__button--facebook']
@@ -3745,14 +3768,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
         icon: ['fab', 'facebook-f'],
         "fixed-width": ""
-      }), _hoisted_25];
+      }), _hoisted_28];
     }),
     _: 1
     /* STABLE */
 
   })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_loading, {
     active: $data.loggingInWithOAuth,
-    "onUpdate:active": _cache[7] || (_cache[7] = function ($event) {
+    "onUpdate:active": _cache[8] || (_cache[8] = function ($event) {
       return $data.loggingInWithOAuth = $event;
     }),
     "background-color": "#000",
