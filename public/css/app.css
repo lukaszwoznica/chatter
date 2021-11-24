@@ -2369,6 +2369,11 @@ label {
   }
 }
 
+.filepond--root {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .container--404 {
   flex-direction: column;
   text-align: center;
