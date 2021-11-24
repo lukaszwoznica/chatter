@@ -2460,6 +2460,17 @@ label {
   margin-top: 1.5rem;
 }
 
+.form-info--login {
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+}
+.form-info--login a {
+  color: #db6e4d;
+}
+.form-info--login a:hover {
+  opacity: 0.8;
+}
+
 .swal2-popup {
   overflow: hidden;
 }

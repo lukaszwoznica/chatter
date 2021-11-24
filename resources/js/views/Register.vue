@@ -35,6 +35,11 @@
                         </app-button>
                     </div>
                 </form>
+
+                <div class="form-info form-info--login">
+                    Already have an account?
+                    <router-link :to="{name: 'login'}">Login</router-link>
+                </div>
             </div>
         </div>
     </div>
