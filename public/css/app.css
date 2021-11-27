@@ -1284,10 +1284,10 @@ label {
   margin: 0;
   display: grid;
   place-content: center;
-  color: #b65fc4;
+  color: #666666;
   width: 1.15rem;
   height: 1.15rem;
-  border: 0.15rem solid #b65fc4;
+  border: 0.15rem solid #666666;
   border-radius: 0.25rem;
   transform: translateY(-0.075rem);
   transition: background-color 0.15s ease-in-out;
@@ -1305,12 +1305,14 @@ label {
 }
 .form__checkbox:checked {
   background-color: #b65fc4;
+  border-color: #b65fc4;
 }
 .form__checkbox:checked::before {
   transform: scale(1);
 }
 .form__checkbox:focus {
   outline: none;
+  border-color: #b65fc4;
   box-shadow: 0 0 5px 1px #b65fc4;
 }
 .form__checkbox:disabled {

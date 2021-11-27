@@ -83,10 +83,10 @@
         margin: 0;
         display: grid;
         place-content: center;
-        color: $clr-primary;
+        color: $clr-gray;
         width: 1.15rem;
         height: 1.15rem;
-        border: 0.15rem solid $clr-primary;
+        border: 0.15rem solid  $clr-gray;
         border-radius: 0.25rem;
         transform: translateY(-0.075rem);
         transition: background-color .15s ease-in-out;
@@ -104,6 +104,7 @@
 
         &:checked {
             background-color: $clr-primary;
+            border-color: $clr-primary;
 
             &::before {
                 transform: scale(1);
@@ -112,6 +113,7 @@
 
         &:focus {
             outline: none;
+            border-color: $clr-primary;
             box-shadow: 0 0 5px 1px $clr-primary;
         }
 
