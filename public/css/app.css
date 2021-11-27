@@ -562,7 +562,7 @@ template {
     transform: rotate(1turn);
   }
 }
-@-webkit-keyframes shake {
+@-webkit-keyframes logo-shake {
   0% {
     transform: rotate(10deg);
   }
@@ -582,7 +582,7 @@ template {
     transform: rotate(-2deg);
   }
 }
-@keyframes shake {
+@keyframes logo-shake {
   0% {
     transform: rotate(10deg);
   }
@@ -917,8 +917,8 @@ label {
   }
 }
 .logo:hover .logo__img {
-  -webkit-animation: shake 0.7s ease-in-out 0.1s;
-          animation: shake 0.7s ease-in-out 0.1s;
+  -webkit-animation: logo-shake 0.7s ease-in-out 0.1s;
+          animation: logo-shake 0.7s ease-in-out 0.1s;
 }
 
 .nav__item {
