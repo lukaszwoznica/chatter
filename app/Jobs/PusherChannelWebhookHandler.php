@@ -12,27 +12,18 @@ use Spatie\WebhookClient\ProcessWebhookJob;
 
 class PusherChannelWebhookHandler extends ProcessWebhookJob
 {
-    private UserService $userService;
-
-    public function __construct(WebhookCall $webhookCall, UserService $userService)
-    {
-        parent::__construct($webhookCall);
-
-        $this->userService = $userService;
-    }
-
-    public function handle()
+    public function handle(UserService $userService)
     {
         $payload = json_decode($this->webhookCall, true)['payload'];
 
-        collect($payload['events'])->each(function ($event) {
+        collect($payload['events'])->each(function ($event) use ($userService) {
             $channelSegments = explode('.', $event['channel'], 2);
             if ($channelSegments[0] !== 'private-messages') {
                 return;
             }
 
             $user = $this->updateUserOnlineStatus(intval($channelSegments[1]), $event['name']);
-            $this->notifyUserContacts($user);
+            $this->notifyUserContacts($user, $userService);
         });
     }
 
@@ -49,9 +40,9 @@ class PusherChannelWebhookHandler extends ProcessWebhookJob
         return $user;
     }
 
-    private function notifyUserContacts(User $user): void
+    private function notifyUserContacts(User $user, UserService $userService): void
     {
-        $userContacts = $this->userService->getUserContacts($user);
+        $userContacts = $userService->getUserContacts($user);
         Notification::send($userContacts, new UserOnlineStatusChangedNotification($user));
     }
 }
