@@ -23,19 +23,21 @@ class PusherChannelWebhookHandler extends ProcessWebhookJob
             }
 
             $user = $this->updateUserOnlineStatus(intval($channelSegments[1]), $event['name']);
-            $this->notifyUserContacts($user, $userService);
+            if ($user) {
+                $this->notifyUserContacts($user, $userService);
+            }
         });
     }
 
-    private function updateUserOnlineStatus(int $userId, string $eventType): User
+    private function updateUserOnlineStatus(int $userId, string $eventType): ?User
     {
         $data['is_online'] = $eventType === 'channel_occupied';
-        if (!$data['is_online']) {
+        if ($eventType === 'channel_vacated') {
             $data['last_online_at'] = now();
         }
 
         $user = User::find($userId);
-        $user->update($data);
+        $user?->update($data);
 
         return $user;
     }
