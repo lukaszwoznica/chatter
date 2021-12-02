@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Notifications\UserOnlineStatusChangedNotification;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Notification;
-use Spatie\WebhookClient\Models\WebhookCall;
 use Spatie\WebhookClient\ProcessWebhookJob;
 
 class PusherChannelWebhookHandler extends ProcessWebhookJob
@@ -18,7 +17,8 @@ class PusherChannelWebhookHandler extends ProcessWebhookJob
 
         collect($payload['events'])->each(function ($event) use ($userService) {
             $channelSegments = explode('.', $event['channel'], 2);
-            if ($channelSegments[0] !== 'private-messages') {
+            if ($channelSegments[0] !== 'private-messages' ||
+                !in_array($event['name'], ['channel_occupied', 'channel_vacated'])) {
                 return;
             }
 
