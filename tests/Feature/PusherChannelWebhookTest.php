@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -19,8 +20,6 @@ class PusherChannelWebhookTest extends TestCase
 
     private User $testUser;
     private Collection $testUserContacts;
-    private string $pusherSigningSecret;
-    private string $pusherSignatureHeaderName;
 
     protected function setUp(): void
     {
@@ -31,17 +30,13 @@ class PusherChannelWebhookTest extends TestCase
         $this->testUser = User::factory()->count(10)->create()->first();
         Message::factory()->count(100)->create();
         $this->testUserContacts = App::make('App\Services\UserService')->getUserContacts($this->testUser);
-
-        $this->pusherSigningSecret = config('webhook-client.configs.0.signing_secret');
-        $this->pusherSignatureHeaderName = config('webhook-client.configs.0.signature_header_name');
     }
 
     public function testUserIsOnlineAfterReceivingChannelOccupiedEvent()
     {
         $payload = $this->getPayload($this->testUser->id, 'channel_occupied');
 
-        $response = $this->withHeader($this->pusherSignatureHeaderName, $this->getSignature($payload))
-            ->postJson(route('webhook-client-pusher'), $payload);
+        $response = $this->makeCorrectRequest($payload);
 
         $response->assertOk();
         $this->assertDatabaseHas('users', [
@@ -59,8 +54,7 @@ class PusherChannelWebhookTest extends TestCase
         ]);
         $payload = $this->getPayload($this->testUser->id, 'channel_vacated');
 
-        $response = $this->withHeader($this->pusherSignatureHeaderName, $this->getSignature($payload))
-            ->postJson(route('webhook-client-pusher'), $payload);
+        $response = $this->makeCorrectRequest($payload);
 
         $response->assertOk();
         $this->assertDatabaseHas('users', [
@@ -80,28 +74,61 @@ class PusherChannelWebhookTest extends TestCase
         $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR)
             ->assertJsonPath('message', 'The signature is invalid.');
         $this->assertDatabaseCount('webhook_calls', 0);
-        $this->assertDatabaseHas('users', [
-            'id' => $this->testUser->id,
-            'is_online' => false
-        ]);
         Notification::assertNotSentTo($this->testUserContacts, UserOnlineStatusChangedNotification::class);
     }
 
-    private function getPayload(int $userId, string $eventType): array
+    public function testUserOnlineStatusDoesNotChangeWhenInvalidEventTypeIsReceived()
+    {
+        $payload = $this->getPayload($this->testUser->id, 'channel_invalid');
+
+        $response = $this->makeCorrectRequest($payload);
+
+        $response->assertOk();
+        Notification::assertNotSentTo($this->testUserContacts, UserOnlineStatusChangedNotification::class);
+    }
+
+    public function testUserOnlineStatusDoesNotChangeWhenEventOccursOnWrongChannel()
+    {
+        $payload = $this->getPayload($this->testUser->id, 'channel_occupied', 'wrong-channel');
+
+        $response = $this->makeCorrectRequest($payload);
+
+        $response->assertOk();
+        Notification::assertNotSentTo($this->testUserContacts, UserOnlineStatusChangedNotification::class);
+    }
+
+    public function testChannelEventIsIgnoredForInvalidUserId()
+    {
+        $payload = $this->getPayload(100, 'channel_occupied');
+
+        $response = $this->makeCorrectRequest($payload);
+
+        $response->assertOk();
+        Notification::assertTimesSent(0, UserOnlineStatusChangedNotification::class);
+    }
+
+    private function getPayload(int $userId, string $eventType, string $channelPrefix = 'private-messages'): array
     {
         return [
             'time_ms' => now()->timestamp,
             'events' => [
                 [
-                    'channel' => "private-messages.$userId",
+                    'channel' => "$channelPrefix.$userId",
                     'name' => $eventType
                 ]
             ]
         ];
     }
 
-    private function getSignature(array $payload)
+    private function getSignature(array $payload): string
     {
-        return hash_hmac('sha256', json_encode($payload), $this->pusherSigningSecret);
+        return hash_hmac('sha256', json_encode($payload), config('webhook-client.configs.0.signing_secret'));
+    }
+
+    private function makeCorrectRequest(array $payload): TestResponse
+    {
+        return $this->postJson(route('webhook-client-pusher'), $payload, [
+            config('webhook-client.configs.0.signature_header_name') => $this->getSignature($payload)
+        ]);
     }
 }
