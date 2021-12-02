@@ -5,13 +5,11 @@ namespace Tests\Feature;
 use App\Models\Message;
 use App\Models\User;
 use App\Notifications\UserOnlineStatusChangedNotification;
-use App\Services\UserService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
-use Spatie\WebhookClient\Models\WebhookCall;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -87,16 +85,6 @@ class PusherChannelWebhookTest extends TestCase
             'is_online' => false
         ]);
         Notification::assertNotSentTo($this->testUserContacts, UserOnlineStatusChangedNotification::class);
-    }
-
-    public function testTest()
-    {
-        $payload = $this->getPayload(40, 'channel_vacated');
-
-        $response = $this->withHeader($this->pusherSignatureHeaderName, $this->getSignature($payload))
-            ->postJson(route('webhook-client-pusher'), $payload);
-
-        dd($response, WebhookCall::all());
     }
 
     private function getPayload(int $userId, string $eventType): array
