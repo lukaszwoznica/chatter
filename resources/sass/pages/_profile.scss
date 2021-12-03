@@ -152,8 +152,8 @@
             }
 
             @include l-screen {
-                display: block;
-                text-align: left;
+                flex-direction: row;
+                justify-content: flex-start;
                 padding: .8rem 1rem;
             }
         }

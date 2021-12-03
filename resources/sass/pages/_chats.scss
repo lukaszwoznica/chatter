@@ -65,12 +65,15 @@
         cursor: pointer;
         transition: all .2s ease-in-out;
 
-        svg:hover {
-            color: lighten($clr-primary, 15%);
-            transform: scale(1.2);
+        svg {
+            outline: 0;
+
+            &:hover {
+                color: lighten($clr-primary, 15%);
+                transform: scale(1.2);
+            }
         }
     }
-
 
     &__search-icon {
         margin-right: .6rem;
@@ -217,28 +220,30 @@
                 padding: 0;
                 margin: 0;
                 position: relative;
+                display: flex;
             }
 
             &__textarea--message {
                 resize: none;
                 width: inherit;
                 line-height: 1;
-                margin-right: .5rem;
+                //margin-right: .5rem;
                 padding-right: 2.3rem;
                 overflow: hidden;
             }
 
             .button--send-message {
                 display: inline-block;
-                height: 34px;
-                width: 34px;
+                height: 30px;
+                width: 30px;
+                min-width: 30px;
                 border-radius: 50%;
                 background-image: $left-gradient;
                 background-size: 150% 100%;
                 background-position: left;
                 color: $clr-white;
                 padding: 0;
-                margin: 0 .3rem;
+                margin: 0 .4rem;
                 font-size: .9rem;
                 align-self: flex-end;
                 transition: background-position .2s ease-in-out;

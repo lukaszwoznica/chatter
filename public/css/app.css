@@ -805,6 +805,10 @@ img {
             clip-path: circle(87% at 22% 68%);
   }
 }
+html {
+  font-size: 16px;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   color: black;
@@ -820,7 +824,7 @@ a:hover {
 
 button {
   font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 input, label {
@@ -830,6 +834,10 @@ input, label {
 
 label {
   color: #4d4d4d;
+}
+
+nav {
+  font-size: 1.1rem;
 }
 
 .header {
@@ -849,7 +857,7 @@ label {
   width: 55px;
 }
 .header--auth .logo__text {
-  font-size: 1.9rem;
+  font-size: 2rem;
 }
 .header--auth .nav__item a {
   color: rgba(0, 0, 0, 0.7);
@@ -901,7 +909,7 @@ label {
 .logo__text {
   display: none;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   text-transform: capitalize;
   letter-spacing: 0.1rem;
   transition: color 0.25s ease-in-out;
@@ -913,7 +921,7 @@ label {
 }
 @media screen and (min-width: 600px) {
   .logo__text {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
 }
 .logo:hover .logo__img {
@@ -1745,11 +1753,12 @@ label {
   text-align: center;
 }
 .home__title {
-  font-size: 3rem;
+  font-size: 3.25rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 .home__desc {
+  font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 1.6rem;
   line-height: 1.3rem;
@@ -1762,7 +1771,7 @@ label {
     padding: 3rem 4rem;
   }
   .home__title {
-    font-size: 3.5rem;
+    font-size: 3.75rem;
   }
   .home__animation {
     display: block;
@@ -1947,6 +1956,9 @@ label {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
+.contacts .contacts__icons svg {
+  outline: 0;
+}
 .contacts .contacts__icons svg:hover {
   color: #d097d8;
   transform: scale(1.2);
@@ -2083,26 +2095,27 @@ label {
   padding: 0;
   margin: 0;
   position: relative;
+  display: flex;
 }
 .conversation__composer .form__textarea--message {
   resize: none;
   width: inherit;
   line-height: 1;
-  margin-right: 0.5rem;
   padding-right: 2.3rem;
   overflow: hidden;
 }
 .conversation__composer .form .button--send-message {
   display: inline-block;
-  height: 34px;
-  width: 34px;
+  height: 30px;
+  width: 30px;
+  min-width: 30px;
   border-radius: 50%;
   background-image: linear-gradient(to left, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4);
   background-size: 150% 100%;
   background-position: left;
   color: white;
   padding: 0;
-  margin: 0 0.3rem;
+  margin: 0 0.4rem;
   font-size: 0.9rem;
   align-self: flex-end;
   transition: background-position 0.2s ease-in-out;
@@ -2374,8 +2387,8 @@ label {
 }
 @media screen and (min-width: 992px) {
   .profile-card__nav__link {
-    display: block;
-    text-align: left;
+    flex-direction: row;
+    justify-content: flex-start;
     padding: 0.8rem 1rem;
   }
 }

@@ -12,12 +12,13 @@
     }
 
     &__title {
-        font-size: 3rem;
+        font-size: 3.25rem;
         font-weight: $font-bold;
         margin-bottom: 1rem;
     }
 
     &__desc {
+        font-size: 1.2rem;
         font-weight: $font-normal;
         margin-bottom: 1.6rem;
         line-height: 1.3rem;
@@ -31,7 +32,7 @@
         padding: 3rem 4rem;
 
         &__title {
-            font-size: 3.5rem;
+            font-size: 3.75rem;
         }
 
         &__animation {
