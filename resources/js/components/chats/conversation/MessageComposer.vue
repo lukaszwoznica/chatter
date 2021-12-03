@@ -2,12 +2,13 @@
     <div class="conversation__composer">
         <form @submit.prevent="onSubmit" class="form">
             <div class="form__group">
-                <textarea v-model.trim="message.text"
-                          rows="1"
-                          class="form__textarea form__textarea--message"
-                          @input="onInput"
-                          @keydown.enter.prevent="onSubmit"
-                          placeholder="Type a message">
+                <textarea
+                    rows="1"
+                    class="form__textarea form__textarea--message"
+                    :value="message.text"
+                    @input="onInput"
+                    @keydown.enter.prevent="onSubmit"
+                    placeholder="Type a message">
                 </textarea>
 
                 <div class="emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
@@ -69,7 +70,8 @@ export default {
                 text: '',
                 recipient_id: null
             },
-            showEmojiPicker: false
+            showEmojiPicker: false,
+            showSubmitButton: false,
         }
     },
 
@@ -114,6 +116,7 @@ export default {
         },
 
         onInput(event) {
+            this.message.text = event.target.value.trim()
             this.autoResize(event, 150)
             this.whisperTypingEvent()
         },

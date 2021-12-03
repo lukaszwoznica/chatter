@@ -1579,7 +1579,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: '',
         recipient_id: null
       },
-      showEmojiPicker: false
+      showEmojiPicker: false,
+      showSubmitButton: false
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)({
@@ -1645,6 +1646,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }))();
     },
     onInput: function onInput(event) {
+      this.message.text = event.target.value.trim();
       this.autoResize(event, 150);
       this.whisperTypingEvent();
     },
@@ -2528,7 +2530,8 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "form__group"
 };
-var _hoisted_3 = {
+var _hoisted_3 = ["value"];
+var _hoisted_4 = {
   "class": "emoji-picker-wrapper"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2541,28 +2544,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _directive_click_outside = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("click-outside");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.onSubmit && $options.onSubmit.apply($options, arguments);
     }, ["prevent"])),
     "class": "form"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.message.text = $event;
-    }),
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     rows: "1",
     "class": "form__textarea form__textarea--message",
-    onInput: _cache[1] || (_cache[1] = function () {
+    value: $data.message.text,
+    onInput: _cache[0] || (_cache[0] = function () {
       return $options.onInput && $options.onInput.apply($options, arguments);
     }),
-    onKeydown: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onKeydown: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.onSubmit && $options.onSubmit.apply($options, arguments);
     }, ["prevent"]), ["enter"])),
     placeholder: "Type a message"
-  }, "\n                ", 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.message.text, void 0, {
-    trim: true
-  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+  }, "\n                ", 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     "class-list": ['button--emoji-picker'],
     onButtonClick: $options.toggleEmojiPicker
   }, {
