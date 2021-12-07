@@ -18,9 +18,6 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": 'button'
     },
-    classList: {
-      type: Array
-    },
     disabled: {
       type: Boolean,
       "default": false
@@ -195,7 +192,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_vue_loaders_ball_clip_rotate = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vue-loaders-ball-clip-rotate");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["button", $props.classList]),
+    "class": "button",
     type: $props.type,
     disabled: $props.disabled,
     onClick: _cache[0] || (_cache[0] = function ($event) {
@@ -213,8 +210,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     color: $props.loaderColor
   }, null, 8
   /* PROPS */
-  , ["color"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10
-  /* CLASS, PROPS */
+  , ["color"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8
+  /* PROPS */
   , _hoisted_1);
 }
 
@@ -313,7 +310,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* UNKEYED_FRAGMENT */
   )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     type: "submit",
-    classList: ['button--primary'],
+    "class": "button--primary",
     disabled: $data.isSubmitting,
     loading: $data.isSubmitting
   }, {

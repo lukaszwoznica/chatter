@@ -42,7 +42,7 @@
                     <div class="form__button-wrapper">
                         <app-button
                             type="submit"
-                            :classList="['button--primary']"
+                            class="button--primary"
                             :disabled="isSubmitting"
                             :loading="isSubmitting">
                             Login
@@ -62,13 +62,13 @@
                     <div class="social-login__buttons-wrapper">
                         <app-button
                             @click="redirectToOAuthProvider('google')"
-                            :classList="['social-login__button', 'social-login__button--google']">
+                            class="social-login__button social-login__button--google">
                             <font-awesome-icon :icon="['fab', 'google']" fixed-width/>
                             <p>Google</p>
                         </app-button>
                         <app-button
                             @click="redirectToOAuthProvider('facebook')"
-                            :classList="['social-login__button', 'social-login__button--facebook']">
+                            class="social-login__button social-login__button--facebook">
                             <font-awesome-icon :icon="['fab', 'facebook-f']" fixed-width/>
                             <p>Facebook</p>
                         </app-button>

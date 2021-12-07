@@ -3,7 +3,7 @@
         <h1>404</h1>
         <h2>Page Not Found</h2>
         <h4>Oops, it looks like the page you're looking for doesn't exist.</h4>
-        <app-button :class-list="['button--primary']" @click="redirectHome">
+        <app-button class="button--primary" @click="redirectHome">
             Go To Homepage
         </app-button>
     </div>

@@ -3,7 +3,7 @@
         <div class="profile-card__form-header">
             <h1 class="profile-card__form-title">Profile Picture</h1>
             <app-button
-                :classList="['profile-card__remove-avatar-button']"
+                class="profile-card__remove-avatar-button"
                 :disabled="!authUser.avatar_url"
                 :loading="isRemovingAvatar"
                 v-tooltip.auto="'Remove current avatar'"
@@ -32,7 +32,7 @@
             <div class="form__button-wrapper">
                 <app-button
                     type="submit"
-                    :classList="['button--primary']"
+                    class="button--primary"
                     :disabled="isSubmittingAvatar || !uploadedAvatarServerId"
                     :loading="isSubmittingAvatar">
                     Update Avatar

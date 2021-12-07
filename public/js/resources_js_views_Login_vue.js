@@ -3242,9 +3242,6 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": 'button'
     },
-    classList: {
-      type: Array
-    },
     disabled: {
       type: Boolean,
       "default": false
@@ -3492,7 +3489,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_vue_loaders_ball_clip_rotate = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vue-loaders-ball-clip-rotate");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["button", $props.classList]),
+    "class": "button",
     type: $props.type,
     disabled: $props.disabled,
     onClick: _cache[0] || (_cache[0] = function ($event) {
@@ -3510,8 +3507,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     color: $props.loaderColor
   }, null, 8
   /* PROPS */
-  , ["color"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10
-  /* CLASS, PROPS */
+  , ["color"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8
+  /* PROPS */
   , _hoisted_1);
 }
 
@@ -3718,7 +3715,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.formFields.remember]]), _hoisted_17])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     type: "submit",
-    classList: ['button--primary'],
+    "class": "button--primary",
     disabled: $data.isSubmitting,
     loading: $data.isSubmitting
   }, {
@@ -3747,7 +3744,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.redirectToOAuthProvider('google');
     }),
-    classList: ['social-login__button', 'social-login__button--google']
+    "class": "social-login__button social-login__button--google"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
@@ -3762,7 +3759,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[7] || (_cache[7] = function ($event) {
       return $options.redirectToOAuthProvider('facebook');
     }),
-    classList: ['social-login__button', 'social-login__button--facebook']
+    "class": "social-login__button social-login__button--facebook"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {

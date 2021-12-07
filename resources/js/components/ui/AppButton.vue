@@ -1,10 +1,10 @@
 <template>
-    <button class="button"
-            :class="classList"
-            :type="type"
-            :disabled="disabled"
-            @click="$emit('buttonClick')">
-
+    <button
+        class="button"
+        :type="type"
+        :disabled="disabled"
+        @click="$emit('buttonClick')"
+    >
         <span :style="{visibility: !loading ? 'visible' : 'hidden'}">
             <slot>
                 Button
@@ -24,9 +24,6 @@ export default {
         type: {
             type: String,
             default: 'button'
-        },
-        classList: {
-            type: Array
         },
         disabled: {
             type: Boolean,

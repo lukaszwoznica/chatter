@@ -24,7 +24,7 @@
                     <div class="form__button-wrapper">
                         <app-button
                             type="submit"
-                            :classList="['button--primary']"
+                            class="button--primary"
                             :disabled="isSubmitting"
                             :loading="isSubmitting">
                             Send
