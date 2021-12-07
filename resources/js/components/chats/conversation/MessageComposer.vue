@@ -1,13 +1,13 @@
 <template>
     <div class="conversation__composer">
-        <form @submit.prevent="onSubmit" class="form">
+        <form @submit.prevent="submitMessage" class="form">
             <div class="form__group">
                 <textarea
                     rows="1"
                     class="form__textarea form__textarea--message"
                     :value="message.text"
                     @input="onInput"
-                    @keydown.enter.prevent="onSubmit"
+                    @keydown.enter.prevent="submitMessage"
                     placeholder="Type a message">
                 </textarea>
 
@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <app-button type="submit" v-show="this.message.text" :class-list="['button--send-message']">
+            <app-button type="submit" v-show="this.message.text" class="button--send-message" :disabled="isSubmitting">
                 <font-awesome-icon :icon="['fas', 'arrow-right']"/>
             </app-button>
         </form>
@@ -72,6 +72,7 @@ export default {
             },
             showEmojiPicker: false,
             showSubmitButton: false,
+            isSubmitting: false
         }
     },
 
@@ -94,12 +95,13 @@ export default {
             updateContact: 'contacts/updateContact'
         }),
 
-        async onSubmit() {
-            if (this.message.text === '') {
+        async submitMessage() {
+            if (this.message.text === '' || this.isSubmitting) {
                 return
             }
 
             try {
+                this.isSubmitting = true
                 this.message.recipient_id = this.selectedContact.id
                 const message = await this.sendMessage(this.message)
 
@@ -111,7 +113,13 @@ export default {
                 this.$emit('messageSent')
                 this.resetMessageData()
             } catch (error) {
-                alert('Something went wrong while sending a message.')
+                this.$swal({
+                    icon: 'error',
+                    titleText: 'Oops!',
+                    text: 'Something went wrong while sending a message.'
+                })
+            } finally {
+                this.isSubmitting = false
             }
         },
 

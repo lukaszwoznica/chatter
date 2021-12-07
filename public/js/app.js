@@ -34326,32 +34326,37 @@ var actions = {
   sendMessage: function sendMessage(_ref3, message) {
     var commit = _ref3.commit;
     return new Promise( /*#__PURE__*/function () {
-      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(resolve) {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(resolve, reject) {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
+                _context2.prev = 0;
+                _context2.next = 3;
                 return axios.post(_api_routes__WEBPACK_IMPORTED_MODULE_1__["default"].Messages.SendMessage, message);
 
-              case 2:
+              case 3:
                 response = _context2.sent;
+                commit('ADD_MESSAGE', response.data.data);
+                resolve(response.data.data);
+                _context2.next = 11;
+                break;
 
-                if (response.status === 201) {
-                  commit('ADD_MESSAGE', response.data.data);
-                  resolve(response.data.data);
-                }
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](0);
+                reject('Unsuccessful HTTP status code');
 
-              case 4:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[0, 8]]);
       }));
 
-      return function (_x) {
+      return function (_x, _x2) {
         return _ref4.apply(this, arguments);
       };
     }());

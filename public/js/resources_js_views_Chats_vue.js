@@ -1580,7 +1580,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         recipient_id: null
       },
       showEmojiPicker: false,
-      showSubmitButton: false
+      showSubmitButton: false,
+      isSubmitting: false
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)({
@@ -1596,7 +1597,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     sendMessage: 'messages/sendMessage',
     updateContact: 'contacts/updateContact'
   })), {}, {
-    onSubmit: function onSubmit() {
+    submitMessage: function submitMessage() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -1605,7 +1606,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.message.text === '')) {
+                if (!(_this.message.text === '' || _this.isSubmitting)) {
                   _context.next = 2;
                   break;
                 }
@@ -1614,11 +1615,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
                 _context.prev = 2;
+                _this.isSubmitting = true;
                 _this.message.recipient_id = _this.selectedContact.id;
-                _context.next = 6;
+                _context.next = 7;
                 return _this.sendMessage(_this.message);
 
-              case 6:
+              case 7:
                 message = _context.sent;
 
                 _this.updateContact(_objectSpread(_objectSpread({}, _this.selectedContact), {}, {
@@ -1629,20 +1631,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this.resetMessageData();
 
-                _context.next = 15;
+                _context.next = 16;
                 break;
 
-              case 12:
-                _context.prev = 12;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](2);
-                alert('Something went wrong while sending a message.');
 
-              case 15:
+                _this.$swal({
+                  icon: 'error',
+                  titleText: 'Oops!',
+                  text: 'Something went wrong while sending a message.'
+                });
+
+              case 16:
+                _context.prev = 16;
+                _this.isSubmitting = false;
+                return _context.finish(16);
+
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 12]]);
+        }, _callee, null, [[2, 13, 16, 19]]);
       }))();
     },
     onInput: function onInput(event) {
@@ -2545,7 +2557,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.onSubmit && $options.onSubmit.apply($options, arguments);
+      return $options.submitMessage && $options.submitMessage.apply($options, arguments);
     }, ["prevent"])),
     "class": "form"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
@@ -2556,7 +2568,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.onInput && $options.onInput.apply($options, arguments);
     }),
     onKeydown: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.onSubmit && $options.onSubmit.apply($options, arguments);
+      return $options.submitMessage && $options.submitMessage.apply($options, arguments);
     }, ["prevent"]), ["enter"])),
     placeholder: "Type a message"
   }, "\n                ", 40
@@ -2594,7 +2606,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[_directive_click_outside, $options.closeEmojiPicker]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     type: "submit",
-    "class-list": ['button--send-message']
+    "class": "button--send-message",
+    disabled: $data.isSubmitting
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
@@ -2604,9 +2617,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }, 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, this.message.text]])], 32
+  }, 8
+  /* PROPS */
+  , ["disabled"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, this.message.text]])], 32
   /* HYDRATE_EVENTS */
   )]);
 }

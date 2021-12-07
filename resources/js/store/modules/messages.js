@@ -45,12 +45,14 @@ const actions = {
     },
 
     sendMessage({ commit }, message) {
-        return new Promise(async (resolve) => {
-            const response = await axios.post(ApiRoutes.Messages.SendMessage, message)
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await axios.post(ApiRoutes.Messages.SendMessage, message)
 
-            if (response.status === 201) {
                 commit('ADD_MESSAGE', response.data.data)
                 resolve(response.data.data)
+            } catch (error) {
+                reject('Unsuccessful HTTP status code')
             }
         })
     },
