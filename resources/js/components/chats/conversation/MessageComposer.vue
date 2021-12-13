@@ -12,7 +12,7 @@
                 </textarea>
 
                 <div class="emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
-                    <app-button :class-list="['button--emoji-picker']" @buttonClick="toggleEmojiPicker">
+                    <app-button class="button--emoji-picker" @buttonClick="toggleEmojiPicker">
                         <font-awesome-icon :icon="['fas', 'smile']"/>
                     </app-button>
                     <transition name="fade">

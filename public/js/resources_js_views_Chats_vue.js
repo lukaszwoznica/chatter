@@ -2571,7 +2571,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "\n                ", 40
   /* PROPS, HYDRATE_EVENTS */
   , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
-    "class-list": ['button--emoji-picker'],
+    "class": "button--emoji-picker",
     onButtonClick: $options.toggleEmojiPicker
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
