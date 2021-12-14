@@ -1,4 +1,5 @@
 import ApiRoutes from '../../api/routes'
+import { orderBy } from 'lodash'
 
 const state = {
     messages: [],
@@ -7,7 +8,7 @@ const state = {
 }
 
 const getters = {
-    allMessages: state => state.messages,
+    allMessages: state => orderBy(state.messages, ['created_at'], ['asc']),
     currentPage: state => state.page,
     lastPage: state => state.lastPage
 }
