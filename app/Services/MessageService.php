@@ -11,27 +11,27 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class MessageService
 {
-    public function getAllForUser(User $user, int $perPage): LengthAwarePaginator
+    public function getAllBetweenUsers(User $firstUser, User $secondUser, int $perPage): LengthAwarePaginator
     {
-        return Message::where(function ($query) use ($user) {
-            $query->where('sender_id', auth()->id())
-                ->where('recipient_id', $user->id);
-        })->orWhere(function ($query) use ($user) {
-            $query->where('sender_id', $user->id)
-                ->where('recipient_id', auth()->id());
+        return Message::where(function ($query) use ($firstUser, $secondUser) {
+            $query->where('sender_id', $firstUser->id)
+                ->where('recipient_id', $secondUser->id);
+        })->orWhere(function ($query) use ($firstUser, $secondUser) {
+            $query->where('sender_id', $secondUser->id)
+                ->where('recipient_id', $firstUser->id);
         })->latest()->paginate($perPage);
     }
 
-    public function markAllAsReadFromUser(User $user): void
+    public function markAllReceivedMessagesFromUserAsRead(User $recipient, User $sender): void
     {
-        $updatedMessagesCount = Message::where('sender_id', $user->id)
-            ->where('recipient_id', auth()->id())
+        $updatedMessagesCount = Message::where('sender_id', $sender->id)
+            ->where('recipient_id', $recipient->id)
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
 
         if ($updatedMessagesCount > 0) {
-            $latestReadMessage = Message::where('sender_id', $user->id)
-                ->where('recipient_id', auth()->id())
+            $latestReadMessage = Message::where('sender_id', $sender->id)
+                ->where('recipient_id', $recipient->id)
                 ->orderByDesc('created_at')
                 ->first();
 
@@ -47,15 +47,6 @@ class MessageService
 
             MessagesReadEvent::dispatch($message);
         }
-
-        return $message;
-    }
-
-    public function create(array $data): Message
-    {
-        $message = Message::create(array_merge($data, [
-            'sender_id' => auth()->id()
-        ]));
 
         return $message;
     }
