@@ -1329,6 +1329,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return (0,lodash__WEBPACK_IMPORTED_MODULE_1__.orderBy)(this.contacts, ['last_message'], ['desc']);
     }
   }),
+  watch: {
+    selectedContact: function selectedContact() {
+      if (this.$refs.overlay.classList.contains('overlay--active')) {
+        this.toggleContactsActive();
+        this.$refs.hamburgerButton.toggleActiveClass();
+      }
+    }
+  },
   created: function created() {
     this.fetchContacts();
     _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__.faSearch, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__.faVolumeUp, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__.faVolumeMute);
@@ -2397,7 +2405,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ))], 512
   /* NEED_PATCH */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HamburgerButton, {
-    onOnHamburgerClick: $options.toggleContactsActive
+    onOnHamburgerClick: $options.toggleContactsActive,
+    ref: "hamburgerButton"
   }, null, 8
   /* PROPS */
   , ["onOnHamburgerClick"])], 512

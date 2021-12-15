@@ -51,7 +51,7 @@
             </li>
         </ul>
 
-        <HamburgerButton @onHamburgerClick="toggleContactsActive"/>
+        <HamburgerButton @onHamburgerClick="toggleContactsActive" ref="hamburgerButton"/>
     </div>
 
     <ContactSearchOverlay :visible="searchVisible" @onClose="searchVisible = false"/>
@@ -96,6 +96,15 @@ export default {
 
         sortedContacts() {
             return orderBy(this.contacts, ['last_message'], ['desc'])
+        }
+    },
+
+    watch: {
+        selectedContact() {
+            if (this.$refs.overlay.classList.contains('overlay--active')) {
+                this.toggleContactsActive()
+                this.$refs.hamburgerButton.toggleActiveClass()
+            }
         }
     },
 
