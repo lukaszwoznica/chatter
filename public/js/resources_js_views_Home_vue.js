@@ -50,7 +50,7 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "home__desc"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" A real-time chat application created with Laravel, Vue.js and Pusher. Create your account and start chatting with other users now. "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci deserunt exercitationem hic odit ut"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                voluptatum? Architecto doloribus et inventore voluptas.")], -1
+}, " A real-time chat application built with Laravel, Vue.js and Pusher. Create your account and start chatting with other users now. ", -1
 /* HOISTED */
 );
 
@@ -84,7 +84,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "chatAnim",
     width: "100%",
     height: "500px",
-    path: "https://assets5.lottiefiles.com/packages/lf20_tupueloy.json",
+    path: "/lottie/home-chat-anim.json",
     loop: "",
     autoplay: ""
   })])]);
