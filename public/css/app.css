@@ -1954,10 +1954,10 @@ nav {
   font-size: 1.2rem;
   color: #b65fc4;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
 }
 .contacts .contacts__icons svg {
   outline: 0;
+  transition: all 0.2s ease-in-out;
 }
 .contacts .contacts__icons svg:hover {
   color: #d097d8;

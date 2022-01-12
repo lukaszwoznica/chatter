@@ -63,10 +63,10 @@
         font-size: 1.2rem;
         color: $clr-primary;
         cursor: pointer;
-        transition: all .2s ease-in-out;
 
         svg {
             outline: 0;
+            transition: all .2s ease-in-out;
 
             &:hover {
                 color: lighten($clr-primary, 15%);
