@@ -2197,6 +2197,12 @@ nav {
   bottom: 3px;
   right: -12px;
 }
+.message__link {
+  text-decoration: underline;
+}
+.message__link:hover {
+  opacity: 0.9;
+}
 .message--received, .message--typing {
   justify-content: flex-start;
   padding-left: 45px;
@@ -2216,6 +2222,12 @@ nav {
   background: linear-gradient(to top, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4) fixed no-repeat bottom;
   background-size: 100% 85%;
   overflow: hidden;
+}
+.message--sent .message__link {
+  color: white;
+}
+.message--sent .message__link:hover {
+  opacity: 0.75;
 }
 
 .infinite-status-prompt {

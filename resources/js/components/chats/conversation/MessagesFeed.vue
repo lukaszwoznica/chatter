@@ -30,7 +30,10 @@
                                  :size="35"/>
                 </div>
 
-                <div class="message__content" v-tooltip="getMessageTooltipOptions(message)">
+                <div class="message__content"
+                     v-tooltip="getMessageTooltipOptions(message)"
+                     v-linkify:options="{ className: 'message__link' }">
+
                     {{ message.text }}
                 </div>
 
@@ -65,6 +68,7 @@ import dayjs from 'dayjs'
 import isToday from 'dayjs/plugin/isToday'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import UserAvatar from '../../ui/UserAvatar'
+import linkify from 'vue-linkify'
 
 export default {
     name: "MessagesFeed",
@@ -73,6 +77,10 @@ export default {
         InfiniteLoading,
         FontAwesomeIcon,
         UserAvatar
+    },
+
+    directives: {
+        linkify
     },
 
     props: {

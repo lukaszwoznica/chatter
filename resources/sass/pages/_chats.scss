@@ -197,7 +197,6 @@
         padding: 1rem;
         scroll-padding: 1rem 2rem;
         overflow-y: scroll;
-        //background: $top-gradient;
 
         @include m-screen {
             padding: 1rem 2rem;
@@ -227,7 +226,6 @@
                 resize: none;
                 width: inherit;
                 line-height: 1;
-                //margin-right: .5rem;
                 padding-right: 2.3rem;
                 overflow: hidden;
             }
@@ -335,6 +333,14 @@
         right: -12px;
     }
 
+    &__link {
+        text-decoration: underline;
+
+        &:hover {
+            opacity: .9;
+        }
+    }
+
     &--received, &--typing {
         justify-content: flex-start;
         padding-left: 45px;
@@ -358,6 +364,14 @@
             background: $top-gradient fixed no-repeat bottom;
             background-size: 100% 85%;
             overflow: hidden;
+        }
+
+        .message__link {
+            color: $clr-white;
+
+            &:hover {
+                opacity: 0.75;
+            }
         }
     }
 }
