@@ -19,6 +19,7 @@ class MessageResource extends JsonResource
             'text' => $this->text,
             'sender_id' => $this->sender_id,
             'recipient_id' => $this->recipient_id,
+            'is_location' => $this->is_location,
             'read_at' => $this->read_at?->format('Y-m-d H:i:s'),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];

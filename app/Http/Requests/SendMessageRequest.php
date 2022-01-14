@@ -27,7 +27,8 @@ class SendMessageRequest extends FormRequest
 
         return [
             'text' => 'required|string',
-            'recipient_id' => "required|integer|not_in:{$id}|exists:users,id"
+            'recipient_id' => "required|integer|not_in:$id|exists:users,id",
+            'is_location' => 'boolean'
         ];
     }
 }
