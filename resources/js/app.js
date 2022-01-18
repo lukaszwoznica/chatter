@@ -8,6 +8,7 @@ import VTooltip from 'v-tooltip'
 import VueCookies from 'vue3-cookies'
 import VueLoaders from 'vue-loaders'
 import VueSweetalert2 from 'vue-sweetalert2'
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 
 const runApp = async () => {
@@ -21,6 +22,12 @@ const runApp = async () => {
         }
     }
 
+    const googleMapsGlobalOptions = {
+        load: {
+            key:process.env.MIX_GOOGLE_API_KEY
+        }
+    }
+
     const app = createApp({
         components: { App }
     })
@@ -31,6 +38,7 @@ const runApp = async () => {
         .use(VueCookies)
         .use(VueLoaders)
         .use(VueSweetalert2, swalGlobalOptions)
+        .use(VueGoogleMaps, googleMapsGlobalOptions)
         .mount('#app')
 }
 

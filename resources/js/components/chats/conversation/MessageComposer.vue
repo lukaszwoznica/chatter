@@ -1,32 +1,51 @@
 <template>
     <div class="conversation__composer">
-        <form @submit.prevent="submitMessage" class="form">
+        <app-button
+            class="button--send-location"
+            @click="sendCurrentLocationMessage"
+            v-tooltip="'Send your current location'"
+            :disabled="isSubmitting">
+
+            <font-awesome-icon :icon="['fas', 'map-marker-alt']"/>
+        </app-button>
+
+        <form @submit.prevent="submitForm" class="form">
             <div class="form__group">
                 <textarea
                     rows="1"
                     class="form__textarea form__textarea--message"
                     :value="message.text"
                     @input="onInput"
-                    @keydown.enter.prevent="submitMessage"
+                    @keydown.enter.prevent="submitForm"
                     placeholder="Type a message">
                 </textarea>
 
                 <div class="emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
-                    <app-button class="button--emoji-picker" @buttonClick="toggleEmojiPicker">
+                    <app-button
+                        class="button--emoji-picker"
+                        @buttonClick="toggleEmojiPicker"
+                        v-tooltip="'Select emoji'">
+
                         <font-awesome-icon :icon="['fas', 'smile']"/>
                     </app-button>
+
                     <transition name="fade">
                         <vuemoji-picker
                             @emojiClick="handleEmojiClick"
                             :is-dark="false"
                             v-show="showEmojiPicker"
-                            class="emoji-picker"
-                        />
+                            class="emoji-picker"/>
                     </transition>
                 </div>
             </div>
 
-            <app-button type="submit" v-show="this.message.text" class="button--send-message" :disabled="isSubmitting">
+            <app-button
+                type="submit"
+                title="Send message"
+                v-show="this.message.text"
+                class="button--send-message"
+                :disabled="isSubmitting">
+
                 <font-awesome-icon :icon="['fas', 'arrow-right']"/>
             </app-button>
         </form>
@@ -36,7 +55,7 @@
 <script>
 import AppButton from '../../ui/AppButton'
 import textareaAutoResizeMixin from '../../../mixins/TextareaAutoResize'
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { VuemojiPicker } from 'vuemoji-picker'
 import vClickOutside from 'click-outside-vue3'
@@ -68,7 +87,12 @@ export default {
         return {
             message: {
                 text: '',
-                recipient_id: null
+                recipient_id: null,
+                is_location: false
+            },
+            errorAlertOptions: {
+                icon: 'error',
+                titleText: 'Oops!',
             },
             showEmojiPicker: false,
             showSubmitButton: false,
@@ -95,15 +119,18 @@ export default {
             updateContact: 'contacts/updateContact'
         }),
 
-        async submitMessage() {
-            if (this.message.text === '' || this.isSubmitting) {
+        submitForm() {
+            this.submitMessage(this.message)
+        },
+
+        async submitMessage(messageData) {
+            if (messageData.text === '' || this.isSubmitting) {
                 return
             }
 
             try {
                 this.isSubmitting = true
-                this.message.recipient_id = this.selectedContact.id
-                const message = await this.sendMessage(this.message)
+                const message = await this.sendMessage(messageData)
 
                 this.updateContact({
                     ...this.selectedContact,
@@ -114,8 +141,7 @@ export default {
                 this.resetMessageData()
             } catch (error) {
                 this.$swal({
-                    icon: 'error',
-                    titleText: 'Oops!',
+                    ...this.errorAlertOptions,
                     text: 'Something went wrong while sending a message.'
                 })
             } finally {
@@ -142,7 +168,7 @@ export default {
         resetMessageData() {
             this.message = {
                 text: '',
-                recipient_id: null
+                recipient_id: this.selectedContact.id
             }
         },
 
@@ -156,6 +182,47 @@ export default {
 
         closeEmojiPicker() {
             this.showEmojiPicker = false
+        },
+
+        sendCurrentLocationMessage() {
+            if (!navigator.geolocation) {
+                return this.$swal({
+                    ...this.errorAlertOptions,
+                    text: 'Geolocation is not supported by your browser.'
+                })
+            }
+
+            navigator.geolocation.getCurrentPosition(position => {
+                this.submitMessage({
+                    ...this.message,
+                    text: this.generateGoogleMapsUrl(position.coords.latitude, position.coords.longitude),
+                    is_location: true
+                })
+            }, this.handleGeolocationError)
+        },
+
+        handleGeolocationError(error) {
+            let errorMessage = ''
+
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    errorMessage = 'User denied the request for Geolocation.'; break
+                case error.POSITION_UNAVAILABLE:
+                    errorMessage = 'Location information is unavailable.'; break
+                case error.TIMEOUT:
+                    errorMessage = 'The request to get user location timed out.'; break
+                default:
+                    errorMessage = 'An unknown error occurred.'
+            }
+
+            this.$swal({
+                ...this.errorAlertOptions,
+                text: errorMessage
+            })
+        },
+
+        generateGoogleMapsUrl(latitude, longitude) {
+            return `https://google.com/maps?q=${latitude},${longitude}`
         }
     }
 }

@@ -30,11 +30,15 @@
                                  :size="35"/>
                 </div>
 
-                <div class="message__content"
-                     v-tooltip="getMessageTooltipOptions(message)"
-                     v-linkify:options="{ className: 'message__link' }">
-
-                    {{ message.text }}
+                <div class="message__content" v-tooltip="getMessageTooltipOptions(message)">
+                    <div v-if="message.is_location" class="message__map">
+                        <user-location-map :google-maps-url="message.text" :zoom="11"/>
+                    </div>
+                    <div class="message__text"
+                         :class="{ 'message__text--maps-link': message.is_location}"
+                         v-linkify:options="getMessageLinkifyOptions(message)">
+                        {{ message.text }}
+                    </div>
                 </div>
 
                 <div class="message__read-indicator" v-if="showMessageReadIndicator(index)">
@@ -69,11 +73,13 @@ import isToday from 'dayjs/plugin/isToday'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import UserAvatar from '../../ui/UserAvatar'
 import linkify from 'vue-linkify'
+import UserLocationMap from './UserLocationMap'
 
 export default {
     name: "MessagesFeed",
 
     components: {
+        UserLocationMap,
         InfiniteLoading,
         FontAwesomeIcon,
         UserAvatar
@@ -230,6 +236,22 @@ export default {
             }
         },
 
+        getMessageLinkifyOptions(message) {
+            const userName = this.getMessageSenderFirstName(message)
+
+            return {
+                className: 'message__link',
+                format: value => message.is_location ? `Open ${userName}'s location in Google Maps` : value
+            }
+        },
+
+        getMessageSenderFirstName(message) {
+            return (message.sender_id === this.authUser.id
+                    ? this.authUser.first_name
+                    : this.selectedContact.first_name
+            )
+        },
+
         prepareUserTypingAudio() {
             this.userTypingAudio.volume = 0.5
             if (this.soundsMuted) {
@@ -243,4 +265,3 @@ export default {
     }
 }
 </script>
-

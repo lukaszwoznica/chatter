@@ -1516,7 +1516,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   created: function created() {
-    _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faArrowRight, _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faCircle, _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faCheckCircle, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSmile);
+    _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_3__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faArrowRight, _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faCircle, _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faCheckCircle, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSmile, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faMapMarkerAlt);
   },
   methods: {
     scrollFeedToBottom: function scrollFeedToBottom() {
@@ -1585,7 +1585,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       message: {
         text: '',
-        recipient_id: null
+        recipient_id: null,
+        is_location: false
+      },
+      errorAlertOptions: {
+        icon: 'error',
+        titleText: 'Oops!'
       },
       showEmojiPicker: false,
       showSubmitButton: false,
@@ -1605,7 +1610,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     sendMessage: 'messages/sendMessage',
     updateContact: 'contacts/updateContact'
   })), {}, {
-    submitMessage: function submitMessage() {
+    submitForm: function submitForm() {
+      this.submitMessage(this.message);
+    },
+    submitMessage: function submitMessage(messageData) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -1614,7 +1622,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.message.text === '' || _this.isSubmitting)) {
+                if (!(messageData.text === '' || _this.isSubmitting)) {
                   _context.next = 2;
                   break;
                 }
@@ -1624,11 +1632,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 2:
                 _context.prev = 2;
                 _this.isSubmitting = true;
-                _this.message.recipient_id = _this.selectedContact.id;
-                _context.next = 7;
-                return _this.sendMessage(_this.message);
+                _context.next = 6;
+                return _this.sendMessage(messageData);
 
-              case 7:
+              case 6:
                 message = _context.sent;
 
                 _this.updateContact(_objectSpread(_objectSpread({}, _this.selectedContact), {}, {
@@ -1639,30 +1646,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                 _this.resetMessageData();
 
-                _context.next = 16;
+                _context.next = 15;
                 break;
 
-              case 13:
-                _context.prev = 13;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](2);
 
-                _this.$swal({
-                  icon: 'error',
-                  titleText: 'Oops!',
+                _this.$swal(_objectSpread(_objectSpread({}, _this.errorAlertOptions), {}, {
                   text: 'Something went wrong while sending a message.'
-                });
+                }));
 
-              case 16:
-                _context.prev = 16;
+              case 15:
+                _context.prev = 15;
                 _this.isSubmitting = false;
-                return _context.finish(16);
+                return _context.finish(15);
 
-              case 19:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 13, 16, 19]]);
+        }, _callee, null, [[2, 12, 15, 18]]);
       }))();
     },
     onInput: function onInput(event) {
@@ -1683,7 +1688,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     resetMessageData: function resetMessageData() {
       this.message = {
         text: '',
-        recipient_id: null
+        recipient_id: this.selectedContact.id
       };
     },
     handleEmojiClick: function handleEmojiClick(eventDetail) {
@@ -1694,6 +1699,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     closeEmojiPicker: function closeEmojiPicker() {
       this.showEmojiPicker = false;
+    },
+    sendCurrentLocationMessage: function sendCurrentLocationMessage() {
+      var _this3 = this;
+
+      if (!navigator.geolocation) {
+        return this.$swal(_objectSpread(_objectSpread({}, this.errorAlertOptions), {}, {
+          text: 'Geolocation is not supported by your browser.'
+        }));
+      }
+
+      navigator.geolocation.getCurrentPosition(function (position) {
+        _this3.submitMessage(_objectSpread(_objectSpread({}, _this3.message), {}, {
+          text: _this3.generateGoogleMapsUrl(position.coords.latitude, position.coords.longitude),
+          is_location: true
+        }));
+      }, this.handleGeolocationError);
+    },
+    handleGeolocationError: function handleGeolocationError(error) {
+      var errorMessage = '';
+
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          errorMessage = 'User denied the request for Geolocation.';
+          break;
+
+        case error.POSITION_UNAVAILABLE:
+          errorMessage = 'Location information is unavailable.';
+          break;
+
+        case error.TIMEOUT:
+          errorMessage = 'The request to get user location timed out.';
+          break;
+
+        default:
+          errorMessage = 'An unknown error occurred.';
+      }
+
+      this.$swal(_objectSpread(_objectSpread({}, this.errorAlertOptions), {}, {
+        text: errorMessage
+      }));
+    },
+    generateGoogleMapsUrl: function generateGoogleMapsUrl(latitude, longitude) {
+      return "https://google.com/maps?q=".concat(latitude, ",").concat(longitude);
     }
   })
 });
@@ -1713,8 +1761,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/isToday */ "./node_modules/dayjs/plugin/isToday.js");
@@ -1723,6 +1771,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_UserAvatar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../ui/UserAvatar */ "./resources/js/components/ui/UserAvatar.vue");
 /* harmony import */ var vue_linkify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-linkify */ "./node_modules/vue-linkify/dist/vue-linkify.min.js");
 /* harmony import */ var vue_linkify__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_linkify__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _UserLocationMap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UserLocationMap */ "./resources/js/components/chats/conversation/UserLocationMap.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1742,10 +1791,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MessagesFeed",
   components: {
-    InfiniteLoading: vue_infinite_loading__WEBPACK_IMPORTED_MODULE_6__["default"],
+    UserLocationMap: _UserLocationMap__WEBPACK_IMPORTED_MODULE_6__["default"],
+    InfiniteLoading: vue_infinite_loading__WEBPACK_IMPORTED_MODULE_7__["default"],
     FontAwesomeIcon: _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon,
     UserAvatar: _ui_UserAvatar__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
@@ -1765,7 +1816,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       userTypingAudio: new Audio('/audio/user-typing.mp3')
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)({
     messages: 'messages/allMessages',
     selectedContact: 'contacts/selectedContact',
     authUser: 'auth/user',
@@ -1799,11 +1850,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.resetMessagesState();
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapActions)({
     fetchMessages: 'messages/fetchMessages',
     resetMessagesState: 'messages/resetModuleState',
     updateContact: 'contacts/updateContact'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapMutations)({
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapMutations)({
     setSelectedContact: 'contacts/SET_SELECTED_CONTACT'
   })), {}, {
     listenForWhisperOnConversationChannel: function listenForWhisperOnConversationChannel() {
@@ -1910,6 +1961,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       };
     },
+    getMessageLinkifyOptions: function getMessageLinkifyOptions(message) {
+      var userName = this.getMessageSenderFirstName(message);
+      return {
+        className: 'message__link',
+        format: function format(value) {
+          return message.is_location ? "Open ".concat(userName, "'s location in Google Maps") : value;
+        }
+      };
+    },
+    getMessageSenderFirstName: function getMessageSenderFirstName(message) {
+      return message.sender_id === this.authUser.id ? this.authUser.first_name : this.selectedContact.first_name;
+    },
     prepareUserTypingAudio: function prepareUserTypingAudio() {
       this.userTypingAudio.volume = 0.5;
 
@@ -1921,6 +1984,74 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.userTypingAudio.muted = !this.userTypingAudio.muted;
     }
   })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=script&lang=js":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "UserLocationMap",
+  props: {
+    googleMapsUrl: {
+      type: String,
+      required: true
+    },
+    zoom: {
+      type: Number,
+      "default": 10
+    }
+  },
+  data: function data() {
+    return {
+      coords: {
+        lat: null,
+        lng: null
+      },
+      googleMapOptions: {
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: true,
+        disableDefaultUi: true,
+        gestureHandling: 'cooperative'
+      },
+      urlError: null
+    };
+  },
+  created: function created() {
+    if (this.validateUrl(this.googleMapsUrl)) {
+      this.parseCoordsFromGoogleMapsUrl(this.googleMapsUrl);
+    } else {
+      this.urlError = 'Invalid Google Maps URL';
+    }
+  },
+  methods: {
+    parseCoordsFromGoogleMapsUrl: function parseCoordsFromGoogleMapsUrl(url) {
+      var _URL$searchParams$get,
+          _this = this;
+
+      var coordsArray = (_URL$searchParams$get = new URL(url).searchParams.get('q')) === null || _URL$searchParams$get === void 0 ? void 0 : _URL$searchParams$get.split(',', 2);
+      Object.keys(this.coords).forEach(function (key) {
+        return _this.coords[key] = parseFloat(coordsArray === null || coordsArray === void 0 ? void 0 : coordsArray.shift());
+      });
+    },
+    validateUrl: function validateUrl(url) {
+      var pattern = "(?:https?:\\/\\/)?(?:www\\.)?(?:google\\.com\\/maps\\?q=)" + "(?:[+-]?([0-9]*[.])?[0-9]+),(?:[+-]?([0-9]*[.])?[0-9]+)";
+      return new RegExp(pattern, 'i').test(url);
+    }
+  }
 });
 
 /***/ }),
@@ -2565,11 +2696,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_vuemoji_picker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vuemoji-picker");
 
+  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
+
   var _directive_click_outside = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("click-outside");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+    "class": "button--send-location",
+    onClick: $options.sendCurrentLocationMessage,
+    disabled: $data.isSubmitting
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+        icon: ['fas', 'map-marker-alt']
+      })];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["onClick", "disabled"]), [[_directive_tooltip, 'Send your current location']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submitMessage && $options.submitMessage.apply($options, arguments);
+      return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"])),
     "class": "form"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
@@ -2580,12 +2728,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.onInput && $options.onInput.apply($options, arguments);
     }),
     onKeydown: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submitMessage && $options.submitMessage.apply($options, arguments);
+      return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"]), ["enter"])),
     placeholder: "Type a message"
   }, "\n                ", 40
   /* PROPS, HYDRATE_EVENTS */
-  , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+  , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     "class": "button--emoji-picker",
     onButtonClick: $options.toggleEmojiPicker
   }, {
@@ -2599,7 +2747,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onButtonClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  , ["onButtonClick"]), [[_directive_tooltip, 'Select emoji']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2618,6 +2766,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[_directive_click_outside, $options.closeEmojiPicker]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     type: "submit",
+    title: "Send message",
     "class": "button--send-message",
     disabled: $data.isSubmitting
   }, {
@@ -2674,23 +2823,27 @@ var _hoisted_6 = {
   "class": "message__content"
 };
 var _hoisted_7 = {
+  key: 0,
+  "class": "message__map"
+};
+var _hoisted_8 = {
   key: 1,
   "class": "message__read-indicator"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   key: 0
 };
-var _hoisted_9 = {
+var _hoisted_10 = {
   key: 1
 };
-var _hoisted_10 = {
+var _hoisted_11 = {
   key: 0,
   "class": "message message--typing"
 };
-var _hoisted_11 = {
+var _hoisted_12 = {
   "class": "message__avatar"
 };
-var _hoisted_12 = {
+var _hoisted_13 = {
   "class": "message__content"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2698,11 +2851,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_user_avatar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("user-avatar");
 
+  var _component_user_location_map = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("user-location-map");
+
   var _component_font_awesome_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("font-awesome-icon");
 
-  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
-
   var _directive_linkify = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("linkify");
+
+  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_infinite_loading, {
     onInfinite: $options.infiniteLoadingHandler,
@@ -2736,17 +2891,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       size: 35
     }, null, 8
     /* PROPS */
-    , ["username", "img-src"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
+    , ["username", "img-src"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [message.is_location ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_user_location_map, {
+      "google-maps-url": message.text,
+      zoom: 11
+    }, null, 8
+    /* PROPS */
+    , ["google-maps-url"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["message__text", {
+        'message__text--maps-link': message.is_location
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1
     /* TEXT */
-    )], 512
+    )], 2
+    /* CLASS */
+    ), [[_directive_linkify, $options.getMessageLinkifyOptions(message), "options"]])], 512
     /* NEED_PATCH */
-    ), [[_directive_tooltip, $options.getMessageTooltipOptions(message)], [_directive_linkify, {
-      className: 'message__link'
-    }, "options"]]), $options.showMessageReadIndicator(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [message.read_at ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+    ), [[_directive_tooltip, $options.getMessageTooltipOptions(message)]]), $options.showMessageReadIndicator(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [message.read_at ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
       icon: ['far', 'check-circle']
     })], 512
     /* NEED_PATCH */
-    )), [[_directive_tooltip, "Read at ".concat($options.formatDate(message.read_at))]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+    )), [[_directive_tooltip, "Read at ".concat($options.formatDate(message.read_at))]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
       icon: ['far', 'circle']
     })], 512
     /* NEED_PATCH */
@@ -2755,13 +2919,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     );
   }), 128
   /* KEYED_FRAGMENT */
-  )), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_user_avatar, {
+  )), $data.typingUser ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_user_avatar, {
     username: _ctx.selectedContact.full_name,
     "img-src": _ctx.selectedContact.avatar_thumb_url,
     size: 35
   }, null, 8
   /* PROPS */
-  , ["username", "img-src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(3, function (index) {
+  , ["username", "img-src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(3, function (index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "typing-dot",
       key: index
@@ -2771,6 +2935,54 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512
   /* NEED_PATCH */
   )]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=template&id=4320b9ef":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=template&id=4320b9ef ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  key: 1,
+  "class": "map-error"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_GMapMarker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("GMapMarker");
+
+  var _component_GMapMap = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("GMapMap");
+
+  return !$data.urlError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_GMapMap, {
+    key: 0,
+    center: $data.coords,
+    zoom: $props.zoom,
+    "map-type-id": "terrain",
+    options: $data.googleMapOptions
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_GMapMarker, {
+        position: $data.coords
+      }, null, 8
+      /* PROPS */
+      , ["position"])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["center", "zoom", "options"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.urlError), 1
+  /* TEXT */
+  ));
 }
 
 /***/ }),
@@ -6348,6 +6560,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/chats/conversation/UserLocationMap.vue":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/chats/conversation/UserLocationMap.vue ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _UserLocationMap_vue_vue_type_template_id_4320b9ef__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserLocationMap.vue?vue&type=template&id=4320b9ef */ "./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=template&id=4320b9ef");
+/* harmony import */ var _UserLocationMap_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserLocationMap.vue?vue&type=script&lang=js */ "./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=script&lang=js");
+/* harmony import */ var _var_www_html_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_var_www_html_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_UserLocationMap_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_UserLocationMap_vue_vue_type_template_id_4320b9ef__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/chats/conversation/UserLocationMap.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/ui/AppButton.vue":
 /*!**************************************************!*\
   !*** ./resources/js/components/ui/AppButton.vue ***!
@@ -6500,6 +6740,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=script&lang=js":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=script&lang=js ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UserLocationMap_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UserLocationMap_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UserLocationMap.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/ui/AppButton.vue?vue&type=script&lang=js":
 /*!**************************************************************************!*\
   !*** ./resources/js/components/ui/AppButton.vue?vue&type=script&lang=js ***!
@@ -6624,6 +6880,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MessagesFeed_vue_vue_type_template_id_6e6ae3c7__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MessagesFeed_vue_vue_type_template_id_6e6ae3c7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MessagesFeed.vue?vue&type=template&id=6e6ae3c7 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/MessagesFeed.vue?vue&type=template&id=6e6ae3c7");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=template&id=4320b9ef":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=template&id=4320b9ef ***!
+  \******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UserLocationMap_vue_vue_type_template_id_4320b9ef__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UserLocationMap_vue_vue_type_template_id_4320b9ef__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UserLocationMap.vue?vue&type=template&id=4320b9ef */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/chats/conversation/UserLocationMap.vue?vue&type=template&id=4320b9ef");
 
 
 /***/ }),

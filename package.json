@@ -28,6 +28,7 @@
         "vuex": "^4.0.0"
     },
     "dependencies": {
+        "@fawmi/vue-google-maps": "^0.9.4",
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
         "@fortawesome/free-brands-svg-icons": "^5.15.4",
         "@fortawesome/free-regular-svg-icons": "^5.15.4",
