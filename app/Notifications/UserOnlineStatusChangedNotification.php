@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class UserOnlineStatusChangedNotification extends Notification
+class UserOnlineStatusChangedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
