@@ -3,7 +3,7 @@
         <app-button
             class="button--send-location"
             @click="sendCurrentLocationMessage"
-            v-tooltip="'Send your current location'"
+            title="Send your current location"
             :disabled="isSubmitting">
 
             <font-awesome-icon :icon="['fas', 'map-marker-alt']"/>
@@ -24,7 +24,7 @@
                     <app-button
                         class="button--emoji-picker"
                         @buttonClick="toggleEmojiPicker"
-                        v-tooltip="'Select emoji'">
+                        title="Select emoji">
 
                         <font-awesome-icon :icon="['fas', 'smile']"/>
                     </app-button>
@@ -61,7 +61,7 @@ import { VuemojiPicker } from 'vuemoji-picker'
 import vClickOutside from 'click-outside-vue3'
 
 export default {
-    name: "ConversationComposer",
+    name: "MessageComposer",
 
     mixins: [
         textareaAutoResizeMixin
@@ -168,7 +168,7 @@ export default {
         resetMessageData() {
             this.message = {
                 text: '',
-                recipient_id: this.selectedContact.id
+                recipient_id: this.selectedContact?.id
             }
         },
 
@@ -206,11 +206,14 @@ export default {
 
             switch (error.code) {
                 case error.PERMISSION_DENIED:
-                    errorMessage = 'User denied the request for Geolocation.'; break
+                    errorMessage = 'User denied the request for Geolocation.'
+                    break
                 case error.POSITION_UNAVAILABLE:
-                    errorMessage = 'Location information is unavailable.'; break
+                    errorMessage = 'Location information is unavailable.'
+                    break
                 case error.TIMEOUT:
-                    errorMessage = 'The request to get user location timed out.'; break
+                    errorMessage = 'The request to get user location timed out.'
+                    break
                 default:
                     errorMessage = 'An unknown error occurred.'
             }

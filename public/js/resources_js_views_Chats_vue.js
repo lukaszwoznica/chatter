@@ -1566,7 +1566,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "ConversationComposer",
+  name: "MessageComposer",
   mixins: [_mixins_TextareaAutoResize__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     AppButton: _ui_AppButton__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -1686,9 +1686,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, 300);
     },
     resetMessageData: function resetMessageData() {
+      var _this$selectedContact;
+
       this.message = {
         text: '',
-        recipient_id: this.selectedContact.id
+        recipient_id: (_this$selectedContact = this.selectedContact) === null || _this$selectedContact === void 0 ? void 0 : _this$selectedContact.id
       };
     },
     handleEmojiClick: function handleEmojiClick(eventDetail) {
@@ -2696,13 +2698,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_vuemoji_picker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vuemoji-picker");
 
-  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
-
   var _directive_click_outside = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("click-outside");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     "class": "button--send-location",
     onClick: $options.sendCurrentLocationMessage,
+    title: "Send your current location",
     disabled: $data.isSubmitting
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2715,7 +2716,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick", "disabled"]), [[_directive_tooltip, 'Send your current location']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  , ["onClick", "disabled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"])),
@@ -2733,9 +2734,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Type a message"
   }, "\n                ", 40
   /* PROPS, HYDRATE_EVENTS */
-  , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+  , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     "class": "button--emoji-picker",
-    onButtonClick: $options.toggleEmojiPicker
+    onButtonClick: $options.toggleEmojiPicker,
+    title: "Select emoji"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
@@ -2747,7 +2749,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onButtonClick"]), [[_directive_tooltip, 'Select emoji']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  , ["onButtonClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
