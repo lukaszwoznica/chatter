@@ -998,9 +998,32 @@ nav {
 }
 
 .dropdown__avatar {
-  margin-right: 0.5rem;
+  margin-right: 0.2rem;
   width: 35px;
   height: 35px;
+}
+@media screen and (min-width: 600px) {
+  .dropdown__avatar {
+    margin-right: 0.5rem;
+  }
+}
+
+.dropdown__name {
+  display: none;
+  max-width: 20ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media screen and (min-width: 600px) {
+  .dropdown__name {
+    display: inline-block;
+  }
+}
+@media screen and (min-width: 768px) {
+  .dropdown__name {
+    max-width: 30ch;
+  }
 }
 
 .main {
@@ -2001,6 +2024,11 @@ nav {
   margin: 0.2rem 1rem 0.2rem 0;
   position: relative;
 }
+.contacts__name {
+  padding-right: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .contacts__online-indicator {
   position: absolute;
   font-size: 1.1rem;
@@ -2055,14 +2083,18 @@ nav {
 .conversation__header {
   background-color: #fafafa;
   border-bottom: 1px solid #e6e6e6;
-  padding: 1rem 2rem;
+  padding: 1rem 4rem;
   text-align: center;
-  height: 85px;
 }
 @media screen and (min-width: 992px) {
   .conversation__header {
+    padding: 1rem 2rem;
     text-align: left;
   }
+}
+.conversation__title h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .conversation__online-status {
   margin-top: 0.5rem;
@@ -2323,6 +2355,7 @@ nav {
 @media screen and (min-width: 992px) {
   .profile-card__menu {
     flex: 30%;
+    min-width: 0;
   }
 }
 .profile-card__info {
@@ -2337,6 +2370,11 @@ nav {
   align-items: center;
   justify-content: center;
   padding: 1.5rem 0;
+}
+.profile-card__name h2 {
+  padding: 0 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .profile-card__form-header {
   display: flex;

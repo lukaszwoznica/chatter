@@ -123,6 +123,12 @@
         position: relative;
     }
 
+    &__name {
+        padding-right: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     &__online-indicator {
         position: absolute;
         font-size: 1.1rem;
@@ -178,12 +184,19 @@
     &__header {
         background-color: lighten($clr-lightgray, 8%);
         border-bottom: 1px solid $clr-lightgray;
-        padding: 1rem 2rem;
+        padding: 1rem 4rem;
         text-align: center;
-        height: 85px;
 
         @include l-screen {
+            padding: 1rem 2rem;
             text-align: left;
+        }
+    }
+
+    &__title {
+        h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 

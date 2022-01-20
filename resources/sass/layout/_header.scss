@@ -178,7 +178,27 @@
 }
 
 .dropdown__avatar {
-    margin-right: .5rem;
+    margin-right: .2rem;
     width: 35px;
     height: 35px;
+
+    @include s-screen {
+        margin-right: .5rem;
+    }
+}
+
+.dropdown__name {
+    display: none;
+    max-width: 20ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include s-screen {
+        display: inline-block;
+    }
+
+    @include m-screen {
+        max-width: 30ch;
+    }
 }
