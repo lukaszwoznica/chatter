@@ -6,7 +6,7 @@
                 class="profile-card__remove-avatar-button"
                 :disabled="!authUser.avatar_url"
                 :loading="isRemovingAvatar"
-                v-tooltip.auto="'Remove current avatar'"
+                v-tippy="'Remove current avatar'"
                 loader-color="#cc0000"
                 @buttonClick="submitAvatarRemove">
                 <font-awesome-icon :icon="['fas', 'trash-alt']" fixed-width/>
@@ -56,6 +56,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapGetters, mapMutations } from 'vuex'
+import { directive } from 'vue-tippy'
 
 const FilePond = vueFilePond(
     FilePondPluginFileValidateType,
@@ -73,6 +74,10 @@ export default {
         FilePond,
         AppButton,
         FontAwesomeIcon
+    },
+
+    directives: {
+        tippy: directive
     },
 
     computed: {

@@ -284,9 +284,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var filepond_plugin_image_transform__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(filepond_plugin_image_transform__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _api_routes__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../api/routes */ "./resources/js/api/routes.js");
 /* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fortawesome/vue-fontawesome */ "./node_modules/@fortawesome/vue-fontawesome/index.es.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vue_tippy__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vue-tippy */ "./node_modules/vue-tippy/dist/vue-tippy.esm-browser.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -312,6 +313,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plugin_file_validate_type__WEBPACK_IMPORTED_MODULE_3___default()), (filepond_plugin_file_validate_size__WEBPACK_IMPORTED_MODULE_4___default()), (filepond_plugin_image_preview__WEBPACK_IMPORTED_MODULE_5___default()), (filepond_plugin_image_crop__WEBPACK_IMPORTED_MODULE_6___default()), (filepond_plugin_image_resize__WEBPACK_IMPORTED_MODULE_7___default()), (filepond_plugin_image_transform__WEBPACK_IMPORTED_MODULE_8___default()));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ProfilePictureForm",
@@ -320,7 +322,10 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
     AppButton: _ui_AppButton__WEBPACK_IMPORTED_MODULE_1__["default"],
     FontAwesomeIcon: _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_11__.FontAwesomeIcon
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_12__.mapGetters)({
+  directives: {
+    tippy: vue_tippy__WEBPACK_IMPORTED_MODULE_12__.directive
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_13__.mapGetters)({
     authUser: 'auth/user'
   })),
   data: function data() {
@@ -353,9 +358,9 @@ var FilePond = vue_filepond__WEBPACK_IMPORTED_MODULE_2___default()((filepond_plu
     };
   },
   created: function created() {
-    _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_10__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_13__.faTrashAlt);
+    _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_10__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_14__.faTrashAlt);
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_12__.mapMutations)({
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_13__.mapMutations)({
     setAuthUser: 'auth/SET_USER'
   })), {}, {
     submitAvatarUpdate: function submitAvatarUpdate() {
@@ -801,7 +806,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_file_pond = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("file-pond");
 
-  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
+  var _directive_tippy = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tippy");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     "class": "profile-card__remove-avatar-button",
@@ -821,9 +826,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["disabled", "loading", "onButtonClick"]), [[_directive_tooltip, 'Remove current avatar', void 0, {
-    auto: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  , ["disabled", "loading", "onButtonClick"]), [[_directive_tippy, 'Remove current avatar']])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "form",
     onSubmit: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submitAvatarUpdate && $options.submitAvatarUpdate.apply($options, arguments);
