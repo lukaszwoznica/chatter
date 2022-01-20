@@ -1105,13 +1105,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../api/routes */ "./resources/js/api/routes.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/vue-fontawesome */ "./node_modules/@fortawesome/vue-fontawesome/index.es.js");
 /* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ "./node_modules/@fortawesome/free-regular-svg-icons/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ "./node_modules/@fortawesome/free-regular-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.esm.js");
 /* harmony import */ var _ui_UserAvatar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../ui/UserAvatar */ "./resources/js/components/ui/UserAvatar.vue");
+/* harmony import */ var vue_tippy__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-tippy */ "./node_modules/vue-tippy/dist/vue-tippy.esm-browser.js");
 
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -1145,12 +1146,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContactSearchOverlay",
   components: {
     FontAwesomeIcon: _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon,
     InfiniteLoading: vue_infinite_loading__WEBPACK_IMPORTED_MODULE_6__["default"],
     UserAvatar: _ui_UserAvatar__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  directives: {
+    tippy: vue_tippy__WEBPACK_IMPORTED_MODULE_7__.directive
   },
   props: {
     visible: {
@@ -1167,13 +1172,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isSearching: false
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)({
     getContactById: 'contacts/contactById'
   })),
   created: function created() {
-    _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__.library.add(_fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_8__.faFrown, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__.faCommentDots);
+    _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__.library.add(_fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_9__.faFrown, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__.faCommentDots);
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)({
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapActions)({
     selectContact: 'contacts/selectContact',
     addNewContact: 'contacts/addNewContact'
   })), {}, {
@@ -1542,11 +1547,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _ui_AppButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../ui/AppButton */ "./resources/js/components/ui/AppButton.vue");
 /* harmony import */ var _mixins_TextareaAutoResize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../mixins/TextareaAutoResize */ "./resources/js/mixins/TextareaAutoResize.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/vue-fontawesome */ "./node_modules/@fortawesome/vue-fontawesome/index.es.js");
 /* harmony import */ var vuemoji_picker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuemoji-picker */ "./node_modules/vuemoji-picker/dist/vuemoji-picker.esm.js");
 /* harmony import */ var click_outside_vue3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! click-outside-vue3 */ "./node_modules/click-outside-vue3/dist/v-click-outside.umd.js");
 /* harmony import */ var click_outside_vue3__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(click_outside_vue3__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_tippy__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-tippy */ "./node_modules/vue-tippy/dist/vue-tippy.esm-browser.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1565,6 +1571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MessageComposer",
   mixins: [_mixins_TextareaAutoResize__WEBPACK_IMPORTED_MODULE_2__["default"]],
@@ -1574,7 +1581,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     VuemojiPicker: vuemoji_picker__WEBPACK_IMPORTED_MODULE_4__.VuemojiPicker
   },
   directives: {
-    clickOutside: (click_outside_vue3__WEBPACK_IMPORTED_MODULE_5___default().directive)
+    clickOutside: (click_outside_vue3__WEBPACK_IMPORTED_MODULE_5___default().directive),
+    tippy: vue_tippy__WEBPACK_IMPORTED_MODULE_6__.directive
   },
   props: {
     conversationId: {
@@ -1597,7 +1605,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isSubmitting: false
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)({
     selectedContact: 'contacts/selectedContact',
     authUser: 'auth/user'
   })),
@@ -1606,7 +1614,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.resetMessageData();
     }
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapActions)({
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)({
     sendMessage: 'messages/sendMessage',
     updateContact: 'contacts/updateContact'
   })), {}, {
@@ -1764,7 +1772,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var dayjs_plugin_isToday__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs/plugin/isToday */ "./node_modules/dayjs/plugin/isToday.js");
@@ -1774,6 +1782,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_linkify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-linkify */ "./node_modules/vue-linkify/dist/vue-linkify.min.js");
 /* harmony import */ var vue_linkify__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_linkify__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _UserLocationMap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UserLocationMap */ "./resources/js/components/chats/conversation/UserLocationMap.vue");
+/* harmony import */ var vue_tippy__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-tippy */ "./node_modules/vue-tippy/dist/vue-tippy.esm-browser.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1794,6 +1803,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MessagesFeed",
   components: {
@@ -1803,7 +1813,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     UserAvatar: _ui_UserAvatar__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   directives: {
-    linkify: (vue_linkify__WEBPACK_IMPORTED_MODULE_5___default())
+    linkify: (vue_linkify__WEBPACK_IMPORTED_MODULE_5___default()),
+    tippy: vue_tippy__WEBPACK_IMPORTED_MODULE_8__.directive
   },
   props: {
     conversationId: {
@@ -1818,7 +1829,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       userTypingAudio: new Audio('/audio/user-typing.mp3')
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_9__.mapGetters)({
     messages: 'messages/allMessages',
     selectedContact: 'contacts/selectedContact',
     authUser: 'auth/user',
@@ -1852,11 +1863,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.resetMessagesState();
   },
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapActions)({
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_9__.mapActions)({
     fetchMessages: 'messages/fetchMessages',
     resetMessagesState: 'messages/resetModuleState',
     updateContact: 'contacts/updateContact'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapMutations)({
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_9__.mapMutations)({
     setSelectedContact: 'contacts/SET_SELECTED_CONTACT'
   })), {}, {
     listenForWhisperOnConversationChannel: function listenForWhisperOnConversationChannel() {
@@ -1957,10 +1968,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return {
         content: this.formatDate(message.created_at),
         placement: 'auto',
-        delay: {
-          show: 500,
-          hide: 0
-        }
+        delay: [500, 100]
       };
     },
     getMessageLinkifyOptions: function getMessageLinkifyOptions(message) {
@@ -2355,6 +2363,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_infinite_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("infinite-loading");
 
+  var _directive_tippy = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tippy");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["search-overlay", {
       'search-overlay--visible': $props.visible
@@ -2394,7 +2404,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* PROPS */
     , ["username", "img-src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.full_name), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.startConversationWithUser(user);
       }
@@ -2402,7 +2412,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       icon: ['fas', 'comment-dots']
     })], 8
     /* PROPS */
-    , _hoisted_10)])]);
+    , _hoisted_10), [[_directive_tippy, 'Open a conversation']])])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))]), !$data.isSearching ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_infinite_loading, {
@@ -2489,7 +2499,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_ContactSearchOverlay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ContactSearchOverlay");
 
-  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
+  var _directive_tippy = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tippy");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
     icon: ['fas', 'search'],
@@ -2500,7 +2510,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "fixed-width": ""
   }, null, 512
   /* NEED_PATCH */
-  ), [[_directive_tooltip, 'Search']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+  ), [[_directive_tippy, 'User search']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
     icon: ['fas', _ctx.soundsMuted ? 'volume-mute' : 'volume-up'],
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["contacts__sound-icon", {
       'contacts__sound-icon--mute': _ctx.soundsMuted
@@ -2509,7 +2519,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "fixed-width": ""
   }, null, 8
   /* PROPS */
-  , ["icon", "class", "onClick"]), [[_directive_tooltip, 'Chat sounds']])])], 512
+  , ["icon", "class", "onClick"]), [[_directive_tippy, 'Chat sounds']])])], 512
   /* NEED_PATCH */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.sortedContacts, function (contact) {
     var _ctx$selectedContact;
@@ -2698,12 +2708,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_vuemoji_picker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("vuemoji-picker");
 
+  var _directive_tippy = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tippy");
+
   var _directive_click_outside = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("click-outside");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     "class": "button--send-location",
     onClick: $options.sendCurrentLocationMessage,
-    title: "Send your current location",
     disabled: $data.isSubmitting
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2716,7 +2727,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onClick", "disabled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  , ["onClick", "disabled"]), [[_directive_tippy, 'Send your current location']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }, ["prevent"])),
@@ -2734,10 +2745,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Type a message"
   }, "\n                ", 40
   /* PROPS, HYDRATE_EVENTS */
-  , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
+  , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     "class": "button--emoji-picker",
-    onButtonClick: $options.toggleEmojiPicker,
-    title: "Select emoji"
+    onButtonClick: $options.toggleEmojiPicker
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
@@ -2749,7 +2759,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["onButtonClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  , ["onButtonClick"]), [[_directive_tippy, 'Choose an emoji']]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2768,7 +2778,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[_directive_click_outside, $options.closeEmojiPicker]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_app_button, {
     type: "submit",
-    title: "Send message",
     "class": "button--send-message",
     disabled: $data.isSubmitting
   }, {
@@ -2782,7 +2791,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["disabled"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, this.message.text]])], 32
+  , ["disabled"]), [[_directive_tippy, 'Send a message'], [vue__WEBPACK_IMPORTED_MODULE_0__.vShow, this.message.text]])], 32
   /* HYDRATE_EVENTS */
   )]);
 }
@@ -2859,7 +2868,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _directive_linkify = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("linkify");
 
-  var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
+  var _directive_tippy = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tippy");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_infinite_loading, {
     onInfinite: $options.infiniteLoadingHandler,
@@ -2908,15 +2917,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* CLASS */
     ), [[_directive_linkify, $options.getMessageLinkifyOptions(message), "options"]])], 512
     /* NEED_PATCH */
-    ), [[_directive_tooltip, $options.getMessageTooltipOptions(message)]]), $options.showMessageReadIndicator(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [message.read_at ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+    ), [[_directive_tippy, $options.getMessageTooltipOptions(message)]]), $options.showMessageReadIndicator(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [message.read_at ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
       icon: ['far', 'check-circle']
     })], 512
     /* NEED_PATCH */
-    )), [[_directive_tooltip, "Read at ".concat($options.formatDate(message.read_at))]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+    )), [[_directive_tippy, "Read at ".concat($options.formatDate(message.read_at))]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
       icon: ['far', 'circle']
     })], 512
     /* NEED_PATCH */
-    )), [[_directive_tooltip, 'Unread']])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
+    )), [[_directive_tippy, 'Unread']])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
     /* CLASS */
     );
   }), 128

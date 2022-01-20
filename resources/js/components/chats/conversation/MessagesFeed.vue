@@ -30,7 +30,7 @@
                                  :size="35"/>
                 </div>
 
-                <div class="message__content" v-tooltip="getMessageTooltipOptions(message)">
+                <div class="message__content" v-tippy="getMessageTooltipOptions(message)">
                     <div v-if="message.is_location" class="message__map">
                         <user-location-map :google-maps-url="message.text" :zoom="11"/>
                     </div>
@@ -42,10 +42,10 @@
                 </div>
 
                 <div class="message__read-indicator" v-if="showMessageReadIndicator(index)">
-                    <span v-if="message.read_at" v-tooltip="`Read at ${formatDate(message.read_at)}`">
+                    <span v-if="message.read_at" v-tippy="`Read at ${formatDate(message.read_at)}`">
                         <font-awesome-icon :icon="['far', 'check-circle']"/>
                     </span>
-                    <span v-else v-tooltip="'Unread'">
+                    <span v-else v-tippy="'Unread'">
                         <font-awesome-icon :icon="['far', 'circle']"/>
                     </span>
                 </div>
@@ -74,6 +74,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import UserAvatar from '../../ui/UserAvatar'
 import linkify from 'vue-linkify'
 import UserLocationMap from './UserLocationMap'
+import { directive } from 'vue-tippy'
 
 export default {
     name: "MessagesFeed",
@@ -86,7 +87,8 @@ export default {
     },
 
     directives: {
-        linkify
+        linkify,
+        tippy: directive,
     },
 
     props: {
@@ -229,10 +231,7 @@ export default {
             return {
                 content: this.formatDate(message.created_at),
                 placement: 'auto',
-                delay: {
-                    show: 500,
-                    hide: 0
-                }
+                delay: [500, 100]
             }
         },
 

@@ -3,7 +3,7 @@
         <app-button
             class="button--send-location"
             @click="sendCurrentLocationMessage"
-            title="Send your current location"
+            v-tippy="'Send your current location'"
             :disabled="isSubmitting">
 
             <font-awesome-icon :icon="['fas', 'map-marker-alt']"/>
@@ -24,7 +24,7 @@
                     <app-button
                         class="button--emoji-picker"
                         @buttonClick="toggleEmojiPicker"
-                        title="Select emoji">
+                        v-tippy="'Choose an emoji'">
 
                         <font-awesome-icon :icon="['fas', 'smile']"/>
                     </app-button>
@@ -41,7 +41,7 @@
 
             <app-button
                 type="submit"
-                title="Send message"
+                v-tippy="'Send a message'"
                 v-show="this.message.text"
                 class="button--send-message"
                 :disabled="isSubmitting">
@@ -59,6 +59,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { VuemojiPicker } from 'vuemoji-picker'
 import vClickOutside from 'click-outside-vue3'
+import { directive } from 'vue-tippy'
 
 export default {
     name: "MessageComposer",
@@ -74,7 +75,8 @@ export default {
     },
 
     directives: {
-        clickOutside: vClickOutside.directive
+        clickOutside: vClickOutside.directive,
+        tippy: directive,
     },
 
     props: {

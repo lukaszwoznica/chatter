@@ -8,7 +8,7 @@
                     :icon="['fas', 'search']"
                     class="contacts__search-icon"
                     @click="searchVisible = true"
-                    v-tooltip="'Search'"
+                    v-tippy="'User search'"
                     fixed-width
                 />
                 <font-awesome-icon
@@ -16,7 +16,7 @@
                     class="contacts__sound-icon"
                     :class="{'contacts__sound-icon--mute': soundsMuted}"
                     @click="toggleSounds"
-                    v-tooltip="'Chat sounds'"
+                    v-tippy="'Chat sounds'"
                     fixed-width
                 />
             </div>

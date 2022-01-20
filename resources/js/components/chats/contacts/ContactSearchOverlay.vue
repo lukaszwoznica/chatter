@@ -28,7 +28,7 @@
                                 {{ user.full_name }}
                             </div>
                             <div class="search-results__action">
-                                <button @click="startConversationWithUser(user)">
+                                <button @click="startConversationWithUser(user)" v-tippy="'Open a conversation'">
                                     <font-awesome-icon :icon="['fas', 'comment-dots']"/>
                                 </button>
                             </div>
@@ -60,6 +60,7 @@ import { faFrown } from '@fortawesome/free-regular-svg-icons'
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
 import InfiniteLoading from 'vue-infinite-loading'
 import UserAvatar from '../../ui/UserAvatar'
+import { directive } from 'vue-tippy'
 
 export default {
     name: "ContactSearchOverlay",
@@ -68,6 +69,10 @@ export default {
         FontAwesomeIcon,
         InfiniteLoading,
         UserAvatar
+    },
+
+    directives: {
+        tippy: directive,
     },
 
     props: {
