@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'last_online_at' => now(),
             'is_online' => false,
             'is_admin' => false,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$ufYzRlVUOhw.StMXBGy5T.n3anHzALB0gh8wOPiSLBl8hgzQhi5P2', // ChatterPass123
             'remember_token' => Str::random(10),
         ];
     }
