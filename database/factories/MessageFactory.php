@@ -17,10 +17,8 @@ class MessageFactory extends Factory
 
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $users = User::pluck('id')->toArray();
         do {
@@ -37,10 +35,8 @@ class MessageFactory extends Factory
 
     /**
      * Indicate that the message has been read
-     *
-     * @return MessageFactory
      */
-    public function read()
+    public function read(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
