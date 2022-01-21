@@ -18,6 +18,7 @@ namespace App\Models{
  * @property int $sender_id
  * @property int $recipient_id
  * @property string $text
+ * @property int $is_location
  * @property \Illuminate\Support\Carbon|null $read_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -29,6 +30,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Message query()
  * @method static \Illuminate\Database\Eloquent\Builder|Message whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Message whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Message whereIsLocation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Message whereReadAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Message whereRecipientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Message whereSenderId($value)
@@ -76,9 +78,11 @@ namespace App\Models{
  * @property string|null $two_factor_recovery_codes
  * @property string|null $remember_token
  * @property int $is_online
+ * @property int $is_admin
  * @property \Illuminate\Support\Carbon|null $last_online_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $full_name
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messagesReceived
@@ -98,6 +102,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereIsOnline($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLastOnlineAt($value)
