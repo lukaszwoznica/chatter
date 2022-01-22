@@ -34,7 +34,7 @@ class ConfirmPasswordTest extends TestCase
     public function testUserCanConfirmPassword()
     {
         $response = $this->actingAs($this->user)->postJson($this->passwordConfirmRoute, [
-            'password' => 'password'
+            'password' => 'ChatterPass123'
         ]);
 
         $response->assertCreated();

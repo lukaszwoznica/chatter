@@ -111,7 +111,7 @@ class LoginTest extends TestCase
     {
         return [
             'email' => $this->user->email,
-            'password' => 'password',
+            'password' => 'ChatterPass123',
         ];
     }
 }

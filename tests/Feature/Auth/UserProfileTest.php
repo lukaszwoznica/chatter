@@ -153,7 +153,7 @@ class UserProfileTest extends TestCase
     private function getPasswordUpdateData(): array
     {
         return [
-            'current_password' => 'password',
+            'current_password' => 'ChatterPass123',
             'password' => 'newPassword',
             'password_confirmation' => 'newPassword',
         ];
