@@ -1,7 +1,7 @@
 <template>
     <header class="header" :class="classList">
         <div class="logo">
-            <router-link :to="{ name: 'home' }" class="logo__link">
+            <router-link :to="{ name: 'home' }" class="logo__link" title="Home">
                 <img class="logo__img" src="/img/logo.png" alt="Logo">
                 <div class="logo__text">Chatter</div>
             </router-link>
@@ -28,7 +28,7 @@
 
                     <template v-else>
                         <li class="nav__item">
-                            <dropdown-menu title="User menu">
+                            <dropdown-menu toggler-title="User menu">
                                 <template #dropdown-toggler>
                                     <div class="dropdown__avatar">
                                         <user-avatar :username="authUser.full_name"

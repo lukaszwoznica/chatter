@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown" v-click-outside="closeDropdown">
-        <div class="dropdown__toggle" @click="toggleDropdown">
+        <div class="dropdown__toggle" @click="toggleDropdown" :title="togglerTitle">
             <slot name="dropdown-toggler">
                 Dropdown
             </slot>
@@ -22,6 +22,13 @@ export default {
 
     directives: {
         clickOutside: vClickOutside.directive
+    },
+
+    props: {
+        togglerTitle: {
+            type: String,
+            default: 'Dropdown menu'
+        }
     },
 
     methods: {

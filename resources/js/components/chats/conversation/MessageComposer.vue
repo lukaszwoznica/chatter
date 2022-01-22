@@ -59,7 +59,6 @@ import { mapActions, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { VuemojiPicker } from 'vuemoji-picker'
 import vClickOutside from 'click-outside-vue3'
-import { directive } from 'vue-tippy'
 
 export default {
     name: "MessageComposer",
@@ -75,8 +74,7 @@ export default {
     },
 
     directives: {
-        clickOutside: vClickOutside.directive,
-        tippy: directive,
+        clickOutside: vClickOutside.directive
     },
 
     props: {

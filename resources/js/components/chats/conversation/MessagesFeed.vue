@@ -24,7 +24,10 @@
                 class="message"
                 :class="`message--${message.sender_id === authUser.id ? 'sent' : 'received'}`">
 
-                <div class="message__avatar" v-if="showUserAvatar(index)">
+                <div class="message__avatar"
+                     v-if="showUserAvatar(index)"
+                     v-tippy="{content: selectedContact.full_name, delay: [500, 100]}">
+
                     <user-avatar :username="selectedContact.full_name"
                                  :img-src="selectedContact.avatar_thumb_url"
                                  :size="35"/>
@@ -34,8 +37,7 @@
                     <div v-if="message.is_location" class="message__map">
                         <user-location-map :google-maps-url="message.text" :zoom="11"/>
                     </div>
-                    <div class="message__text"
-                         :class="{ 'message__text--maps-link': message.is_location}"
+                    <div class="message__text" :class="{ 'message__text--maps-link': message.is_location}"
                          v-linkify:options="getMessageLinkifyOptions(message)">
                         {{ message.text }}
                     </div>
@@ -74,7 +76,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import UserAvatar from '../../ui/UserAvatar'
 import linkify from 'vue-linkify'
 import UserLocationMap from './UserLocationMap'
-import { directive } from 'vue-tippy'
 
 export default {
     name: "MessagesFeed",
@@ -87,8 +88,7 @@ export default {
     },
 
     directives: {
-        linkify,
-        tippy: directive,
+        linkify
     },
 
     props: {

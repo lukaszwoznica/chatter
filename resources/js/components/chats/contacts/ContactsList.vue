@@ -45,7 +45,9 @@
                     {{ formatLastMessageDate(contact.last_message) }}
                 </div>
 
-                <div class="contacts__unread-messages" v-show="contact.unread_messages > 0">
+                <div class="contacts__unread-messages"
+                     v-show="contact.unread_messages > 0"
+                     v-tippy="{ content: 'Unread messages', delay: [300, 100] }">
                     {{ contact.unread_messages < 99 ? contact.unread_messages : '99+' }}
                 </div>
             </li>

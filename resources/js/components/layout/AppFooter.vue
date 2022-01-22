@@ -1,13 +1,21 @@
 <template>
     <footer class="footer">
         <p class="footer__text">
-            &copy; 2021 <strong>Chatter</strong> by Łukasz Woźnica
+            &copy; {{ currentYear }} <strong>Chatter</strong> by Łukasz Woźnica
         </p>
     </footer>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
-    name: "AppFooter"
+    name: "AppFooter",
+
+    computed: {
+        currentYear() {
+            return dayjs().year()
+        }
+    }
 }
 </script>
