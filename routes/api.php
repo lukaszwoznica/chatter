@@ -25,15 +25,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('{user}/contacts', ContactController::class)->name('contacts.index');
 
         Route::prefix('avatar')->name('avatar.')->group(function () {
-            Route::post('', [AvatarController::class, 'store'])->name('store');
-            Route::delete('', [AvatarController::class, 'destroy'])->name('destroy');
+            Route::controller(AvatarController::class)->group(function () {
+                Route::post('', 'store')->name('store');
+                Route::delete('', 'destroy')->name('destroy');
+            });
         });
     });
     Route::apiResource('users', UserController::class)->only('index', 'show');
 
-    Route::prefix('messages')->name('messages.')->group(function () {
-        Route::get('{user}', [MessageController::class, 'conversation'])->name('conversation');
-        Route::post('', [MessageController::class, 'send'])->name('send');
-        Route::patch('{message}', [MessageController::class, 'markAsRead'])->name('read');
+    Route::controller(MessageController::class)->prefix('messages')->name('messages.')->group(function () {
+        Route::get('{user}', 'conversation')->name('conversation');
+        Route::post('', 'send')->name('send');
+        Route::patch('{message}', 'markAsRead')->name('read');
     });
 });
