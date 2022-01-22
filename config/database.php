@@ -144,4 +144,9 @@ return [
 
     ],
 
+    /*
+     * Automatic database refresh every two hours and populating it with random data.
+     */
+    'auto_refresh' => env('DB_AUTO_REFRESH', false)
+
 ];
