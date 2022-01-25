@@ -44,7 +44,6 @@
         "filepond-plugin-image-resize": "^2.0.10",
         "filepond-plugin-image-transform": "^3.8.7",
         "luxon": "^1.26.0",
-        "normalize-scss": "^7.0.1",
         "vue-filepond": "^7.0.2",
         "vue-infinite-loading": "^3.0.0-alpha.0-0",
         "vue-linkify": "^1.0.1",
