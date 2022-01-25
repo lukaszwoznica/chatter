@@ -439,6 +439,7 @@
 
         .map-error {
             @include flex-center;
+
             height: 100%;
             width: 100%;
             color: $clr-gray;

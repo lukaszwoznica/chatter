@@ -1,14 +1,14 @@
 @use "../abstracts" as *;
 
 .main {
-    padding-bottom: 6rem;
     display: flex;
     align-items: flex-start;
     min-height: calc(100vh - #{$header-height});
+    padding-bottom: 6rem;
 
     &--auth {
-        padding-bottom: 0;
         min-height: calc(100vh - #{$auth-header-height});
+        padding-bottom: 0;
     }
 
     &--hidden {
@@ -17,6 +17,7 @@
 
     .container {
         @include flex-center;
+
         width: 100%;
         height: auto;
         margin: 0 auto;

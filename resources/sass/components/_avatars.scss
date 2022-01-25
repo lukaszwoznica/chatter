@@ -2,6 +2,7 @@
 
 .avatar {
     @include flex-center;
+
     background-color: transparent;
     color: $clr-white;
     width: inherit;

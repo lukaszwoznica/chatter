@@ -1,13 +1,16 @@
 @use "../abstracts" as *;
 
-.overlay {
+.overlay, .search-overlay {
     height: 100%;
     width: 100%;
-    position: absolute;
-    z-index: 1;
     top: 0;
     left: 0;
     background-color: rgba($clr-black, 0);
+}
+
+.overlay {
+    position: absolute;
+    z-index: 1;
     pointer-events: none;
     transition: background-color .5s ease-in-out;
 
@@ -18,14 +21,9 @@
 }
 
 .search-overlay {
-    height: 100%;
-    width: 100%;
     visibility: hidden;
     position: fixed;
     z-index: 10;
-    top: 0;
-    left: 0;
-    background-color: rgba($clr-black, 0);
     transition: visibility 0s .8s, background-color .3s .5s ease-in-out;
 
     &__container {
@@ -242,7 +240,7 @@
     border: 1px solid #999;
     animation: loader-rotate ease 1.5s infinite;
 
-    &:before {
+    &::before {
         content: '';
         position: absolute;
         display: block;

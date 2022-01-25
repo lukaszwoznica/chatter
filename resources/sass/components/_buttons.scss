@@ -54,7 +54,7 @@
     transition: all .25s ease-in-out;
     z-index: 1;
 
-    &:before {
+    &::before {
         content: '';
         z-index: -1;
         position: absolute;
@@ -95,18 +95,18 @@
         transform: translateY(50%);
         transition: background-color .1s .2s ease-in-out;
 
-        &:before, &:after {
+        &::before, &::after {
             @include hamburger-line;
 
             content: '';
             transition: all .2s .2s ease-in-out;
         }
 
-        &:before {
+        &::before {
             top: -10px
         }
 
-        &:after {
+        &::after {
             top: 10px
         }
     }
@@ -115,15 +115,15 @@
         .hamburger__inner {
             background-color: transparent;
 
-            &:before, &:after {
+            &::before, &::after {
                 background-color: $clr-white;
             }
 
-            &:before {
+            &::before {
                 transform: translateY(10px) rotate(45deg);
             }
 
-            &:after {
+            &::after {
                 transform: translateY(-10px) rotate(-45deg);
             }
         }

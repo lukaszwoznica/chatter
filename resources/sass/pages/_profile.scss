@@ -8,6 +8,19 @@
         linear-gradient(lighten($clr-lightgray, 8%), lighten($clr-lightgray, 8%)) padding-box,
         $left-gradient border-box;
 
+    @include l-screen {
+        display: flex;
+        width: 90%;
+    }
+
+    @include xl-screen {
+        width: 75%;
+    }
+
+    @include xxl-screen {
+        width: 60%
+    }
+
     &__menu {
         background-color: $clr-lightgray;
 
@@ -80,12 +93,24 @@
     &__nav {
         display: flex;
 
+        @include l-screen {
+            display: block;
+            margin-bottom: 2rem;
+        }
+
         &__item {
             flex: 1;
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
 
-            &:before, &:after {
+            @include l-screen {
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 15px;
+                margin-left: .5rem;
+                flex: none;
+            }
+
+            &::before, &::after {
                 content: '';
                 visibility: hidden;
                 width: 30px;
@@ -96,13 +121,13 @@
                 pointer-events: none;
             }
 
-            &:before {
+            &::before {
                 top: -30px;
                 right: 0;
                 box-shadow: 15px 15px 0 lighten($clr-lightgray, 8%);;
             }
 
-            &:after {
+            &::after {
                 bottom: -30px;
                 right: 0;
                 box-shadow: 15px -15px 0 lighten($clr-lightgray, 8%);;
@@ -116,7 +141,7 @@
                 background-color: lighten($clr-lightgray, 8%);
                 position: relative;
 
-                &:before, &:after {
+                &::before, &::after {
                     @include l-screen {
                         visibility: visible;
                     }
@@ -131,17 +156,11 @@
                     color: $clr-primary;
                 }
             }
-
-            @include l-screen {
-                border-top-right-radius: 0;
-                border-bottom-left-radius: 15px;
-                margin-left: .5rem;
-                flex: none;
-            }
         }
 
         &__link {
             @include flex-center;
+
             background: transparent;
             flex-direction: column;
             outline: none;
@@ -151,6 +170,12 @@
             cursor: pointer;
             padding: .5rem 1rem;
 
+            @include l-screen {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: .8rem 1rem;
+            }
+
             svg {
                 margin-bottom: .2rem;
 
@@ -159,17 +184,6 @@
                     margin-right: .5rem;
                 }
             }
-
-            @include l-screen {
-                flex-direction: row;
-                justify-content: flex-start;
-                padding: .8rem 1rem;
-            }
-        }
-
-        @include l-screen {
-            display: block;
-            margin-bottom: 2rem;
         }
     }
 
@@ -189,6 +203,12 @@
         flex-direction: column;
         text-align: center;
 
+        @include l-screen {
+            flex: 70%;
+            padding: 0 1.5rem;
+            text-align: left;
+        }
+
         .form {
             margin: auto 0;
 
@@ -196,25 +216,6 @@
                 margin-top: 1.5rem;
             }
         }
-
-        @include l-screen {
-            flex: 70%;
-            padding: 0 1.5rem;
-            text-align: left;
-        }
-    }
-
-    @include l-screen {
-        display: flex;
-        width: 90%;
-    }
-
-    @include xl-screen {
-        width: 75%;
-    }
-
-    @include xxl-screen {
-        width: 60%
     }
 }
 

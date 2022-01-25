@@ -9,7 +9,7 @@
     height: 1.5rem;
     opacity: .6;
 
-    &:before {
+    &::before {
         content: '';
         background: linear-gradient(to right, transparent, $clr-gray, transparent);
         position: absolute;
@@ -19,7 +19,7 @@
         height: 1px;
     }
 
-    &:after {
+    &::after {
         content: attr(data-text);
         position: relative;
         display: inline-block;

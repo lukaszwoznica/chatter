@@ -13,6 +13,10 @@
         z-index: 5;
         height: 80px;
 
+        @include s-screen {
+            padding: 1rem 2rem;
+        }
+
         .logo__img {
             width: 55px;
         }
@@ -29,7 +33,7 @@
                     color: rgba($clr-black, 1);
                 }
 
-                &:before {
+                &::before {
                     background-color: $clr-black;
                 }
             }
@@ -40,21 +44,17 @@
         position: relative;
         z-index: 999;
 
-        &__inner {
-            background-color: $clr-white;
-
-            &:before, &:after {
-                background-color: $clr-white;
-            }
-        }
-
         @include m-screen {
             display: none;
         }
-    }
 
-    @include s-screen {
-        padding: 1rem 2rem;
+        &__inner {
+            background-color: $clr-white;
+
+            &::before, &::after {
+                background-color: $clr-white;
+            }
+        }
     }
 }
 
@@ -123,7 +123,7 @@
         position: relative;
         transition: color .25s ease-out;
 
-        &:before {
+        &::before {
             content: '';
             position: absolute;
             left: 0;
@@ -137,7 +137,7 @@
         &:hover {
             color: rgba($clr-white, 1);
 
-            &:before {
+            &::before {
                 right: 0;
             }
         }
