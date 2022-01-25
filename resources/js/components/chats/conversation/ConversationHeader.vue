@@ -1,15 +1,17 @@
 <template>
     <div class="conversation__header">
-        <div class="conversation__title">
-            <h3>{{ selectedContact.full_name }}</h3>
-        </div>
-        <div class="conversation__online-status">
-            <template v-if="selectedContact.is_online">
-                Active now
-            </template>
-            <template v-else-if="selectedContact.last_online_at">
-                Active {{ formatLastActiveDate(selectedContact.last_online_at) }}
-            </template>
+        <div class="conversation__header-content">
+            <div class="conversation__title">
+                <h3>{{ selectedContact.full_name }}</h3>
+            </div>
+            <div class="conversation__online-status">
+                <template v-if="selectedContact.is_online">
+                    Active now
+                </template>
+                <template v-else-if="selectedContact.last_online_at">
+                    Active {{ formatLastActiveDate(selectedContact.last_online_at) }}
+                </template>
+            </div>
         </div>
     </div>
 </template>
