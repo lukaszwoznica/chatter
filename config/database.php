@@ -123,7 +123,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
@@ -143,10 +143,4 @@ return [
         ],
 
     ],
-
-    /*
-     * Automatic database refresh every two hours and populating it with random data.
-     */
-    'auto_refresh' => env('DB_AUTO_REFRESH', false)
-
 ];

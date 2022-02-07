@@ -32,13 +32,6 @@ class Kernel extends ConsoleKernel
         $schedule->command(ClearFilepondFilesCommand::class, ['--older-than=60'])
             ->everyFourHours()
             ->evenInMaintenanceMode();
-
-        $schedule->command(FreshCommand::class, ['--seed'])
-            ->everyTwoMinutes()
-            ->evenInMaintenanceMode()
-            ->when(fn() => config('database.auto_refresh'))
-            ->before(fn() => Artisan::call(DownCommand::class))
-            ->after(fn() => Artisan::call(UpCommand::class));
     }
 
     /**
