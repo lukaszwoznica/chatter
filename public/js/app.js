@@ -12829,6 +12829,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "assert": () => (/* binding */ assert),
 /* harmony export */   "baseCompile": () => (/* binding */ baseCompile),
 /* harmony export */   "baseParse": () => (/* binding */ baseParse),
+/* harmony export */   "buildDirectiveArgs": () => (/* binding */ buildDirectiveArgs),
 /* harmony export */   "buildProps": () => (/* binding */ buildProps),
 /* harmony export */   "buildSlots": () => (/* binding */ buildSlots),
 /* harmony export */   "checkCompatEnabled": () => (/* binding */ checkCompatEnabled),
@@ -13630,13 +13631,13 @@ const deprecationData = {
         message: `Platform-native elements with "is" prop will no longer be ` +
             `treated as components in Vue 3 unless the "is" value is explicitly ` +
             `prefixed with "vue:".`,
-        link: `https://v3.vuejs.org/guide/migration/custom-elements-interop.html`
+        link: `https://v3-migration.vuejs.org/breaking-changes/custom-elements-interop.html`
     },
     ["COMPILER_V_BIND_SYNC" /* COMPILER_V_BIND_SYNC */]: {
         message: key => `.sync modifier for v-bind has been removed. Use v-model with ` +
             `argument instead. \`v-bind:${key}.sync\` should be changed to ` +
             `\`v-model:${key}\`.`,
-        link: `https://v3.vuejs.org/guide/migration/v-model.html`
+        link: `https://v3-migration.vuejs.org/breaking-changes/v-model.html`
     },
     ["COMPILER_V_BIND_PROP" /* COMPILER_V_BIND_PROP */]: {
         message: `.prop modifier for v-bind has been removed and no longer necessary. ` +
@@ -13648,11 +13649,11 @@ const deprecationData = {
             `that appears before v-bind in the case of conflict. ` +
             `To retain 2.x behavior, move v-bind to make it the first attribute. ` +
             `You can also suppress this warning if the usage is intended.`,
-        link: `https://v3.vuejs.org/guide/migration/v-bind.html`
+        link: `https://v3-migration.vuejs.org/breaking-changes/v-bind.html`
     },
     ["COMPILER_V_ON_NATIVE" /* COMPILER_V_ON_NATIVE */]: {
         message: `.native modifier for v-on has been removed as is no longer necessary.`,
-        link: `https://v3.vuejs.org/guide/migration/v-on-native-modifier-removed.html`
+        link: `https://v3-migration.vuejs.org/breaking-changes/v-on-native-modifier-removed.html`
     },
     ["COMPILER_V_IF_V_FOR_PRECEDENCE" /* COMPILER_V_IF_V_FOR_PRECEDENCE */]: {
         message: `v-if / v-for precedence when used on the same element has changed ` +
@@ -13660,7 +13661,7 @@ const deprecationData = {
             `access to v-for scope variables. It is best to avoid the ambiguity ` +
             `with <template> tags or use a computed property that filters v-for ` +
             `data source.`,
-        link: `https://v3.vuejs.org/guide/migration/v-if-v-for.html`
+        link: `https://v3-migration.vuejs.org/breaking-changes/v-if-v-for.html`
     },
     ["COMPILER_NATIVE_TEMPLATE" /* COMPILER_NATIVE_TEMPLATE */]: {
         message: `<template> with no special directives will render as a native template ` +
@@ -13668,13 +13669,13 @@ const deprecationData = {
     },
     ["COMPILER_INLINE_TEMPLATE" /* COMPILER_INLINE_TEMPLATE */]: {
         message: `"inline-template" has been removed in Vue 3.`,
-        link: `https://v3.vuejs.org/guide/migration/inline-template-attribute.html`
+        link: `https://v3-migration.vuejs.org/breaking-changes/inline-template-attribute.html`
     },
     ["COMPILER_FILTER" /* COMPILER_FILTERS */]: {
         message: `filters have been removed in Vue 3. ` +
             `The "|" symbol will be treated as native JavaScript bitwise OR operator. ` +
             `Use method calls or computed properties instead.`,
-        link: `https://v3.vuejs.org/guide/migration/filters.html`
+        link: `https://v3-migration.vuejs.org/breaking-changes/filters.html`
     }
 };
 function getCompatValue(key, context) {
@@ -16911,7 +16912,7 @@ function buildProps(node, context, props = node.props, ssr = false) {
                     }
                 }
             }
-            else {
+            else if (!(0,_vue_shared__WEBPACK_IMPORTED_MODULE_0__.isBuiltInDirective)(name)) {
                 // no built-in transform, this is a user custom directive.
                 runtimeDirectives.push(prop);
                 // custom dirs may use beforeUpdate so they need to force blocks
@@ -17822,6 +17823,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "assert": () => (/* reexport safe */ _vue_compiler_core__WEBPACK_IMPORTED_MODULE_0__.assert),
 /* harmony export */   "baseCompile": () => (/* reexport safe */ _vue_compiler_core__WEBPACK_IMPORTED_MODULE_0__.baseCompile),
 /* harmony export */   "baseParse": () => (/* reexport safe */ _vue_compiler_core__WEBPACK_IMPORTED_MODULE_0__.baseParse),
+/* harmony export */   "buildDirectiveArgs": () => (/* reexport safe */ _vue_compiler_core__WEBPACK_IMPORTED_MODULE_0__.buildDirectiveArgs),
 /* harmony export */   "buildProps": () => (/* reexport safe */ _vue_compiler_core__WEBPACK_IMPORTED_MODULE_0__.buildProps),
 /* harmony export */   "buildSlots": () => (/* reexport safe */ _vue_compiler_core__WEBPACK_IMPORTED_MODULE_0__.buildSlots),
 /* harmony export */   "checkCompatEnabled": () => (/* reexport safe */ _vue_compiler_core__WEBPACK_IMPORTED_MODULE_0__.checkCompatEnabled),
@@ -18647,7 +18649,6 @@ function warn(msg, ...args) {
 }
 
 let activeEffectScope;
-const effectScopeStack = [];
 class EffectScope {
     constructor(detached = false) {
         this.active = true;
@@ -18662,11 +18663,11 @@ class EffectScope {
     run(fn) {
         if (this.active) {
             try {
-                this.on();
+                activeEffectScope = this;
                 return fn();
             }
             finally {
-                this.off();
+                activeEffectScope = this.parent;
             }
         }
         else if ((true)) {
@@ -18674,23 +18675,24 @@ class EffectScope {
         }
     }
     on() {
-        if (this.active) {
-            effectScopeStack.push(this);
-            activeEffectScope = this;
-        }
+        activeEffectScope = this;
     }
     off() {
-        if (this.active) {
-            effectScopeStack.pop();
-            activeEffectScope = effectScopeStack[effectScopeStack.length - 1];
-        }
+        activeEffectScope = this.parent;
     }
     stop(fromParent) {
         if (this.active) {
-            this.effects.forEach(e => e.stop());
-            this.cleanups.forEach(cleanup => cleanup());
+            let i, l;
+            for (i = 0, l = this.effects.length; i < l; i++) {
+                this.effects[i].stop();
+            }
+            for (i = 0, l = this.cleanups.length; i < l; i++) {
+                this.cleanups[i]();
+            }
             if (this.scopes) {
-                this.scopes.forEach(e => e.stop(true));
+                for (i = 0, l = this.scopes.length; i < l; i++) {
+                    this.scopes[i].stop(true);
+                }
             }
             // nested scope, dereference from parent to avoid memory leaks
             if (this.parent && !fromParent) {
@@ -18708,8 +18710,7 @@ class EffectScope {
 function effectScope(detached) {
     return new EffectScope(detached);
 }
-function recordEffectScope(effect, scope) {
-    scope = scope || activeEffectScope;
+function recordEffectScope(effect, scope = activeEffectScope) {
     if (scope && scope.active) {
         scope.effects.push(effect);
     }
@@ -18772,7 +18773,6 @@ let trackOpBit = 1;
  * When recursion depth is greater, fall back to using a full cleanup.
  */
 const maxMarkerBits = 30;
-const effectStack = [];
 let activeEffect;
 const ITERATE_KEY = Symbol(( true) ? 'iterate' : 0);
 const MAP_KEY_ITERATE_KEY = Symbol(( true) ? 'Map key iterate' : 0);
@@ -18782,35 +18782,42 @@ class ReactiveEffect {
         this.scheduler = scheduler;
         this.active = true;
         this.deps = [];
+        this.parent = undefined;
         recordEffectScope(this, scope);
     }
     run() {
         if (!this.active) {
             return this.fn();
         }
-        if (!effectStack.length || !effectStack.includes(this)) {
-            try {
-                effectStack.push((activeEffect = this));
-                enableTracking();
-                trackOpBit = 1 << ++effectTrackDepth;
-                if (effectTrackDepth <= maxMarkerBits) {
-                    initDepMarkers(this);
-                }
-                else {
-                    cleanupEffect(this);
-                }
-                return this.fn();
+        let parent = activeEffect;
+        let lastShouldTrack = shouldTrack;
+        while (parent) {
+            if (parent === this) {
+                return;
             }
-            finally {
-                if (effectTrackDepth <= maxMarkerBits) {
-                    finalizeDepMarkers(this);
-                }
-                trackOpBit = 1 << --effectTrackDepth;
-                resetTracking();
-                effectStack.pop();
-                const n = effectStack.length;
-                activeEffect = n > 0 ? effectStack[n - 1] : undefined;
+            parent = parent.parent;
+        }
+        try {
+            this.parent = activeEffect;
+            activeEffect = this;
+            shouldTrack = true;
+            trackOpBit = 1 << ++effectTrackDepth;
+            if (effectTrackDepth <= maxMarkerBits) {
+                initDepMarkers(this);
             }
+            else {
+                cleanupEffect(this);
+            }
+            return this.fn();
+        }
+        finally {
+            if (effectTrackDepth <= maxMarkerBits) {
+                finalizeDepMarkers(this);
+            }
+            trackOpBit = 1 << --effectTrackDepth;
+            activeEffect = this.parent;
+            shouldTrack = lastShouldTrack;
+            this.parent = undefined;
         }
     }
     stop() {
@@ -18867,24 +18874,20 @@ function resetTracking() {
     shouldTrack = last === undefined ? true : last;
 }
 function track(target, type, key) {
-    if (!isTracking()) {
-        return;
+    if (shouldTrack && activeEffect) {
+        let depsMap = targetMap.get(target);
+        if (!depsMap) {
+            targetMap.set(target, (depsMap = new Map()));
+        }
+        let dep = depsMap.get(key);
+        if (!dep) {
+            depsMap.set(key, (dep = createDep()));
+        }
+        const eventInfo = ( true)
+            ? { effect: activeEffect, target, type, key }
+            : 0;
+        trackEffects(dep, eventInfo);
     }
-    let depsMap = targetMap.get(target);
-    if (!depsMap) {
-        targetMap.set(target, (depsMap = new Map()));
-    }
-    let dep = depsMap.get(key);
-    if (!dep) {
-        depsMap.set(key, (dep = createDep()));
-    }
-    const eventInfo = ( true)
-        ? { effect: activeEffect, target, type, key }
-        : 0;
-    trackEffects(dep, eventInfo);
-}
-function isTracking() {
-    return shouldTrack && activeEffect !== undefined;
 }
 function trackEffects(dep, debuggerEventExtraInfo) {
     let shouldTrack = false;
@@ -19095,7 +19098,7 @@ const shallowSet = /*#__PURE__*/ createSetter(true);
 function createSetter(shallow = false) {
     return function set(target, key, value, receiver) {
         let oldValue = target[key];
-        if (isReadonly(oldValue) && isRef(oldValue)) {
+        if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
             return false;
         }
         if (!shallow && !isReadonly(value)) {
@@ -19573,13 +19576,10 @@ const toReactive = (value) => (0,_vue_shared__WEBPACK_IMPORTED_MODULE_0__.isObje
 const toReadonly = (value) => (0,_vue_shared__WEBPACK_IMPORTED_MODULE_0__.isObject)(value) ? readonly(value) : value;
 
 function trackRefValue(ref) {
-    if (isTracking()) {
+    if (shouldTrack && activeEffect) {
         ref = toRaw(ref);
-        if (!ref.dep) {
-            ref.dep = createDep();
-        }
         if ((true)) {
-            trackEffects(ref.dep, {
+            trackEffects(ref.dep || (ref.dep = createDep()), {
                 target: ref,
                 type: "get" /* GET */,
                 key: 'value'
@@ -19603,7 +19603,7 @@ function triggerRefValue(ref, newVal) {
     }
 }
 function isRef(r) {
-    return Boolean(r && r.__v_isRef === true);
+    return !!(r && r.__v_isRef === true);
 }
 function ref(value) {
     return createRef(value, false);
@@ -23668,9 +23668,8 @@ return withDirectives(h(comp), [
   [bar, this.y]
 ])
 */
-const isBuiltInDirective = /*#__PURE__*/ (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.makeMap)('bind,cloak,else-if,else,for,html,if,model,on,once,pre,show,slot,text,memo');
 function validateDirectiveName(name) {
-    if (isBuiltInDirective(name)) {
+    if ((0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.isBuiltInDirective)(name)) {
         warn('Do not use built-in directive ids as custom directive id: ' + name);
     }
 }
@@ -27647,7 +27646,7 @@ function isMemoSame(cached, memo) {
 }
 
 // Core API ------------------------------------------------------------------
-const version = "3.2.28";
+const version = "3.2.30";
 const _ssrUtils = {
     createComponentInstance,
     setupComponent,
@@ -27895,7 +27894,10 @@ const nodeOps = {
     insertStaticContent(content, parent, anchor, isSVG, start, end) {
         // <parent> before | first ... last | anchor </parent>
         const before = anchor ? anchor.previousSibling : parent.lastChild;
-        if (start && end) {
+        // #5308 can only take cached path if:
+        // - has a single root node
+        // - nextSibling info is still available
+        if (start && (start === end || start.nextSibling)) {
             // cached
             while (true) {
                 parent.insertBefore(start.cloneNode(true), anchor);
@@ -29545,6 +29547,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "invokeArrayFns": () => (/* binding */ invokeArrayFns),
 /* harmony export */   "isArray": () => (/* binding */ isArray),
 /* harmony export */   "isBooleanAttr": () => (/* binding */ isBooleanAttr),
+/* harmony export */   "isBuiltInDirective": () => (/* binding */ isBuiltInDirective),
 /* harmony export */   "isDate": () => (/* binding */ isDate),
 /* harmony export */   "isFunction": () => (/* binding */ isFunction),
 /* harmony export */   "isGloballyWhitelisted": () => (/* binding */ isGloballyWhitelisted),
@@ -30025,13 +30028,15 @@ function looseIndexOf(arr, val) {
  * @private
  */
 const toDisplayString = (val) => {
-    return val == null
-        ? ''
-        : isArray(val) ||
-            (isObject(val) &&
-                (val.toString === objectToString || !isFunction(val.toString)))
-            ? JSON.stringify(val, replacer, 2)
-            : String(val);
+    return isString(val)
+        ? val
+        : val == null
+            ? ''
+            : isArray(val) ||
+                (isObject(val) &&
+                    (val.toString === objectToString || !isFunction(val.toString)))
+                ? JSON.stringify(val, replacer, 2)
+                : String(val);
 };
 const replacer = (_key, val) => {
     // can't use isRef here since @vue/shared has no deps
@@ -30106,6 +30111,7 @@ const isReservedProp = /*#__PURE__*/ makeMap(
     'onVnodeBeforeMount,onVnodeMounted,' +
     'onVnodeBeforeUpdate,onVnodeUpdated,' +
     'onVnodeBeforeUnmount,onVnodeUnmounted');
+const isBuiltInDirective = /*#__PURE__*/ makeMap('bind,cloak,else-if,else,for,html,if,model,on,once,pre,show,slot,text,memo');
 const cacheStringFunction = (fn) => {
     const cache = Object.create(null);
     return ((str) => {
@@ -53265,7 +53271,7 @@ process.umask = function() { return 0; };
 /***/ ((module) => {
 
 /*!
- * Pusher JavaScript Library v7.0.3
+ * Pusher JavaScript Library v7.0.6
  * https://pusher.com/
  *
  * Copyright 2020, Pusher
@@ -53649,7 +53655,7 @@ exports.maxDecodedLength = function (length) {
 exports.decodedLength = function (s) {
     return stdCoder.decodedLength(s);
 };
-//# sourceMappingURL=base64.js.map
+
 
 /***/ }),
 /* 1 */
@@ -53804,22 +53810,23 @@ function decode(arr) {
     return chars.join("");
 }
 exports.decode = decode;
-//# sourceMappingURL=utf8.js.map
+
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __nested_webpack_require_19967__) {
+/***/ (function(module, exports, __nested_webpack_require_19901__) {
 
 // required so we don't have to do require('pusher').default etc.
-module.exports = __nested_webpack_require_19967__(3).default;
+module.exports = __nested_webpack_require_19901__(3).default;
 
 
 /***/ }),
 /* 3 */
-/***/ (function(module, __webpack_exports__, __nested_webpack_require_20171__) {
+/***/ (function(module, __webpack_exports__, __nested_webpack_require_20105__) {
 
 "use strict";
-__nested_webpack_require_20171__.r(__webpack_exports__);
+// ESM COMPAT FLAG
+__nested_webpack_require_20105__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./src/runtimes/web/dom/script_receiver_factory.ts
 var ScriptReceiverFactory = (function () {
@@ -53853,7 +53860,7 @@ var ScriptReceivers = new ScriptReceiverFactory('_pusher_script_', 'Pusher.Scrip
 
 // CONCATENATED MODULE: ./src/core/defaults.ts
 var Defaults = {
-    VERSION: "7.0.3",
+    VERSION: "7.0.6",
     PROTOCOL: 7,
     wsPort: 80,
     wssPort: 443,
@@ -55806,10 +55813,10 @@ var presence_channel_PresenceChannel = (function (_super) {
 /* harmony default export */ var presence_channel = (presence_channel_PresenceChannel);
 
 // EXTERNAL MODULE: ./node_modules/@stablelib/utf8/lib/utf8.js
-var utf8 = __nested_webpack_require_20171__(1);
+var utf8 = __nested_webpack_require_20105__(1);
 
 // EXTERNAL MODULE: ./node_modules/@stablelib/base64/lib/base64.js
-var base64 = __nested_webpack_require_20171__(0);
+var base64 = __nested_webpack_require_20105__(0);
 
 // CONCATENATED MODULE: ./src/core/channels/encrypted_channel.ts
 var encrypted_channel_extends = ( false) || (function () {
@@ -57825,6 +57832,7 @@ runtime.setup(pusher_Pusher);
 /***/ })
 /******/ ]);
 });
+//# sourceMappingURL=pusher.js.map
 
 /***/ }),
 
@@ -63918,7 +63926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /*!
-  * vue-tippy v6.0.0-alpha.44
+  * vue-tippy v6.0.0-alpha.47
   * (c) 2022 
   * @license MIT
   */
@@ -64351,16 +64359,7 @@ function effect$1(_ref2) {
     }
   }
 
-  {
-    if (!isHTMLElement(arrowElement)) {
-      console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', 'To use an SVG arrow, wrap it in an HTMLElement that will be used as', 'the arrow.'].join(' '));
-    }
-  }
-
   if (!contains(state.elements.popper, arrowElement)) {
-    {
-      console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', 'element.'].join(' '));
-    }
 
     return;
   }
@@ -64485,16 +64484,6 @@ function computeStyles(_ref4) {
       adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
       _options$roundOffsets = options.roundOffsets,
       roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-
-  {
-    var transitionProperty = getComputedStyle(state.elements.popper).transitionProperty || '';
-
-    if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
-      return transitionProperty.indexOf(property) >= 0;
-    })) {
-      console.warn(['Popper: Detected CSS transitions on at least one of the following', 'CSS properties: "transform", "top", "right", "bottom", "left".', '\n\n', 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', 'for smooth transitions, or remove these properties from the CSS', 'transition declaration on the popper element if only transitioning', 'opacity or background-color for example.', '\n\n', 'We recommend using the popper element as a wrapper around an inner', 'element that can have any CSS property transitioned for animations.'].join(' '));
-    }
-  }
 
   var commonStyles = {
     placement: getBasePlacement(state.placement),
@@ -64944,10 +64933,6 @@ function computeAutoPlacement(state, options) {
 
   if (allowedPlacements.length === 0) {
     allowedPlacements = placements$1;
-
-    {
-      console.error(['Popper: The `allowedAutoPlacements` option did not allow any', 'placements. Ensure the `placement` option matches the variation', 'of the allowed placements.', 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(' '));
-    }
   } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
 
 
@@ -65499,108 +65484,6 @@ function debounce(fn) {
   };
 }
 
-function format(str) {
-  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  return [].concat(args).reduce(function (p, c) {
-    return p.replace(/%s/, c);
-  }, str);
-}
-
-var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
-var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
-var VALID_PROPERTIES = ['name', 'enabled', 'phase', 'fn', 'effect', 'requires', 'options'];
-function validateModifiers(modifiers) {
-  modifiers.forEach(function (modifier) {
-    [].concat(Object.keys(modifier), VALID_PROPERTIES) // IE11-compatible replacement for `new Set(iterable)`
-    .filter(function (value, index, self) {
-      return self.indexOf(value) === index;
-    }).forEach(function (key) {
-      switch (key) {
-        case 'name':
-          if (typeof modifier.name !== 'string') {
-            console.error(format(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
-          }
-
-          break;
-
-        case 'enabled':
-          if (typeof modifier.enabled !== 'boolean') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
-          }
-
-          break;
-
-        case 'phase':
-          if (modifierPhases.indexOf(modifier.phase) < 0) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
-          }
-
-          break;
-
-        case 'fn':
-          if (typeof modifier.fn !== 'function') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
-          }
-
-          break;
-
-        case 'effect':
-          if (modifier.effect != null && typeof modifier.effect !== 'function') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
-          }
-
-          break;
-
-        case 'requires':
-          if (modifier.requires != null && !Array.isArray(modifier.requires)) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
-          }
-
-          break;
-
-        case 'requiresIfExists':
-          if (!Array.isArray(modifier.requiresIfExists)) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
-          }
-
-          break;
-
-        case 'options':
-        case 'data':
-          break;
-
-        default:
-          console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
-            return "\"" + s + "\"";
-          }).join(', ') + "; but \"" + key + "\" was provided.");
-      }
-
-      modifier.requires && modifier.requires.forEach(function (requirement) {
-        if (modifiers.find(function (mod) {
-          return mod.name === requirement;
-        }) == null) {
-          console.error(format(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
-        }
-      });
-    });
-  });
-}
-
-function uniqueBy(arr, fn) {
-  var identifiers = new Set();
-  return arr.filter(function (item) {
-    var identifier = fn(item);
-
-    if (!identifiers.has(identifier)) {
-      identifiers.add(identifier);
-      return true;
-    }
-  });
-}
-
 function mergeByName(modifiers) {
   var merged = modifiers.reduce(function (merged, current) {
     var existing = merged[current.name];
@@ -65616,8 +65499,6 @@ function mergeByName(modifiers) {
   });
 }
 
-var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
-var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
 var DEFAULT_OPTIONS = {
   placement: 'bottom',
   modifiers: [],
@@ -65680,40 +65561,6 @@ function popperGenerator(generatorOptions) {
         state.orderedModifiers = orderedModifiers.filter(function (m) {
           return m.enabled;
         }); // Validate the provided modifiers so that the consumer will get warned
-        // if one of the modifiers is invalid for any reason
-
-        {
-          var modifiers = uniqueBy([].concat(orderedModifiers, state.options.modifiers), function (_ref) {
-            var name = _ref.name;
-            return name;
-          });
-          validateModifiers(modifiers);
-
-          if (getBasePlacement(state.options.placement) === auto) {
-            var flipModifier = state.orderedModifiers.find(function (_ref2) {
-              var name = _ref2.name;
-              return name === 'flip';
-            });
-
-            if (!flipModifier) {
-              console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
-            }
-          }
-
-          var _getComputedStyle = getComputedStyle(popper),
-              marginTop = _getComputedStyle.marginTop,
-              marginRight = _getComputedStyle.marginRight,
-              marginBottom = _getComputedStyle.marginBottom,
-              marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
-          // cause bugs with positioning, so we'll warn the consumer
-
-
-          if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
-            return parseFloat(margin);
-          })) {
-            console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
-          }
-        }
 
         runModifierEffects();
         return instance.update();
@@ -65734,9 +65581,6 @@ function popperGenerator(generatorOptions) {
         // anymore
 
         if (!areValidElements(reference, popper)) {
-          {
-            console.error(INVALID_ELEMENT_ERROR);
-          }
 
           return;
         } // Store the reference and popper rects to be read by modifiers
@@ -65760,17 +65604,8 @@ function popperGenerator(generatorOptions) {
         state.orderedModifiers.forEach(function (modifier) {
           return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
         });
-        var __debug_loops__ = 0;
 
         for (var index = 0; index < state.orderedModifiers.length; index++) {
-          {
-            __debug_loops__ += 1;
-
-            if (__debug_loops__ > 100) {
-              console.error(INFINITE_LOOP_ERROR);
-              break;
-            }
-          }
 
           if (state.reset === true) {
             state.reset = false;
@@ -65809,9 +65644,6 @@ function popperGenerator(generatorOptions) {
     };
 
     if (!areValidElements(reference, popper)) {
-      {
-        console.error(INVALID_ELEMENT_ERROR);
-      }
 
       return instance;
     }
@@ -65883,10 +65715,6 @@ var TOUCH_OPTIONS = {
 var TIPPY_DEFAULT_APPEND_TO = function TIPPY_DEFAULT_APPEND_TO() {
   return document.body;
 };
-
-function hasOwnProperty(obj, key) {
-  return {}.hasOwnProperty.call(obj, key);
-}
 function getValueAtIndexOrReturn(value, index, defaultValue) {
   if (Array.isArray(value)) {
     var v = value[index];
@@ -66130,61 +65958,6 @@ var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined'
 var isIE11 = isBrowser ? // @ts-ignore
 !!window.msCrypto : false;
 
-function createMemoryLeakWarning(method) {
-  var txt = method === 'destroy' ? 'n already-' : ' ';
-  return [method + "() was called on a" + txt + "destroyed instance. This is a no-op but", 'indicates a potential memory leak.'].join(' ');
-}
-function clean(value) {
-  var spacesAndTabs = /[ \t]{2,}/g;
-  var lineStartWithSpaces = /^[ \t]*/gm;
-  return value.replace(spacesAndTabs, ' ').replace(lineStartWithSpaces, '').trim();
-}
-
-function getDevMessage(message) {
-  return clean("\n  %ctippy.js\n\n  %c" + clean(message) + "\n\n  %c\uD83D\uDC77\u200D This is a development-only message. It will be removed in production.\n  ");
-}
-
-function getFormattedMessage(message) {
-  return [getDevMessage(message), // title
-  'color: #00C584; font-size: 1.3em; font-weight: bold;', // message
-  'line-height: 1.5', // footer
-  'color: #a6a095;'];
-} // Assume warnings and errors never have the same message
-
-var visitedMessages;
-
-{
-  resetVisitedMessages();
-}
-
-function resetVisitedMessages() {
-  visitedMessages = new Set();
-}
-function warnWhen(condition, message) {
-  if (condition && !visitedMessages.has(message)) {
-    var _console;
-
-    visitedMessages.add(message);
-
-    (_console = console).warn.apply(_console, getFormattedMessage(message));
-  }
-}
-function errorWhen(condition, message) {
-  if (condition && !visitedMessages.has(message)) {
-    var _console2;
-
-    visitedMessages.add(message);
-
-    (_console2 = console).error.apply(_console2, getFormattedMessage(message));
-  }
-}
-function validateTargets(targets) {
-  var didPassFalsyValue = !targets;
-  var didPassPlainObject = Object.prototype.toString.call(targets) === '[object Object]' && !targets.addEventListener;
-  errorWhen(didPassFalsyValue, ['tippy() was passed', '`' + String(targets) + '`', 'as its targets (first) argument. Valid types are: String, Element,', 'Element[], or NodeList.'].join(' '));
-  errorWhen(didPassPlainObject, ['tippy() was passed a plain object which is not supported as an argument', 'for virtual positioning. Use props.getReferenceClientRect instead.'].join(' '));
-}
-
 var pluginProps = {
   animateFill: false,
   followCursor: false,
@@ -66241,10 +66014,6 @@ var defaultProps = Object.assign({
 }, pluginProps, renderProps);
 var defaultKeys = Object.keys(defaultProps);
 var setDefaultProps = function setDefaultProps(partialProps) {
-  /* istanbul ignore else */
-  {
-    validateProps(partialProps, []);
-  }
 
   var keys = Object.keys(partialProps);
   keys.forEach(function (key) {
@@ -66302,29 +66071,6 @@ function evaluateProps(reference, props) {
     content: out.aria.content === 'auto' ? props.interactive ? null : 'describedby' : out.aria.content
   };
   return out;
-}
-function validateProps(partialProps, plugins) {
-  if (partialProps === void 0) {
-    partialProps = {};
-  }
-
-  if (plugins === void 0) {
-    plugins = [];
-  }
-
-  var keys = Object.keys(partialProps);
-  keys.forEach(function (prop) {
-    var nonPluginProps = removeProperties(defaultProps, Object.keys(pluginProps));
-    var didPassUnknownProp = !hasOwnProperty(nonPluginProps, prop); // Check if the prop exists in `plugins`
-
-    if (didPassUnknownProp) {
-      didPassUnknownProp = plugins.filter(function (plugin) {
-        return plugin.name === prop;
-      }).length === 0;
-    }
-
-    warnWhen(didPassUnknownProp, ["`" + prop + "`", "is not a valid prop. You may have spelled it incorrectly, or if it's", 'a plugin, forgot to pass it in an array as props.plugins.', '\n\n', 'All props: https://atomiks.github.io/tippyjs/v6/all-props/\n', 'Plugins: https://atomiks.github.io/tippyjs/v6/plugins/'].join(' '));
-  });
 }
 
 var innerHTML = function innerHTML() {
@@ -66518,9 +66264,6 @@ function createTippy(reference, passedProps) {
   /* istanbul ignore if */
 
   if (!props.render) {
-    {
-      errorWhen(true, 'render() function has not been supplied.');
-    }
 
     return instance;
   } // ===========================================================================
@@ -67067,12 +66810,6 @@ function createTippy(reference, passedProps) {
 
     instance.state.isMounted = true;
     createPopperInstance();
-    /* istanbul ignore else */
-
-    {
-      // Accessibility check
-      warnWhen(instance.props.interactive && appendTo === defaultProps.appendTo && node.nextElementSibling !== popper, ['Interactive tippy element may not be accessible via keyboard', 'navigation because it is not directly after the reference element', 'in the DOM source order.', '\n\n', 'Using a wrapper <div> or <span> tag around the reference element', 'solves this by creating a new parentNode context.', '\n\n', 'Specifying `appendTo: document.body` silences this warning, but it', 'assumes you are using a focus management solution to handle', 'keyboard navigation.', '\n\n', 'See: https://atomiks.github.io/tippyjs/v6/accessibility/#interactivity'].join(' '));
-    }
   }
 
   function getNestedPopperTree() {
@@ -67161,10 +66898,6 @@ function createTippy(reference, passedProps) {
   }
 
   function setProps(partialProps) {
-    /* istanbul ignore else */
-    {
-      warnWhen(instance.state.isDestroyed, createMemoryLeakWarning('setProps'));
-    }
 
     if (instance.state.isDestroyed) {
       return;
@@ -67223,10 +66956,6 @@ function createTippy(reference, passedProps) {
   }
 
   function show() {
-    /* istanbul ignore else */
-    {
-      warnWhen(instance.state.isDestroyed, createMemoryLeakWarning('show'));
-    } // Early bail-out
 
 
     var isAlreadyVisible = instance.state.isVisible;
@@ -67316,10 +67045,6 @@ function createTippy(reference, passedProps) {
   }
 
   function hide() {
-    /* istanbul ignore else */
-    {
-      warnWhen(instance.state.isDestroyed, createMemoryLeakWarning('hide'));
-    } // Early bail-out
 
 
     var isAlreadyHidden = !instance.state.isVisible;
@@ -67374,10 +67099,6 @@ function createTippy(reference, passedProps) {
   }
 
   function hideWithInteractivity(event) {
-    /* istanbul ignore else */
-    {
-      warnWhen(instance.state.isDestroyed, createMemoryLeakWarning('hideWithInteractivity'));
-    }
 
     getDocument().addEventListener('mousemove', debouncedOnMouseMove);
     pushIfUnique(mouseMoveListeners, debouncedOnMouseMove);
@@ -67385,10 +67106,6 @@ function createTippy(reference, passedProps) {
   }
 
   function unmount() {
-    /* istanbul ignore else */
-    {
-      warnWhen(instance.state.isDestroyed, createMemoryLeakWarning('unmount'));
-    }
 
     if (instance.state.isVisible) {
       instance.hide();
@@ -67418,10 +67135,6 @@ function createTippy(reference, passedProps) {
   }
 
   function destroy() {
-    /* istanbul ignore else */
-    {
-      warnWhen(instance.state.isDestroyed, createMemoryLeakWarning('destroy'));
-    }
 
     if (instance.state.isDestroyed) {
       return;
@@ -67442,25 +67155,12 @@ function tippy(targets, optionalProps) {
   }
 
   var plugins = defaultProps.plugins.concat(optionalProps.plugins || []);
-  /* istanbul ignore else */
-
-  {
-    validateTargets(targets);
-    validateProps(optionalProps, plugins);
-  }
 
   bindGlobalEventListeners();
   var passedProps = Object.assign({}, optionalProps, {
     plugins: plugins
   });
   var elements = getArrayOfElements(targets);
-  /* istanbul ignore else */
-
-  {
-    var isSingleContentElement = isElement$1(passedProps.content);
-    var isMoreThanOneReferenceElement = elements.length > 1;
-    warnWhen(isSingleContentElement && isMoreThanOneReferenceElement, ['tippy() was passed an Element as the `content` prop, but more than', 'one tippy instance was created by this invocation. This means the', 'content element will only be appended to the last tippy instance.', '\n\n', 'Instead, pass the .innerHTML of the element, or use a function that', 'returns a cloned version of the element instead.', '\n\n', '1) content: element.innerHTML\n', '2) content: () => element.cloneNode(true)'].join(' '));
-  }
 
   var instances = elements.reduce(function (acc, reference) {
     var instance = reference && createTippy(reference, passedProps);
@@ -67513,11 +67213,6 @@ var createSingleton = function createSingleton(tippyInstances, optionalProps) {
 
   if (optionalProps === void 0) {
     optionalProps = {};
-  }
-
-  /* istanbul ignore else */
-  {
-    errorWhen(!Array.isArray(tippyInstances), ['The first argument passed to createSingleton() must be an array of', 'tippy instances. The passed value was', String(tippyInstances)].join(' '));
   }
 
   var individualInstances = tippyInstances;
@@ -67719,9 +67414,6 @@ var animateFill = {
 
     // @ts-ignore
     if (!((_instance$props$rende = instance.props.render) != null && _instance$props$rende.$$tippy)) {
-      {
-        errorWhen(instance.props.animateFill, 'The `animateFill` plugin requires the default render function.');
-      }
 
       return {};
     }
@@ -68503,13 +68195,16 @@ const TippyComponent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
         (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(tippy.state, () => {
             emit('state', (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(tippy.state));
         }, { immediate: true, deep: true });
+        (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(props, () => {
+            tippy.setProps(props);
+        });
         return { elem, contentElem, mounted, ...tippy };
     },
-    render() {
-        let slot = this.$slots.default ? this.$slots.default(this) : [];
+    render(vm) {
+        let slot = this.$slots.default ? this.$slots.default(vm) : [];
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(this.tag, { ref: 'elem', 'data-v-tippy': '' }, this.$slots.content ? [
             slot,
-            (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(this.contentTag, { ref: 'contentElem', style: { display: this.mounted ? 'inherit' : 'none' }, class: this.contentClass }, this.$slots.content(this)),
+            (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(this.contentTag, { ref: 'contentElem', style: { display: this.mounted ? 'inherit' : 'none' }, class: this.contentClass }, this.$slots.content(vm)),
         ] : slot);
     },
 });
