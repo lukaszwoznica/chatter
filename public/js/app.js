@@ -33342,6 +33342,9 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
   routes: _routes__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
 router.beforeEach(function (to, from, next) {
+  var _to$meta$title;
+
+  document.title = (_to$meta$title = to.meta.title) !== null && _to$meta$title !== void 0 ? _to$meta$title : document.title;
   var guard = to.meta.guard;
 
   if (!guard) {
@@ -33390,7 +33393,8 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Home */ "./resources/js/views/Home.vue"));
   },
   meta: {
-    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"]
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"],
+    title: 'Chatter'
   }
 }, {
   path: '/login',
@@ -33399,7 +33403,8 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_Login_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Login */ "./resources/js/views/Login.vue"));
   },
   meta: {
-    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"]
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"],
+    title: 'Login to Chatter'
   }
 }, {
   path: '/login/oauth/:provider',
@@ -33408,7 +33413,8 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_Login_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Login */ "./resources/js/views/Login.vue"));
   },
   meta: {
-    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"]
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"],
+    title: 'Login to Chatter'
   }
 }, {
   path: '/register',
@@ -33417,7 +33423,8 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_Register_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Register */ "./resources/js/views/Register.vue"));
   },
   meta: {
-    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"]
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"],
+    title: 'Join Chatter'
   }
 }, {
   path: '/password-recovery',
@@ -33426,7 +33433,8 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_PasswordRecovery_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/PasswordRecovery */ "./resources/js/views/PasswordRecovery.vue"));
   },
   meta: {
-    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"]
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"],
+    title: 'Forgotten password - Chatter'
   }
 }, {
   path: '/reset-password/:email/:token',
@@ -33435,7 +33443,8 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_ResetPassword_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/ResetPassword */ "./resources/js/views/ResetPassword.vue"));
   },
   meta: {
-    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"]
+    guard: _guards_guest__WEBPACK_IMPORTED_MODULE_1__["default"],
+    title: 'Reset password - Chatter'
   }
 }, {
   path: '/chats',
@@ -33444,7 +33453,8 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_Chats_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Chats */ "./resources/js/views/Chats.vue"));
   },
   meta: {
-    guard: _guards_auth__WEBPACK_IMPORTED_MODULE_0__["default"]
+    guard: _guards_auth__WEBPACK_IMPORTED_MODULE_0__["default"],
+    title: 'Chatter'
   }
 }, {
   path: '/profile',
@@ -33453,13 +33463,17 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_views_Profile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Profile */ "./resources/js/views/Profile.vue"));
   },
   meta: {
-    guard: _guards_auth__WEBPACK_IMPORTED_MODULE_0__["default"]
+    guard: _guards_auth__WEBPACK_IMPORTED_MODULE_0__["default"],
+    title: 'Your profile - Chatter'
   }
 }, {
   path: '/:catchAll(.*)',
   name: 'not-found',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_views_NotFound_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/NotFound */ "./resources/js/views/NotFound.vue"));
+  },
+  meta: {
+    title: 'Page not found - Chatter'
   }
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);

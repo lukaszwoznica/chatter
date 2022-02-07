@@ -7,7 +7,8 @@ const routes = [
         name: 'home',
         component: () => import('../views/Home'),
         meta: {
-            guard: guest
+            guard: guest,
+            title: 'Chatter'
         }
     },
     {
@@ -15,7 +16,8 @@ const routes = [
         name: 'login',
         component: () => import('../views/Login'),
         meta: {
-            guard: guest
+            guard: guest,
+            title: 'Login to Chatter'
         }
     },
     {
@@ -23,7 +25,8 @@ const routes = [
         name: 'login-oauth',
         component: () => import('../views/Login'),
         meta: {
-            guard: guest
+            guard: guest,
+            title: 'Login to Chatter'
         }
     },
     {
@@ -31,7 +34,8 @@ const routes = [
         name: 'register',
         component: () => import('../views/Register'),
         meta: {
-            guard: guest
+            guard: guest,
+            title: 'Join Chatter'
         }
     },
     {
@@ -39,7 +43,8 @@ const routes = [
         name: 'password-recovery',
         component: () => import('../views/PasswordRecovery'),
         meta: {
-            guard: guest
+            guard: guest,
+            title: 'Forgotten password - Chatter'
         }
     },
     {
@@ -47,7 +52,8 @@ const routes = [
         name: 'reset-password',
         component: () => import('../views/ResetPassword'),
         meta: {
-            guard: guest
+            guard: guest,
+            title: 'Reset password - Chatter'
         }
     },
     {
@@ -55,7 +61,8 @@ const routes = [
         name: 'chats',
         component: () => import('../views/Chats'),
         meta: {
-            guard: auth
+            guard: auth,
+            title: 'Chatter'
         }
     },
     {
@@ -63,13 +70,17 @@ const routes = [
         name: 'profile',
         component: () => import('../views/Profile'),
         meta: {
-            guard: auth
+            guard: auth,
+            title: 'Your profile - Chatter'
         }
     },
     {
         path: '/:catchAll(.*)',
         name: 'not-found',
-        component: () => import('../views/NotFound')
+        component: () => import('../views/NotFound'),
+        meta: {
+            title: 'Page not found - Chatter'
+        }
     }
 ]
 
