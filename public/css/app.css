@@ -736,6 +736,11 @@ nav {
   padding: 1rem;
   height: 100px;
 }
+@media screen and (min-width: 992px) {
+  .header {
+    padding: 1rem 2rem;
+  }
+}
 .header--auth {
   box-shadow: 0 2px 10px 0 rgba(156, 156, 156, 0.45);
   z-index: 5;
