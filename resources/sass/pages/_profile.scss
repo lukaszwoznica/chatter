@@ -1,0 +1,225 @@
+@use "../abstracts" as *;
+
+.profile-card {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 5rem;
+    background:
+        linear-gradient(lighten($clr-lightgray, 8%), lighten($clr-lightgray, 8%)) padding-box,
+        $left-gradient border-box;
+
+    @include l-screen {
+        display: flex;
+        width: 90%;
+    }
+
+    @include xl-screen {
+        width: 75%;
+    }
+
+    @include xxl-screen {
+        width: 60%
+    }
+
+    &__menu {
+        background-color: $clr-lightgray;
+
+        @include l-screen {
+            flex: 30%;
+            min-width: 0;
+        }
+    }
+
+    &__info {
+        text-align: center;
+        margin-bottom: 2rem;
+
+        h2 {
+            font-weight: normal;
+        }
+    }
+
+    &__avatar {
+        @include flex-center;
+
+        padding: 1.5rem 0;
+    }
+
+    &__name {
+        h2 {
+            padding: 0 1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &__form-header {
+        display: flex;
+        align-items: center;
+    }
+
+    &__form-title {
+        margin-top: 1.2rem;
+    }
+
+    &__remove-avatar-button {
+        background-color: transparent;
+        border: none;
+        margin: 1.2rem 0 2rem auto;
+        padding: 0;
+        font-size: 1.25rem;
+        color: darken($clr-red, 20%);
+        cursor: pointer;
+        transition: color .2s ease-in-out;
+
+        &:hover {
+            color: darken($clr-red, 15%);
+        }
+
+        &:disabled {
+            color: darken($clr-lightgray, 20%);
+            cursor: not-allowed;
+
+            &:hover {
+                color: darken($clr-lightgray, 20%);
+            }
+        }
+
+        @include l-screen {
+            margin: 1.2rem 0 0 auto;
+        }
+    }
+
+    &__nav {
+        display: flex;
+
+        @include l-screen {
+            display: block;
+            margin-bottom: 2rem;
+        }
+
+        &__item {
+            flex: 1;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+
+            @include l-screen {
+                border-top-right-radius: 0;
+                border-bottom-left-radius: 15px;
+                margin-left: .5rem;
+                flex: none;
+            }
+
+            &::before, &::after {
+                content: '';
+                visibility: hidden;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                position: absolute;
+                background-color: transparent;
+                pointer-events: none;
+            }
+
+            &::before {
+                top: -30px;
+                right: 0;
+                box-shadow: 15px 15px 0 lighten($clr-lightgray, 8%);;
+            }
+
+            &::after {
+                bottom: -30px;
+                right: 0;
+                box-shadow: 15px -15px 0 lighten($clr-lightgray, 8%);;
+            }
+
+            &:hover {
+                background-color: darken($clr-lightgray, 6%);
+            }
+
+            &--active {
+                background-color: lighten($clr-lightgray, 8%);
+                position: relative;
+
+                &::before, &::after {
+                    @include l-screen {
+                        visibility: visible;
+                    }
+                }
+
+                &:hover {
+                    background-color: lighten($clr-lightgray, 8%);
+                }
+
+                svg {
+                    transition: color .2s ease-in-out;
+                    color: $clr-primary;
+                }
+            }
+        }
+
+        &__link {
+            @include flex-center;
+
+            background: transparent;
+            flex-direction: column;
+            outline: none;
+            border: none;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            padding: .5rem 1rem;
+
+            @include l-screen {
+                flex-direction: row;
+                justify-content: flex-start;
+                padding: .8rem 1rem;
+            }
+
+            svg {
+                margin-bottom: .2rem;
+
+                @include l-screen {
+                    margin-bottom: 0;
+                    margin-right: .5rem;
+                }
+            }
+        }
+    }
+
+    &__form-title {
+        padding-left: 1rem;
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+
+        @include l-screen {
+            margin-bottom: 0;
+        }
+    }
+
+    &__form-wrapper {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        @include l-screen {
+            flex: 70%;
+            padding: 0 1.5rem;
+            text-align: left;
+        }
+
+        .form {
+            margin: auto 0;
+
+            &__button-wrapper {
+                margin-top: 1.5rem;
+            }
+        }
+    }
+}
+
+.filepond--root {
+    max-width: 400px;
+    margin: 0 auto;
+}

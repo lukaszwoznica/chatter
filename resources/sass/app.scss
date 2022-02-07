@@ -1,0 +1,33 @@
+// Normalize
+@use "vendor/normalize-scss/normalize/import-now";
+
+// Base styles
+@use "base";
+
+// Layout styles
+@use "layout";
+
+// Components styles
+@use "components";
+
+// Pages styles
+@use "pages";
+
+// FilePond
+@import "~filepond/dist/filepond.min.css";
+@import "~filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+
+// VueLoaders
+@import "~vue-loaders/dist/vue-loaders.css";
+
+// SweetAlert2
+@import "sweetalert2/custom";
+@import "~sweetalert2/src/sweetalert2";
+
+// Vue Loading Overlay
+@import "~vue-loading-overlay/dist/vue-loading.css";
+
+// VueTippy
+@import "~tippy.js/dist/tippy.css";
+@import "~tippy.js/themes/translucent.css";
+@import "~tippy.js/animations/scale-subtle.css";

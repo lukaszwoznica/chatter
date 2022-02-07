@@ -1,0 +1,51 @@
+@use 'mixins';
+
+// Fade transition
+.fade-enter-active, .fade-leave-active {
+    transition: all .25s ease-in-out;
+}
+
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
+}
+
+// Route change transition
+.route-change-enter-from {
+    opacity: 0;
+    transform: translateX(100px);
+}
+
+.route-change-enter-active {
+    transition: all .3s ease-out;
+}
+
+.route-change-leave-to {
+    opacity: 0;
+    transform: translateX(-100px);
+}
+
+.route-change-leave-active {
+    transition: all .3s ease-in;
+}
+
+// Profile settings tab transition
+@include mixins.l-screen {
+    .profile-tab-change-enter-from {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+
+    .profile-tab-change-enter-active {
+        transition: all .3s ease-out;
+    }
+
+    .profile-tab-change-leave-to {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    .profile-tab-change-leave-active {
+        transition: all .3s ease-in;
+    }
+
+}

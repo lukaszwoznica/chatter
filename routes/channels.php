@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -13,6 +14,20 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+
+Broadcast::channel('user-notifications.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('messages.{recipient}', function ($user, User $recipient) {
+    return (int) $user->id === (int) $recipient->id;
+});
+
+Broadcast::channel('conversation.{id}', function ($user, $conversationId) {
+    $t = floor((-1 + sqrt(1 + 8 * $conversationId)) / 2);
+    $usersIds[] = $t * ($t + 3) / 2 - $conversationId;
+    $usersIds[] = $conversationId - $t * ($t + 1) / 2;
+
+    return in_array((int) $user->id, $usersIds);
+});
+

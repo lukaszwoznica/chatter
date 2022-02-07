@@ -1,0 +1,14 @@
+@use "../abstracts" as *;
+
+.form-info--login {
+    font-size: .9rem;
+    padding: .6rem 1rem;
+
+    a {
+        color: $clr-secondary;
+
+        &:hover {
+            opacity: .8;
+        }
+    }
+}

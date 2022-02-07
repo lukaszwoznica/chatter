@@ -1,0 +1,143 @@
+@use "../abstracts" as *;
+
+.form {
+    &__group {
+        padding: .5rem 1rem;
+        margin-bottom: 1rem;
+    }
+
+    &__input-group {
+        position: relative;
+    }
+
+    &__input {
+        padding: .5rem 1rem;
+        border-radius: 15px;
+        border: 1px solid darken($clr-lightgray, 15%);
+        width: 100%;
+
+        &:focus {
+            border: 1px solid darken($clr-primary, 10%);
+            outline: none;
+        }
+
+        &:focus ~ label, &:not(:placeholder-shown) ~ label {
+            transform: translateY(-1.8rem) translateX(-.5rem);
+            font-size: .8rem;
+            color: darken($clr-primary, 10%);
+        }
+
+        &--invalid {
+            border: 1px solid $clr-red;
+        }
+    }
+
+    &__button-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem 1rem 1rem;
+
+        .button {
+            min-width: 40%;
+        }
+    }
+
+    &__label {
+        position: absolute;
+        left: 0;
+        padding: .6rem 1rem;
+        pointer-events: none;
+        transition: 0.4s;
+    }
+
+    &__error {
+        padding: 0 .5rem;
+        color: $clr-red;
+    }
+
+    &__textarea {
+        border-radius: 15px;
+        border: 1px solid darken($clr-lightgray, 15%);
+        padding: .4rem 1rem;
+
+        &:focus {
+            border: 1px solid darken($clr-primary, 10%);
+            outline: none;
+        }
+    }
+
+    &__checkbox-group {
+        display: flex;
+        align-items: center;
+
+        label {
+            margin-left: .5rem;
+            line-height: 1.1;
+        }
+    }
+
+    &__checkbox {
+        appearance: none;
+        background-color: transparent;
+        margin: 0;
+        display: grid;
+        place-content: center;
+        color: $clr-gray;
+        width: 1.15rem;
+        height: 1.15rem;
+        border: 0.15rem solid  $clr-gray;
+        border-radius: 0.25rem;
+        transform: translateY(-0.075rem);
+        transition: background-color .15s ease-in-out;
+
+        &::before {
+            content: '';
+            width: 0.65rem;
+            height: 0.65rem;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+            transform: scale(0);
+            transform-origin: bottom left;
+            transition: transform .15s ease-in-out;
+            box-shadow: inset 1em 1em $clr-white;
+        }
+
+        &:checked {
+            background-color: $clr-primary;
+            border-color: $clr-primary;
+
+            &::before {
+                transform: scale(1);
+            }
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $clr-primary;
+            box-shadow: 0 0 5px 1px $clr-primary;
+        }
+
+        &:disabled {
+            color: lighten($clr-gray, 25%);
+            border-color: lighten($clr-gray, 25%);
+            background-color: lighten($clr-gray, 25%);
+
+            & + label {
+                color: lighten($clr-gray, 20%);
+            }
+        }
+    }
+}
+
+.form-info {
+    padding: 1rem 1rem;
+    text-align: center;
+    margin-bottom: .3rem;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input[type="password"] {
+        letter-spacing: .2rem;
+        -webkit-text-stroke-width: .1rem;
+    }
+}

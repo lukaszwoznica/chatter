@@ -1,0 +1,18 @@
+@use "../abstracts" as *;
+
+.avatar {
+    @include flex-center;
+
+    background-color: transparent;
+    color: $clr-white;
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+    user-select: none;
+    overflow: hidden;
+
+    &__img {
+        width: 100%;
+        height: auto;
+    }
+}

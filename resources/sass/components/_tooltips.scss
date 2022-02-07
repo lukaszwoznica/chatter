@@ -1,0 +1,10 @@
+@use "../abstracts" as *;
+
+.tippy-box {
+    border-radius: 15px;
+    padding: 0 .25rem;
+
+    &[data-theme~="translucent"] {
+        background: rgba($clr-black, .75);
+    }
+}

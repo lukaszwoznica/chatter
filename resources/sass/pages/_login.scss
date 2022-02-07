@@ -1,0 +1,101 @@
+@use "../abstracts" as *;
+
+.forgot-password-link {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5rem .5rem 0 .5rem;
+
+    a {
+        font-size: .85rem;
+        color: $clr-gray;
+
+        &:hover {
+            color: $clr-black;
+        }
+    }
+}
+
+.form-info--register {
+    padding: 0;
+    margin-top: 1rem;
+    font-size: .9rem;
+
+    a {
+        color: $clr-secondary;
+
+        &:hover {
+            opacity: .8;
+        }
+    }
+}
+
+.social-login {
+    margin-top: 1rem;
+    text-align: center;
+
+    &__info {
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+
+    &__buttons-wrapper {
+        @include flex-center;
+        margin: 2rem 0 1rem 0;
+    }
+
+    &__button {
+        position: relative;
+        color: $clr-white;
+        padding: 0.8rem 1em;
+        width: 50%;
+        max-width: 180px;
+        margin: 0 .4rem;
+        transition: opacity .25s ease-in-out;
+
+        &:hover {
+            opacity: .85;
+        }
+
+        span {
+            @include flex-center;
+
+            flex-wrap: wrap;
+            width: 100%;
+
+            svg {
+                margin-right: auto;
+                font-size: 1rem;
+
+                @media screen and (max-width: 430px) {
+                    margin-right: 0;
+                }
+            }
+
+            p {
+                margin-right: auto;
+
+                @media screen and (max-width: 430px) {
+                    display: none;
+                }
+            }
+        }
+
+        &--google {
+            background-color: $clr-google-red;
+        }
+
+        &--facebook {
+            background-color: $clr-facebook-blue;
+        }
+    }
+}
+
+.form__group {
+    &--password {
+        margin-bottom: 0;
+    }
+
+    &--remember-me {
+        margin: 0 0 .5rem .2rem;
+    }
+}

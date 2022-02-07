@@ -1,0 +1,31 @@
+// Fonts
+$base-font-size: 16px;
+$base-font-family: 'Montserrat', sans-serif;
+
+$font-thin: 100;
+$font-light: 300;
+$font-normal: 500;
+$font-bold: 700;
+
+// Colors
+$clr-primary: hsl(292, 46%, 57%);
+$clr-secondary: hsl(14, 66%, 58%);
+
+$clr-white: hsl(0, 0%, 100%);
+$clr-lightgray: hsl(0, 0%, 90%);
+$clr-gray: hsl(0, 0%, 40%);
+$clr-black: hsl(0, 0%, 0%);
+$clr-red: hsl(0, 100%, 60%);
+
+$clr-google-red: hsl(5, 69%, 54%);
+$clr-facebook-blue: hsl(220, 46%, 48%);
+
+// Gradients
+$top-gradient: linear-gradient(to top, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4);
+$left-gradient: linear-gradient(to left, #db6e4d, #e45f66, #e25584, #d455a5, #b65fc4);
+$cta-button-gradient: linear-gradient(to left, #e45f66, #e25584, #d455a5, #b65fc4);
+$primary-button-gradient: linear-gradient(to left, #d455a5, #b65fc4, #b65fc4);
+
+// Layout
+$header-height: 100px;
+$auth-header-height: 80px;

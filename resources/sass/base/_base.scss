@@ -1,0 +1,46 @@
+@use "../abstracts" as *;
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body, #app {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    position: absolute;
+}
+
+.app-wrapper {
+    position: relative;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+}
+
+.noscript {
+    @include flex-center;
+
+    flex-direction: column;
+    height: 100vh;
+    padding: 2rem;
+    text-align: center;
+
+    &__header {
+        font-size: 2.5rem;
+    }
+
+    &__message {
+        font-size: 1.25rem;
+        color: darken($clr-gray, 5%);
+    }
+}

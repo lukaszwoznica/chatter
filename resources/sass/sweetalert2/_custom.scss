@@ -1,0 +1,23 @@
+@use "../abstracts/variables";
+
+// Custom variables
+$swal2-border-radius: 15px;
+$swal2-background: lighten(variables.$clr-lightgray, 5%);
+$swal2-html-container-color: variables.$clr-black;
+$swal2-title-color: variables.$clr-black;
+$swal2-timer-progress-bar-background: rgba(variables.$clr-black, .25);
+
+// Custom styles
+.swal2-popup {
+    overflow: hidden;
+}
+
+.swal2-timer-progress-bar-container {
+    left: 4px !important;
+    right: 4px !important;
+    height: .3em !important;
+}
+
+.swal2-timer-progress-bar {
+    height: .3em !important;
+}

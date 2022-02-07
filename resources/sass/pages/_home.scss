@@ -1,0 +1,70 @@
+@use "../abstracts" as *;
+
+.home {
+    display: flex;
+    padding: 1rem 2.5rem 3rem 2.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &__text {
+        flex: 100%;
+        text-align: center;
+    }
+
+    &__title {
+        font-size: 3.25rem;
+        font-weight: $font-bold;
+        margin-bottom: 1rem;
+    }
+
+    &__desc {
+        font-size: 1.2rem;
+        font-weight: $font-normal;
+        margin-bottom: 1.6rem;
+        line-height: 1.3rem;
+    }
+
+    &__animation {
+        display: none;
+    }
+
+    @include m-screen {
+        padding: 3rem 4rem;
+
+        &__title {
+            font-size: 3.75rem;
+        }
+
+        &__animation {
+            display: block;
+        }
+    }
+
+    @include l-screen {
+        padding: 3rem 5rem;
+
+        &__text {
+            flex: 50%;
+        }
+
+        &__animation {
+            flex: 50%;
+        }
+    }
+
+    @include xxl-screen {
+        padding: 3rem 8rem;
+
+        &__title {
+            font-size: 4rem;
+        }
+
+        &__text {
+            flex: 40%;
+        }
+
+        &__animation {
+            flex: 60%;
+        }
+    }
+}

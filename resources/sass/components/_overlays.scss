@@ -1,0 +1,256 @@
+@use "../abstracts" as *;
+
+.overlay, .search-overlay {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba($clr-black, 0);
+}
+
+.overlay {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    transition: background-color .5s ease-in-out;
+
+    &--active {
+        pointer-events: auto;
+        background-color: rgba($clr-black, 0.8);
+    }
+}
+
+.search-overlay {
+    visibility: hidden;
+    position: fixed;
+    z-index: 10;
+    transition: visibility 0s .8s, background-color .3s .5s ease-in-out;
+
+    &__container {
+        @include flex-center;
+
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        top: 25%;
+        width: 100%;
+        overflow: hidden;
+        transform: scaleX(0);
+        transition: transform .5s ease-in-out;
+
+        @media screen and (min-height: 700px) {
+            top: 15%;
+        }
+    }
+
+    &__close-button {
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        font-size: 40px;
+        cursor: pointer;
+        color: white;
+        transition: transform .2s ease-in-out;
+
+        @include m-screen {
+            top: 20px;
+            right: 45px;
+            font-size: 60px;
+        }
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &__results {
+        background-color: rgba($clr-white, .85);
+        width: 90%;
+        border-radius: 10px;
+        margin-top: .4rem;
+        border: 1px solid darken($clr-lightgray, 10%);
+        overflow-y: hidden;
+        transition: height .2s ease-in-out;
+
+        @include m-screen {
+            width: 80%;
+        }
+
+        @include l-screen {
+            width: 60%;
+        }
+
+        @include xxl-screen {
+            width: 50%;
+        }
+    }
+
+    &__results-inner {
+        max-height: 45vh;
+        overflow-y: auto;
+
+        @media screen and (min-height: 700px) {
+            max-height: 60vh;
+        }
+    }
+
+    .search-results {
+        list-style-type: none;
+
+        &__item {
+            display: flex;
+            align-items: center;
+            color: $clr-black;
+            padding: 1rem;
+            border-bottom: 1px solid darken($clr-lightgray, 10%);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            &:hover {
+                background-color: rgba($clr-white, .5);
+            }
+        }
+
+        &__avatar {
+            width: 50px;
+            height: 50px;
+
+            img {
+                border-radius: 50%;
+            }
+        }
+
+        &__name {
+            margin-left: 1rem;
+        }
+
+        &__action {
+            margin-left: auto;
+            padding-right: .4rem;
+
+            @include m-screen {
+                padding-right: 1rem;
+            }
+
+            button {
+                @include flex-center;
+
+                padding: .5rem;
+                border: none;
+                outline: none;
+                background-color: $clr-primary;
+                color: $clr-white;
+                border-radius: 50%;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: lighten($clr-primary, 10%);
+                }
+            }
+        }
+
+        .infinite-status-prompt {
+            font-size: 1rem !important;
+        }
+    }
+
+    &--visible {
+        visibility: visible;
+        background-color: rgba($clr-black, .7);
+        transition: background-color .3s ease-in-out;
+
+        .search-overlay__container {
+            transform: scaleX(1);
+            transition: transform .5s .5s  ease-in-out;
+        }
+    }
+
+    .form {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+
+        &__group {
+            position: relative;
+            width: 90%;
+            margin: 0;
+            padding: 0;
+
+            @include m-screen {
+                width: 80%;
+            }
+
+            @include l-screen {
+                width: 60%;
+            }
+
+            @include xxl-screen {
+                width: 50%;
+            }
+        }
+
+        &__input[type="search"] {
+            height: 55px;
+            font-size: 1.2rem;
+            background-color: rgba($clr-white, .85);
+            border-radius: 30px;
+            padding-right: 80px;
+
+            @include m-screen {
+                font-size: 1.4rem;
+                height: 70px;
+            }
+
+            &:focus {
+                background-color: rgba($clr-white, .95);
+
+                & + .fa-search {
+                    color: $clr-primary;
+                }
+            }
+        }
+
+        .fa-search {
+            position: absolute;
+            font-size: 1.8rem;
+            color: $clr-gray;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+
+            @include m-screen {
+                right: 40px;
+            }
+        }
+    }
+}
+
+.loader{
+    display: inline-block;
+    margin: .8rem;
+    width: 28px;
+    height: 28px;
+    font-size: 28px;
+    line-height: 28px;
+    border-radius: 50%;
+    position: relative;
+    border: 1px solid #999;
+    animation: loader-rotate ease 1.5s infinite;
+
+    &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        margin-top: -3px;
+        margin-left: -3px;
+        background-color: #999;
+        border-radius: 50%;
+    }
+}

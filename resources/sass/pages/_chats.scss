@@ -1,0 +1,473 @@
+@use "../abstracts" as *;
+
+.chats-container {
+    width: 100%;
+    justify-content: center;
+    height: calc(100vh - #{$auth-header-height});
+    position: relative;
+}
+
+.contacts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    float: left;
+    width: 80%;
+    height: 100%;
+    background-color: $clr-white;
+    border-right: 1px solid $clr-lightgray;
+    transform: translateX(-100%);
+    transition: transform .5s ease-in-out;
+
+    @include s-screen {
+        width: 70%;
+    }
+
+    @include m-screen {
+        width: 50%;
+    }
+
+    @include l-screen {
+        width: 40%;
+        transform: none;
+
+        .hamburger {
+            display: none;
+        }
+    }
+
+    @include xxl-screen {
+        width: 30%;
+    }
+
+    &--active {
+        top: 0;
+        transform: translateX(0);
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 1.2rem;
+        height: 85px;
+        border-bottom: 1px solid transparent;
+
+        &--border {
+            border-bottom: 1px solid $clr-lightgray;
+        }
+    }
+
+    &__icons {
+        font-size: 1.2rem;
+        color: $clr-primary;
+        cursor: pointer;
+
+        svg {
+            outline: 0;
+            transition: all .2s ease-in-out;
+
+            &:hover {
+                color: lighten($clr-primary, 15%);
+                transform: scale(1.2);
+            }
+        }
+    }
+
+    &__search-icon {
+        margin-right: .6rem;
+    }
+
+    &__sound-icon--mute {
+        color: lighten($clr-gray, 15%);
+
+        &:hover {
+            color: lighten($clr-gray, 25%) !important;
+        }
+    }
+
+    &__list {
+        max-height: calc(100% - 85px);
+        overflow-y: auto;
+    }
+
+    &__item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: .5rem 1rem .5rem .7rem;
+        cursor: pointer;
+        border-radius: 20px;
+        margin: 0 .2rem;
+
+        &:hover {
+            background-color: lighten($clr-lightgray, 7%);
+        }
+
+        &--active {
+            background-color: lighten($clr-lightgray, 3%);
+
+            .contacts__name {
+                color: darken($clr-primary, 10%);
+            }
+
+            &:hover {
+                background-color: lighten($clr-lightgray, 3%);
+            }
+        }
+    }
+
+    &__avatar {
+        margin: .2rem 1rem .2rem 0;
+        position: relative;
+    }
+
+    &__name {
+        padding-right: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__online-indicator {
+        position: absolute;
+        font-size: 1.1rem;
+        bottom: -2px;
+        right: -3px;
+        text-shadow: -2px 0 $clr-lightgray, 0 2px $clr-lightgray, 2px 0 $clr-lightgray, 0 -2px $clr-lightgray;
+        color: hsl(120, 100%, 35%);
+    }
+
+    &__last-message {
+        margin-left: auto;
+        align-self: flex-start;
+        font-size: .8rem;
+        color: $clr-gray;
+    }
+
+    &__unread-messages {
+        @include flex-center;
+
+        position: absolute;
+        right: 20px;
+        width: 22px;
+        height: 22px;
+        background-color: $clr-secondary;
+        color: $clr-white;
+        font-size: .7rem;
+        font-weight: $font-bold;
+        border-radius: 50%;
+    }
+
+    .hamburger {
+        position: absolute;
+        top: 25px;
+        right: -55px;
+    }
+}
+
+.conversation {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    float: right;
+    flex-direction: column;
+
+    @include l-screen {
+        width: 60%;
+    }
+
+    @include xxl-screen {
+        width: 70%;
+    }
+
+    &__header {
+        background-color: lighten($clr-lightgray, 8%);
+        border-bottom: 1px solid $clr-lightgray;
+        text-align: center;
+    }
+
+    &__header-content {
+        padding: 1rem 4rem;
+        min-height: 84px;
+
+        @include l-screen {
+            padding: 1rem 2rem;
+            text-align: left;
+        }
+    }
+
+    &__title {
+        h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &__online-status {
+        margin-top: .5rem;
+        font-size: .9rem;
+        font-weight: $font-light;
+    }
+
+    &__feed {
+        padding: 1rem;
+        scroll-padding: 1rem 2rem;
+        overflow-y: scroll;
+
+        @include m-screen {
+            padding: 1rem 2rem;
+        }
+    }
+
+    &__composer {
+        display: flex;
+        margin-top: auto;
+        padding: .6rem;
+        background-color: lighten($clr-lightgray, 8%);
+        border-top: 1px solid $clr-lightgray;
+
+        .form {
+            display: inherit;
+            width: 100%;
+
+            &__group {
+                width: inherit;
+                padding: 0;
+                margin: 0;
+                position: relative;
+                display: flex;
+            }
+
+            &__textarea--message {
+                resize: none;
+                width: inherit;
+                line-height: 1;
+                padding-right: 2.3rem;
+                overflow: hidden;
+            }
+        }
+
+        .button {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            padding: 0;
+            background-color: transparent;
+            transition: all .15s ease-in-out;
+
+            &--send-message {
+                display: inline-block;
+                min-width: 30px;
+                background-image: $left-gradient;
+                background-size: 150% 100%;
+                background-position: left;
+                color: $clr-white;
+                margin: 0 .4rem;
+                font-size: .9rem;
+                align-self: flex-end;
+                transition: background-position .2s ease-in-out;
+
+                &:hover {
+                    background-position: right;
+                }
+            }
+
+            &--send-location {
+                color: $clr-primary;
+                font-size: 1.3rem;
+                margin-right: .3rem;
+
+                &:hover {
+                    color: lighten($clr-primary, 15%);
+                    font-size: 1.4rem;
+                }
+            }
+
+            &--emoji-picker {
+                font-size: 1.2rem;
+                color: $clr-secondary;
+
+                &:hover {
+                    color: rgba($clr-secondary, .8);
+                    font-size: 1.3rem;
+                }
+            }
+        }
+
+        .emoji-picker-wrapper {
+            position: absolute;
+            top: 50%;
+            right: 1%;
+            transform: translateY(-50%);
+        }
+    }
+
+    &__no-contact {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+        padding: 4rem 1rem;
+        text-align: center;
+        font-size: 1.35rem;
+        color: darken($clr-gray, 10%);
+
+        @include l-screen {
+            padding: 6rem 2rem;
+        }
+
+        img {
+            width: 20%;
+            min-width: 250px;
+            opacity: .2;
+            margin-bottom: .7rem;
+        }
+    }
+}
+
+.messages {
+    list-style: none;
+}
+
+.message {
+    position: relative;
+    padding: .3rem .5rem;
+    display: flex;
+
+    &__content {
+        color: white;
+        padding: .6rem 1rem;
+        max-width: 80%;
+        word-break: break-word;
+        border-radius: 20px;
+        overflow: hidden;
+
+        @include l-screen {
+            max-width: 70%;
+        }
+    }
+
+    &__text--maps-link {
+        text-align: center;
+        padding: .15rem 0 .1rem 0;
+    }
+
+    &__avatar {
+        position: absolute;
+        left: 0;
+        bottom: 2px;
+    }
+
+    &__read-indicator {
+        color: $clr-gray;
+        position: absolute;
+        bottom: 3px;
+        right: -12px;
+    }
+
+    &__link {
+        text-decoration: underline;
+
+        &:hover {
+            opacity: .9;
+        }
+    }
+
+    &--received, &--typing {
+        justify-content: flex-start;
+        padding-left: 45px;
+
+        .message__content {
+            color: lighten($clr-black, 15%);
+            background-color: $clr-lightgray;
+        }
+    }
+
+    &--typing {
+        .message__content {
+            animation: 2s bulge infinite ease-out;
+        }
+    }
+
+    &--sent {
+        justify-content: flex-end;
+
+        .message__content {
+            background: $top-gradient fixed no-repeat bottom;
+            background-size: 100% 85%;
+        }
+
+        .message__link {
+            color: $clr-white;
+
+            &:hover {
+                opacity: 0.75;
+            }
+        }
+    }
+
+    &__map {
+        min-width: 150px;
+        height: 200px;
+        margin: .2rem 0 .5rem 0;
+        background-color: darken($clr-lightgray, 5%);
+        border-radius: 10px;
+
+        @include m-screen {
+            min-width: 350px;
+        }
+
+        @include l-screen {
+            min-width: 300px;
+        }
+
+        @include xl-screen {
+            min-width: 400px;
+            height: 225px;
+        }
+
+        .vue-map-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .vue-map {
+            border: 1.5px solid darken($clr-lightgray, 7%);
+            border-radius: 10px;
+        }
+
+        .map-error {
+            @include flex-center;
+
+            height: 100%;
+            width: 100%;
+            color: $clr-gray;
+        }
+    }
+}
+
+.infinite-status-prompt {
+    font-size: .9rem;
+    color: $clr-gray;
+
+    .infinite-status-prompt__content {
+        padding-top: 1.5rem;
+    }
+}
+
+.typing-dot {
+    height: 10px;
+    width: 10px;
+    float: left;
+    margin: .3rem .1rem;
+    background-color: lighten($clr-black, 15%);
+    display: block;
+    border-radius: 50%;
+    opacity: .5;
+    @for $i from 1 through 3 {
+        &:nth-of-type(#{$i}) {
+            animation: 1s typing-dots-blink infinite ($i * .3333s);
+        }
+    }
+}

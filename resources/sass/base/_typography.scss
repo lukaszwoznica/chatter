@@ -1,0 +1,37 @@
+@use "../abstracts" as *;
+
+html {
+    font-size: $base-font-size;
+}
+
+body {
+    font-family: $base-font-family;
+    color: $clr-black;
+}
+
+a {
+    color: $clr-black;
+    text-decoration: none;
+
+    &:hover {
+        color: lighten($clr-black, 40%);
+    }
+}
+
+button {
+    font-family: $base-font-family;
+    font-size: 1.1rem;
+}
+
+input, label {
+    font-family: $base-font-family;
+    font-size: 1rem;
+}
+
+label {
+    color: darken($clr-gray, 10%);
+}
+
+nav {
+    font-size: 1.1rem;
+}
