@@ -20,6 +20,16 @@
 <body>
     <div id="app">
         <App></App>
+
+        <noscript>
+            <div class="noscript">
+                <h1 class="noscript__header">JavaScript Required</h1>
+                <p class="noscript__message">
+                    We're sorry, but Chatter can't work properly without JavaScript enabled.
+                    Please enable it and refresh the page.
+                </p>
+            </div>
+        </noscript>
     </div>
 </body>
 </html>

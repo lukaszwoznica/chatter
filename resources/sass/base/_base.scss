@@ -26,3 +26,21 @@ img {
     height: auto;
     pointer-events: none;
 }
+
+.noscript {
+    @include flex-center;
+
+    flex-direction: column;
+    height: 100vh;
+    padding: 2rem;
+    text-align: center;
+
+    &__header {
+        font-size: 2.5rem;
+    }
+
+    &__message {
+        font-size: 1.25rem;
+        color: darken($clr-gray, 5%);
+    }
+}
