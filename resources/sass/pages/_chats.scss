@@ -131,11 +131,13 @@
 
     &__online-indicator {
         position: absolute;
-        font-size: 1.1rem;
-        bottom: -2px;
-        right: -3px;
-        text-shadow: -2px 0 $clr-lightgray, 0 2px $clr-lightgray, 2px 0 $clr-lightgray, 0 -2px $clr-lightgray;
-        color: hsl(120, 100%, 35%);
+        bottom: -1px;
+        right: -2px;
+        box-shadow: -2px 0 $clr-white, 0 2px $clr-white, 2px 0 $clr-white, 0 -2px $clr-white;
+        background-color: hsl(120, 100%, 35%);
+        height: 13px;
+        width: 13px;
+        border-radius: 50%;
     }
 
     &__last-message {

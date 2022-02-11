@@ -2036,11 +2036,13 @@ nav {
 }
 .contacts__online-indicator {
   position: absolute;
-  font-size: 1.1rem;
-  bottom: -2px;
-  right: -3px;
-  text-shadow: -2px 0 #e6e6e6, 0 2px #e6e6e6, 2px 0 #e6e6e6, 0 -2px #e6e6e6;
-  color: #00b300;
+  bottom: -1px;
+  right: -2px;
+  box-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+  background-color: #00b300;
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
 }
 .contacts__last-message {
   margin-left: auto;
