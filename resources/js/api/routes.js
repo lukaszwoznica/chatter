@@ -1,4 +1,4 @@
-const baseUrl = '/api/v1'
+const baseUrl = process.env.MIX_API_BASE_URL
 
 const ApiRoutes = {
     BaseUrl: baseUrl,
