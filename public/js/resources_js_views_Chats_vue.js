@@ -1748,7 +1748,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }));
     },
     generateGoogleMapsUrl: function generateGoogleMapsUrl(latitude, longitude) {
-      return "https://google.com/maps?q=".concat(latitude, ",").concat(longitude);
+      return "https://google.com/maps/search/?api=1&query=".concat(latitude, ",").concat(longitude);
     }
   })
 });
@@ -2046,13 +2046,13 @@ __webpack_require__.r(__webpack_exports__);
       var _URL$searchParams$get,
           _this = this;
 
-      var coordsArray = (_URL$searchParams$get = new URL(url).searchParams.get('q')) === null || _URL$searchParams$get === void 0 ? void 0 : _URL$searchParams$get.split(',', 2);
+      var coordsArray = (_URL$searchParams$get = new URL(url).searchParams.get('query')) === null || _URL$searchParams$get === void 0 ? void 0 : _URL$searchParams$get.split(',', 2);
       Object.keys(this.coords).forEach(function (key) {
         return _this.coords[key] = parseFloat(coordsArray === null || coordsArray === void 0 ? void 0 : coordsArray.shift());
       });
     },
     validateUrl: function validateUrl(url) {
-      var pattern = "(?:https?:\\/\\/)?(?:www\\.)?(?:google\\.com\\/maps\\?q=)" + "(?:[+-]?([0-9]*[.])?[0-9]+),(?:[+-]?([0-9]*[.])?[0-9]+)";
+      var pattern = "(?:https?:\\/\\/)?(?:www\\.)?(?:google\\.com\\/maps\\/search\\/\\?api=1&query=)" + "(?:[+-]?([0-9]*[.])?[0-9]+),(?:[+-]?([0-9]*[.])?[0-9]+)";
       return new RegExp(pattern, 'i').test(url);
     }
   }

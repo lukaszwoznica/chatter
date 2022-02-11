@@ -50,16 +50,16 @@ export default {
 
     methods: {
         parseCoordsFromGoogleMapsUrl(url) {
-            const coordsArray = (new URL(url)).searchParams.get('q')?.split(',', 2)
+            const coordsArray = (new URL(url)).searchParams.get('query')?.split(',', 2)
             Object.keys(this.coords).forEach(key => this.coords[key] = parseFloat(coordsArray?.shift()))
         },
 
         validateUrl(url) {
-            const pattern = "(?:https?:\\/\\/)?(?:www\\.)?(?:google\\.com\\/maps\\?q=)" +
+            const pattern = "(?:https?:\\/\\/)?(?:www\\.)?(?:google\\.com\\/maps\\/search\\/\\?api=1&query=)" +
                 "(?:[+-]?([0-9]*[.])?[0-9]+),(?:[+-]?([0-9]*[.])?[0-9]+)"
 
             return new RegExp(pattern, 'i').test(url)
         }
     }
 }
-</script>
+</script>`

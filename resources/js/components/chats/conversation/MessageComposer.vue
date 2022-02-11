@@ -225,7 +225,7 @@ export default {
         },
 
         generateGoogleMapsUrl(latitude, longitude) {
-            return `https://google.com/maps?q=${latitude},${longitude}`
+            return `https://google.com/maps/search/?api=1&query=${latitude},${longitude}`
         }
     }
 }
