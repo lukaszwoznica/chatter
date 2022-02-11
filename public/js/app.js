@@ -33189,7 +33189,7 @@ axios.defaults.baseURL = process.env.APP_URL;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: "11845c2240763f8fa686",
+  key: "1667972bcf37fb68f9fc",
   cluster: "eu",
   forceTLS: true
 });
