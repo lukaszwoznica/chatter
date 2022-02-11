@@ -20,15 +20,12 @@ class MessageFactory extends Factory
      */
     public function definition(): array
     {
-        $users = User::pluck('id')->toArray();
-        do {
-            $sender = $this->faker->randomElement($users);
-            $recipient = $this->faker->randomElement($users);
-        } while ($sender === $recipient);
+        $users = User::select('id')->inRandomOrder()->take(0)->get();
+        $getUserOrCreate = fn($usersCollection) => $users->shift() ?? User::factory();
 
         return [
-            'sender_id' => $sender,
-            'recipient_id' => $recipient,
+            'sender_id' => $getUserOrCreate($users),
+            'recipient_id' => $getUserOrCreate($users),
             'text' => $this->faker->text(rand(5, 200))
         ];
     }
