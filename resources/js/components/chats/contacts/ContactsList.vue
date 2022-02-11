@@ -33,7 +33,7 @@
                                  :img-src="contact.avatar_thumb_url"
                                  :size="50"/>
                     <span class="contacts__online-indicator"
-                          v-show="!contact.is_online"
+                          v-show="contact.is_online"
                           v-tippy="'User online'">
                     </span>
                 </div>
