@@ -39,15 +39,16 @@
                 </div>
             </div>
 
-            <app-button
-                type="submit"
-                v-tippy="'Send a message'"
-                v-show="this.message.text"
-                class="button--send-message"
-                :disabled="isSubmitting">
+            <div class="form__button-wrapper" :class="{'form__button-wrapper--visible': this.message.text}">
+                <app-button
+                    type="submit"
+                    v-tippy="'Send a message'"
+                    class="button--send-message"
+                    :disabled="isSubmitting">
 
-                <font-awesome-icon :icon="['fas', 'arrow-right']"/>
-            </app-button>
+                    <font-awesome-icon :icon="['fas', 'arrow-right']"/>
+                </app-button>
+            </div>
         </form>
     </div>
 </template>

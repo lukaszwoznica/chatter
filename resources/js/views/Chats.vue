@@ -9,7 +9,7 @@
 import ContactsList from '../components/chats/contacts/ContactsList'
 import ConversationWrapper from '../components/chats/conversation/ConversationWrapper'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import ApiRoutes from "../api/routes";
+import ApiRoutes from '../api/routes'
 
 export default {
     name: "Chats",
