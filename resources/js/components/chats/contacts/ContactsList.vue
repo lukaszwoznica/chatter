@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <ul class="contacts__list" ref="contactsList">
+        <ul class="contacts__list on-hover-scrollbar" ref="contactsList">
             <li class="contacts__item"
                 :class="selectedContact?.id === contact.id ? 'contacts__item--active' : ''"
                 v-for="contact in sortedContacts" :key="contact.id"

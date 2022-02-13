@@ -100,6 +100,7 @@
         cursor: pointer;
         border-radius: 20px;
         margin: 0 .2rem;
+        color: $clr-black;
 
         &:hover {
             background-color: lighten($clr-lightgray, 7%);
@@ -232,6 +233,7 @@
         .form {
             display: inherit;
             width: 100%;
+            position: relative;
 
             &__group {
                 width: inherit;
@@ -239,6 +241,8 @@
                 margin: 0;
                 position: relative;
                 display: flex;
+                border-radius: 10px;
+                overflow: hidden;
             }
 
             &__textarea--message {
@@ -247,6 +251,8 @@
                 line-height: 1;
                 padding-right: 2.6rem;
                 overflow: hidden;
+                cursor: auto;
+                border-radius: inherit;
             }
 
             &__button-wrapper {
@@ -317,7 +323,7 @@
         .emoji-picker-wrapper {
             position: absolute;
             top: 50%;
-            right: 1%;
+            right: 15px;
             transform: translateY(-50%);
         }
     }

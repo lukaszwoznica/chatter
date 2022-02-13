@@ -30,3 +30,9 @@ $primary-button-gradient: linear-gradient(to left, #d455a5, #b65fc4, #b65fc4);
 // Layout
 $header-height: 100px;
 $auth-header-height: 80px;
+
+// Scrollbar
+$scrollbar-track-color: transparent;
+$scrollbar-thumb-color: lighten($clr-gray, 25%);
+$scrollbar-thumb-hover-color: lighten($clr-gray, 20%);
+$scrollbar-thumb-active-color: lighten($clr-gray, 12%);

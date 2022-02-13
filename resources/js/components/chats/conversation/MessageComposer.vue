@@ -28,16 +28,16 @@
 
                         <font-awesome-icon :icon="['fas', 'smile']"/>
                     </app-button>
-
-                    <transition name="fade">
-                        <vuemoji-picker
-                            @emojiClick="handleEmojiClick"
-                            :is-dark="false"
-                            v-show="showEmojiPicker"
-                            class="emoji-picker"/>
-                    </transition>
                 </div>
             </div>
+
+            <transition name="fade">
+                <vuemoji-picker
+                    @emojiClick="handleEmojiClick"
+                    :is-dark="false"
+                    v-show="showEmojiPicker"
+                    class="emoji-picker"/>
+            </transition>
 
             <div class="form__button-wrapper" :class="{'form__button-wrapper--visible': this.message.text}">
                 <app-button
