@@ -13,6 +13,7 @@
             <div class="form__group">
                 <textarea
                     rows="1"
+                    maxlength="2000"
                     class="form__textarea form__textarea--message"
                     :value="message.text"
                     @input="onInput"

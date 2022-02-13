@@ -26,7 +26,7 @@ class SendMessageRequest extends FormRequest
         $id = auth()->id();
 
         return [
-            'text' => 'required|string',
+            'text' => 'required|string|max:2000',
             'recipient_id' => "required|integer|not_in:$id|exists:users,id",
             'is_location' => 'boolean'
         ];
