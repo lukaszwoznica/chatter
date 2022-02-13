@@ -17,7 +17,8 @@
                     :value="message.text"
                     @input="onInput"
                     @keydown.enter.prevent="submitForm"
-                    placeholder="Type a message">
+                    placeholder="Type a message"
+                    ref="messageTextarea">
                 </textarea>
 
                 <div class="emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
@@ -55,7 +56,7 @@
 
 <script>
 import AppButton from '../../ui/AppButton'
-import textareaAutoResizeMixin from '../../../mixins/TextareaAutoResize'
+import textareaAutoResizeMixin from '../../../mixins/textarea-auto-resize'
 import { mapActions, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { VuemojiPicker } from 'vuemoji-picker'
@@ -152,7 +153,7 @@ export default {
 
         onInput(event) {
             this.message.text = event.target.value.trim()
-            this.autoResize(event, 150)
+            this.autoResize(event.target, 150)
             this.whisperTypingEvent()
         },
 
@@ -171,6 +172,7 @@ export default {
                 text: '',
                 recipient_id: this.selectedContact?.id
             }
+            this.$refs.messageTextarea.style.height = 'auto'
         },
 
         handleEmojiClick(eventDetail) {
