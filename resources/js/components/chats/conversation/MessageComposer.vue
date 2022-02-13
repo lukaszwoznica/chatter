@@ -173,7 +173,7 @@ export default {
                 text: '',
                 recipient_id: this.selectedContact?.id
             }
-            this.$refs.messageTextarea.style.height = 'auto'
+            this.$refs.messageTextarea.style.height = '30px'
         },
 
         handleEmojiClick(eventDetail) {
