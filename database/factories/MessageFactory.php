@@ -20,7 +20,7 @@ class MessageFactory extends Factory
      */
     public function definition(): array
     {
-        $users = User::select('id')->inRandomOrder()->take(0)->get();
+        $users = User::select('id')->inRandomOrder()->take(2)->get();
         $getUserOrCreate = fn($usersCollection) => $users->shift() ?? User::factory();
 
         return [
