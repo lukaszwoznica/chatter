@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;
+use Str;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -27,6 +28,7 @@ class PusherChannelWebhookTest extends TestCase
 
         Notification::fake();
 
+        config(['webhook-client.configs.0.signing_secret' => Str::random(20)]);
         $this->testUser = User::factory()->count(10)->create()->first();
         Message::factory()->count(100)->create();
         $this->testUserContacts = App::make('App\Services\UserService')->getUserContacts($this->testUser);
@@ -104,7 +106,7 @@ class PusherChannelWebhookTest extends TestCase
         $response = $this->makeCorrectRequest($payload);
 
         $response->assertOk();
-        Notification::assertTimesSent(0, UserOnlineStatusChangedNotification::class);
+        Notification::assertSentTimes( UserOnlineStatusChangedNotification::class, 0);
     }
 
     private function getPayload(int $userId, string $eventType, string $channelPrefix = 'private-messages'): array
