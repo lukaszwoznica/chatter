@@ -11,18 +11,20 @@
 
         <form @submit.prevent="submitForm" class="form">
             <div class="form__group">
-                <textarea
-                    rows="1"
-                    maxlength="2000"
-                    class="form__textarea form__textarea--message"
-                    :value="message.text"
-                    @input="onInput"
-                    @keydown.enter.prevent="submitForm"
-                    placeholder="Type a message"
-                    ref="messageTextarea">
-                </textarea>
+                <div class="form__textarea-wrapper">
+                    <textarea
+                        rows="1"
+                        maxlength="2000"
+                        class="form__textarea form__textarea--message"
+                        :value="message.text"
+                        @input="onInput"
+                        @keydown.enter.prevent="submitForm"
+                        placeholder="Type a message"
+                        ref="messageTextarea">
+                    </textarea>
+                </div>
 
-                <div class="emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
+                <div class="form__emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
                     <app-button
                         class="button--emoji-picker"
                         @buttonClick="toggleEmojiPicker"
@@ -30,16 +32,16 @@
 
                         <font-awesome-icon :icon="['fas', 'smile']"/>
                     </app-button>
+
+                    <transition name="fade">
+                        <vuemoji-picker
+                            @emojiClick="handleEmojiClick"
+                            :is-dark="false"
+                            v-show="showEmojiPicker"
+                            class="emoji-picker"/>
+                    </transition>
                 </div>
             </div>
-
-            <transition name="fade">
-                <vuemoji-picker
-                    @emojiClick="handleEmojiClick"
-                    :is-dark="false"
-                    v-show="showEmojiPicker"
-                    class="emoji-picker"/>
-            </transition>
 
             <div class="form__button-wrapper" :class="{'form__button-wrapper--visible': this.message.text}">
                 <app-button

@@ -233,16 +233,19 @@
         .form {
             display: inherit;
             width: 100%;
-            position: relative;
 
             &__group {
                 width: inherit;
                 padding: 0;
                 margin: 0;
                 position: relative;
-                display: flex;
+            }
+
+            &__textarea-wrapper {
+                width: inherit;
                 border-radius: 10px;
                 overflow: hidden;
+                display: flex;
             }
 
             &__textarea--message {
@@ -269,6 +272,13 @@
                         pointer-events: all;
                     }
                 }
+            }
+
+            &__emoji-picker-wrapper {
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
             }
         }
 
@@ -318,13 +328,6 @@
                     font-size: 1.3rem;
                 }
             }
-        }
-
-        .emoji-picker-wrapper {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
         }
     }
 
