@@ -1,7 +1,6 @@
 export default {
     methods: {
         autoResize(textareaObject, maxHeight) {
-            console.log(textareaObject.scrollHeight)
             if (! (textareaObject.scrollHeight + 2 > maxHeight)) {
                 textareaObject.style.overflow = 'hidden'
                 textareaObject.style.height = 'auto'
