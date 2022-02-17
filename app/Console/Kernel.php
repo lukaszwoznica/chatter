@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
             ->everyFourHours()
             ->evenInMaintenanceMode();
 
-        $schedule->command(SnapshotCommand::class)->everyFifteenMinutes();
+        $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
     }
 
     /**
