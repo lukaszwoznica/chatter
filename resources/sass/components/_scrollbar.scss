@@ -4,10 +4,10 @@
 @supports (scrollbar-color: black white) {
     * {
         scrollbar-color: $scrollbar-thumb-color $scrollbar-track-color;
+    }
 
-        @media screen and (-moz-windows-theme) {
-            scrollbar-width: thin;
-        }
+    .windows * {
+        scrollbar-width: thin;
     }
 }
 
