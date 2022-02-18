@@ -35,7 +35,7 @@
         margin-bottom: 2rem;
 
         h2 {
-            font-weight: normal;
+            font-weight: $font-normal;
         }
     }
 
@@ -169,6 +169,7 @@
             height: 100%;
             cursor: pointer;
             padding: .5rem 1rem;
+            font-weight: $font-normal;
 
             @include l-screen {
                 flex-direction: row;
