@@ -26,6 +26,7 @@
 <script>
 import AppFooter from './components/layout/AppFooter'
 import AppHeader from './components/layout/AppHeader'
+import { mapGetters } from 'vuex'
 
 export default {
     name: "App",
@@ -36,6 +37,10 @@ export default {
     },
 
     computed: {
+        ...mapGetters({
+            userIsAuthenticated: 'auth/isAuthenticated'
+        }),
+
         isAuthRoute() {
             return ['chats', 'profile'].includes(this.$route.name)
         },
@@ -49,6 +54,8 @@ export default {
         if (this.detectWindowsOS()) {
             this.$refs.appWrapper.classList.add('windows')
         }
+
+        this.reloadPageOnUnauthorizedHttpResponse()
     },
 
     methods: {
@@ -74,6 +81,16 @@ export default {
             return (navigator.userAgentData?.platform ?? navigator.platform)
                 .toLowerCase()
                 .includes('win')
+        },
+
+        reloadPageOnUnauthorizedHttpResponse() {
+            axios.interceptors.response.use(res => res, error => {
+                if ([401, 419].includes(error.response.status) && this.userIsAuthenticated) {
+                    window.location.reload(true)
+                }
+
+                throw error
+            })
         }
     }
 }
