@@ -13,7 +13,6 @@ axios.defaults.withCredentials = true
 axios.interceptors.response.use(res => res, error => {
         if (error.response.status === 503) {
             window.location.reload(true)
-            throw new Error('Service Unavailable')
         }
 
         throw error
