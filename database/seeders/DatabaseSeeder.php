@@ -21,13 +21,9 @@ class DatabaseSeeder extends Seeder
     private function createAdminAndTestUser()
     {
         User::factory()->admin()->create([
-            'first_name' => 'Chatter',
-            'last_name' => 'Admin',
             'email' => 'admin@chatter.xyz'
         ]);
         User::factory()->create([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
             'email' => 'user@chatter.xyz'
         ]);
     }

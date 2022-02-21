@@ -3,12 +3,9 @@
 namespace App\Console;
 
 use App\Console\Commands\ClearFilepondFilesCommand;
-use Artisan;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Database\Console\Migrations\FreshCommand;
-use Illuminate\Foundation\Console\DownCommand;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Foundation\Console\UpCommand;
+use Laravel\Horizon\Console\SnapshotCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -32,6 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->command(ClearFilepondFilesCommand::class, ['--older-than=60'])
             ->everyFourHours()
             ->evenInMaintenanceMode();
+
+        $schedule->command(SnapshotCommand::class)->everyFiveMinutes();
     }
 
     /**

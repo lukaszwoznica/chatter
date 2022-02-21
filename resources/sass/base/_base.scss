@@ -44,3 +44,8 @@ img {
         color: darken($clr-gray, 5%);
     }
 }
+
+::selection {
+    background: darken($clr-secondary, 5%);
+    color: $clr-white;
+}

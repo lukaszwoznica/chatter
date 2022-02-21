@@ -100,6 +100,7 @@
         cursor: pointer;
         border-radius: 20px;
         margin: 0 .2rem;
+        color: $clr-black;
 
         &:hover {
             background-color: lighten($clr-lightgray, 7%);
@@ -131,11 +132,13 @@
 
     &__online-indicator {
         position: absolute;
-        font-size: 1.1rem;
-        bottom: -2px;
-        right: -3px;
-        text-shadow: -2px 0 $clr-lightgray, 0 2px $clr-lightgray, 2px 0 $clr-lightgray, 0 -2px $clr-lightgray;
-        color: hsl(120, 100%, 35%);
+        bottom: -1px;
+        right: -2px;
+        box-shadow: -2px 0 $clr-white, 0 2px $clr-white, 2px 0 $clr-white, 0 -2px $clr-white;
+        background-color: hsl(120, 100%, 35%);
+        height: 13px;
+        width: 13px;
+        border-radius: 50%;
     }
 
     &__last-message {
@@ -213,7 +216,7 @@
     &__feed {
         padding: 1rem;
         scroll-padding: 1rem 2rem;
-        overflow-y: scroll;
+        overflow-y: auto;
 
         @include m-screen {
             padding: 1rem 2rem;
@@ -236,6 +239,12 @@
                 padding: 0;
                 margin: 0;
                 position: relative;
+            }
+
+            &__textarea-wrapper {
+                width: inherit;
+                border-radius: 10px;
+                overflow: hidden;
                 display: flex;
             }
 
@@ -243,8 +252,33 @@
                 resize: none;
                 width: inherit;
                 line-height: 1;
-                padding-right: 2.3rem;
+                padding-right: 2.6rem;
                 overflow: hidden;
+                cursor: auto;
+                border-radius: inherit;
+            }
+
+            &__button-wrapper {
+                padding: 0;
+                width: 0;
+                transition: width .1s linear;
+
+                &--visible {
+                    width: 30px;
+                    margin: 0 .2rem 0 .5rem;
+
+                    .button--send-message {
+                        opacity: 1;
+                        pointer-events: all;
+                    }
+                }
+            }
+
+            &__emoji-picker-wrapper {
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                transform: translateY(-50%);
             }
         }
 
@@ -255,18 +289,19 @@
             padding: 0;
             background-color: transparent;
             transition: all .15s ease-in-out;
+            align-self: flex-end;
 
             &--send-message {
                 display: inline-block;
+                opacity: 0;
+                pointer-events: none;
                 min-width: 30px;
                 background-image: $left-gradient;
                 background-size: 150% 100%;
                 background-position: left;
                 color: $clr-white;
-                margin: 0 .4rem;
                 font-size: .9rem;
-                align-self: flex-end;
-                transition: background-position .2s ease-in-out;
+                transition: background-position .2s ease-in-out, opacity .1s linear;
 
                 &:hover {
                     background-position: right;
@@ -293,13 +328,6 @@
                     font-size: 1.3rem;
                 }
             }
-        }
-
-        .emoji-picker-wrapper {
-            position: absolute;
-            top: 50%;
-            right: 1%;
-            transform: translateY(-50%);
         }
     }
 

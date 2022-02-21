@@ -11,16 +11,20 @@
 
         <form @submit.prevent="submitForm" class="form">
             <div class="form__group">
-                <textarea
-                    rows="1"
-                    class="form__textarea form__textarea--message"
-                    :value="message.text"
-                    @input="onInput"
-                    @keydown.enter.prevent="submitForm"
-                    placeholder="Type a message">
-                </textarea>
+                <div class="form__textarea-wrapper">
+                    <textarea
+                        rows="1"
+                        maxlength="2000"
+                        class="form__textarea form__textarea--message"
+                        :value="message.text"
+                        @input="onInput"
+                        @keydown.enter.prevent="submitForm"
+                        placeholder="Type a message"
+                        ref="messageTextarea">
+                    </textarea>
+                </div>
 
-                <div class="emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
+                <div class="form__emoji-picker-wrapper" v-click-outside="closeEmojiPicker">
                     <app-button
                         class="button--emoji-picker"
                         @buttonClick="toggleEmojiPicker"
@@ -39,22 +43,23 @@
                 </div>
             </div>
 
-            <app-button
-                type="submit"
-                v-tippy="'Send a message'"
-                v-show="this.message.text"
-                class="button--send-message"
-                :disabled="isSubmitting">
+            <div class="form__button-wrapper" :class="{'form__button-wrapper--visible': this.message.text}">
+                <app-button
+                    type="submit"
+                    v-tippy="'Send a message'"
+                    class="button--send-message"
+                    :disabled="isSubmitting">
 
-                <font-awesome-icon :icon="['fas', 'arrow-right']"/>
-            </app-button>
+                    <font-awesome-icon :icon="['fas', 'arrow-right']"/>
+                </app-button>
+            </div>
         </form>
     </div>
 </template>
 
 <script>
 import AppButton from '../../ui/AppButton'
-import textareaAutoResizeMixin from '../../../mixins/TextareaAutoResize'
+import textareaAutoResizeMixin from '../../../mixins/textarea-auto-resize'
 import { mapActions, mapGetters } from 'vuex'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { VuemojiPicker } from 'vuemoji-picker'
@@ -151,7 +156,7 @@ export default {
 
         onInput(event) {
             this.message.text = event.target.value.trim()
-            this.autoResize(event, 150)
+            this.autoResize(event.target, 150)
             this.whisperTypingEvent()
         },
 
@@ -170,6 +175,7 @@ export default {
                 text: '',
                 recipient_id: this.selectedContact?.id
             }
+            this.$refs.messageTextarea.style.height = '30px'
         },
 
         handleEmojiClick(eventDetail) {
@@ -225,7 +231,7 @@ export default {
         },
 
         generateGoogleMapsUrl(latitude, longitude) {
-            return `https://google.com/maps?q=${latitude},${longitude}`
+            return `https://google.com/maps/search/?api=1&query=${latitude},${longitude}`
         }
     }
 }
