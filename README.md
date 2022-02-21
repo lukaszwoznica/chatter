@@ -1,7 +1,8 @@
 # :speech_balloon: Chatter
 
-[![Live Demo](https://img.shields.io/website?down_message=offline&label=demo&up_message=online&url=https%3A%2F%2Fchatter-laravel.herokuapp.com)](https://chatter-laravel.herokuapp.com/)
-[![Current Version](https://img.shields.io/github/v/tag/lukaszwoznica/chatter?label=version)](https://github.com/lukaszwoznica/chatter)
+[![Live Demo](https://img.shields.io/website?down_message=offline&label=demo&up_message=online&url=https%3A%2F%2Fchatter-laravel.herokuapp.com)](#live-demo)
+[![Current Version](https://img.shields.io/github/v/tag/lukaszwoznica/chatter?label=version)](https://github.com/lukaszwoznica/chatter/tags)
+[![Tests Status](https://img.shields.io/github/workflow/status/lukaszwoznica/chatter/Laravel?label=tests&logo=github)](https://github.com/lukaszwoznica/chatter/actions/workflows/laravel.yml)
 
 ## Overview
 
