@@ -1,6 +1,6 @@
 # :speech_balloon: Chatter
 
-[![Live Demo](https://img.shields.io/website?down_message=offline&label=demo&up_message=online&url=https%3A%2F%2Fchatter-laravel.herokuapp.com)](#live-demo)
+[![Live Demo](https://img.shields.io/badge/demo-online-success?logo=heroku)](#live-demo)
 [![Current Version](https://img.shields.io/github/v/tag/lukaszwoznica/chatter?label=version)](https://github.com/lukaszwoznica/chatter/tags)
 [![Tests Status](https://img.shields.io/github/workflow/status/lukaszwoznica/chatter/Laravel?label=tests&logo=github)](https://github.com/lukaszwoznica/chatter/actions/workflows/laravel.yml)
 
@@ -38,25 +38,26 @@ A real-time chat application built with Laravel, Vue.js and Pusher Channels.
 
 ## Features
 
-* One-to-one chat
+* One-to-one chat.
+* Laravel RESTful API & Vue.js SPA.
+* Responsive design.
 * User authentication:
-    * Register and login
-    * Reset forgotten password
-    * Login with Google and Facebook accounts
+    * Register and login.
+    * Reset forgotten password.
+    * Login with Google and Facebook accounts.
 * User profile:
-    * Edit user profile
-    * Profile pictures (avatars)
+    * Edit user profile.
+    * Profile pictures (avatars).
 * Contacts:
-    * User search
-    * Real-time users online/offline status
+    * User search.
+    * Real-time users online/offline status.
 * Chat:
-    * Messages pagination with infinite scrolling
-    * User typing indicator
-    * Message read status
-    * Chat sounds
-    * Share user's current location
-    * Emoji picker
-* Responsive design
+    * Messages pagination with infinite scrolling.
+    * User typing indicator.
+    * Message read status.
+    * Chat sounds.
+    * Share user's current location.
+    * Emoji picker.
 
 ## Installation
 
@@ -67,10 +68,9 @@ A real-time chat application built with Laravel, Vue.js and Pusher Channels.
 > application using PHP, MySQL, and Redis.
 
 
-Before you start, you need to install Docker on your machine to use Laravel Sail. To do this, follow the instructions in
-the
-[_official Laravel documentation_](https://laravel.com/docs/8.x/installation#your-first-laravel-project) for your
-operating system. Once you've installed Docker, set up the project by following these steps.
+Before you begin, you need to install Docker on your computer to use Laravel Sail. To do this, follow the instructions
+in the [official Laravel documentation](https://laravel.com/docs/8.x/installation#your-first-laravel-project) for your
+operating system. After installing Docker, set up your project by following these steps.
 
 1. Clone the repository and open the project directory.
 
@@ -96,14 +96,14 @@ vendor/bin/sail up -d
 ```
 
 4. Create an environment configuration file and set required variables (see
-   the [Environment Configuration section](#environment-configuration) for a description of how to configure your
+   the [Environment Configuration section](#environment-configuration) for information on how to configure your
    environment variables).
 
 ```bash
 cp .env.example .env
 ```
 
-5. Generate laravel application key.
+5. Generate Laravel application key.
 
 ```bash
 vendor/bin/sail artisan key:generate
@@ -115,7 +115,7 @@ vendor/bin/sail artisan key:generate
 vendor/bin/sail npm install
 ```
 
-7. Run database migrations and populate it with some dummy data.
+7. Run database migrations and populate the database with some dummy data.
 
 ```bash
 vendor/bin/sail artisan migrate:fresh --seed
@@ -127,7 +127,7 @@ vendor/bin/sail artisan migrate:fresh --seed
 vendor/bin/sail artisan horizon
 ```
 
-9. Additionally, you can run PHPUnit tests to make sure everything is working fine.
+9. Additionally, you can run PHPUnit tests to check everything is working fine.
 
 ```bash
 vendor/bin/sail test
@@ -140,10 +140,9 @@ vendor/bin/sail test
 If you don't want to use Laravel Sail, you can install the application without using Docker containers. In this case,
 you must have PHP, Composer, Node.js and PhpRedis extension installed locally on your computer. You also need to take
 care of the database (it does not have to be MySQL, but it has to
-be [supported by Laravel](https://laravel.com/docs/8.x/database#introduction)), and the Redis database for queues
+be [supported by Laravel](https://laravel.com/docs/8.x/database#introduction)) and the Redis database for queues
 (optional - more information in the [Environment Configuration section](#environment-configuration)). If you meet the
-above requirements, you can proceed to the application installation process, which is slightly different from the one
-described earlier.
+above requirements, you can proceed to the application installation process.
 
 1. Clone the repository and open the project directory.
 
@@ -157,8 +156,8 @@ git clone git@github.com:lukaszwoznica/chatter.git && cd chatter
 composer install
 ```
 
-3. The next steps are the same as steps 3-9 when installing with Laravel Sail. The only difference is that you don't
-   need to use the `vendor/bin/sail` script in your commands.
+3. The next steps are the same as steps 3-9 when installing the app with Laravel Sail. The only difference is that you
+   don't need to use the `vendor/bin/sail` script in your commands.
 
 ```bash
 cp .env.example .env # Set environment variables at this stage 
@@ -186,8 +185,8 @@ This section describes how to configure environment variables in the .env file.
 If you are using Laravel Sail, you don't need to change anything in the database configuration. Otherwise, you need to
 set up the database connection. The default database configuration is as follows.
 
-```
-DB_CONNECTION=mysql # Database driver
+```dotenv
+DB_CONNECTION=mysql
 DB_HOST=mysql 
 DB_PORT=3306
 DB_DATABASE=chatter
@@ -201,8 +200,8 @@ By default, Redis is set as the queue driver. If you are using Laravel Sail, you
 Otherwise, you need to set up your Redis database connection. Alternatively, you can set the queue driver to `sync`.
 When using this driver, queued jobs will be executed immediately (synchronously) within the current process.
 
-```
-QUEUE_CONNECTION=redis # Queue driver
+```dotenv
+QUEUE_CONNECTION=redis
 
 REDIS_HOST=redis
 REDIS_PASSWORD=null
@@ -215,10 +214,10 @@ Another service that needs to be configured is Pusher. It allows you to broadcas
 connection so that the application works in real
 time. [Sign up on the Pusher website](https://dashboard.pusher.com/accounts/sign_up) and create a new Channels
 application.
-**Remember to turn on the client events in app settings**. Then fill in the following variables with the credentials of
-the newly created application (App Keys tab in Pusher dashboard).
+**Remember to turn on the client events in the app settings**. Then fill in the following variables with the credentials
+of the newly created application (*App Keys* tab in Pusher dashboard).
 
-```
+```dotenv
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
 PUSHER_APP_SECRET=
@@ -241,7 +240,7 @@ to [register an AWS account](https://aws.amazon.com/) and create a new bucket in
 appropriate environment variables in the .env file. To learn how to create an S3 bucket, see
 the [official AWS S3 documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html).
 
-```
+```dotenv
 MEDIA_DISK=s3 # Disk for storing uploaded files
 
 AWS_ACCESS_KEY_ID=
@@ -250,9 +249,9 @@ AWS_DEFAULT_REGION=
 AWS_BUCKET=
 ```
 
-If you don't want to use AWS S3 you can use the `public` disk and store files locally. To make uploaded files accessible
-from the web, you should create a symbolic link from `public/storage` to `storage/app/public`. You can do this with the
-command below.
+If you don't want to use AWS S3, you can use the `public` disk and store files locally. To make uploaded files
+accessible from the web, you should create a symbolic link from `public/storage` to `storage/app/public`. You can do
+this with the command below.
 
 ```bash
 vendor/bin/sail artisan storage:link
@@ -261,16 +260,16 @@ php artisan storage:link # if not using Laravel Sail
 
 ### Email Service
 
-The application has a functionality related to sending e-mails containing a link to reset the user's password. Laravel
-Sail has a configured MailHog service. MailHog intercepts emails sent by application during local development and
+The application has a functionality related to sending emails containing a link to reset the user's password. Laravel
+Sail has a configured MailHog service. MailHog intercepts emails sent by the application during local development and
 provides a convenient web interface so that you can preview email messages in your browser. You may access the MailHog
 web interface at http://localhost:8025.
 
-However, if you want emails to be sent normally, you need to configure some mailing service. You can use API-based
-drivers such as Mailgun, Postmark, Amazon SES or any SMTP server. You must then modify the following environment
-variables accordingly.
+However, if you want to send real emails, you need to configure some email service. You can use API-based drivers such
+as Mailgun, Postmark, Amazon SES or any SMTP server. The connection with chosen email service should be configured using
+the following variables.
 
-```
+```dotenv
 MAIL_MAILER=smtp
 MAIL_HOST=mailhog
 MAIL_PORT=1025
@@ -284,11 +283,11 @@ MAIL_FROM_NAME="${APP_NAME}"
 ### OAuth 2.0 providers - Google & Facebook
 
 Chatter allows you to authenticate with OAuth providers such as Google and Facebook. For this functionality to work
-properly, you need to create [Google](https://developers.google.com/identity/protocols/oauth2/web-server#enable-apis)
+fitly, you need to create [Google](https://developers.google.com/identity/protocols/oauth2/web-server#enable-apis)
 and [Facebook](https://developers.facebook.com/docs/facebook-login/web/) OAuth 2.0 credentials and put them as the
 values of the following variables.
 
-```
+```dotenv
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
@@ -298,24 +297,28 @@ FACEBOOK_CLIENT_SECRET=
 
 ### Google Maps Platform
 
-The last service that needs to be configured for the application to work properly is Google Maps API. You need to create
-an API key according to the [instructions here](https://developers.google.com/maps/documentation/javascript/get-api-key)
+The last service that needs to be configured for the application to work correctly is Google Maps API. You will need to
+create an API key according to
+the [instructions here](https://developers.google.com/maps/documentation/javascript/get-api-key)
 and then set it as the value of the environment variable below.
 
-```
+```dotenv
 MIX_GOOGLE_API_KEY=
 ```
 
 ## Live demo
 
-A working live demo of Chatter is available here: https://chatter-laravel.herokuapp.com
+A working live demo of Chatter is available here: https://chatter-laravel.herokuapp.com.
 
 ### :information_source: Notes
 
-* In this demo, the database is automatically refreshed every two hours.
+* The database is automatically refreshed and populated with dummy data every two hours in this demo.
 
-* You can create a new user account or log in using the following credentials:
+* The first load of the website may take a while because the Heroku dyno may be asleep.
+
+* You can create a new user account or log in using one of the following credentials:
 
 | Email | Password |
 |---|---|
 | user@chatter.xyz | ChatterPass123 |
+| user2@chatter.xyz | ChatterPass123 |
