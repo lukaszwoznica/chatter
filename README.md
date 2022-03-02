@@ -29,6 +29,7 @@ A real-time chat application built with Laravel, Vue.js and Pusher Channels.
 
 * Laravel 8
 * Vue.js 3
+* Vuex
 * MySQL 8
 * Sass (SCSS)
 * Pusher Channels
@@ -39,7 +40,7 @@ A real-time chat application built with Laravel, Vue.js and Pusher Channels.
 ## Features
 
 * One-to-one chat.
-* Laravel RESTful API & Vue.js SPA.
+* Single-page application.
 * Responsive design.
 * User authentication:
     * Register and login.
